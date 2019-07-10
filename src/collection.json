@@ -1,0 +1,9 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "install": {
+      "description": "create a new project.",
+      "factory": "./install/index#install"
+    }
+  }
+}

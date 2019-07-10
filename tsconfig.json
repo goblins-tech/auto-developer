@@ -1,14 +1,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "module": "commonjs",
     "lib": [],
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
     "outDir": "./dist/out-tsc",
-    "rootDir": "./",
+    "rootDir": "src/",
     "composite": true,
     "removeComments": true,
     "noEmit": false,
@@ -44,6 +44,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "locale": "en",
-    "strict": false
+    "watch": false,
+    "include": ["src"]
   }
 }

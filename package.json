@@ -4,7 +4,8 @@
   "description": "build a modern CMS with Angular universal (SSR) and material design, add and manage many features like nativescript and electron at any time.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && jasmine src/**/*.spec.js"
   },
   "repository": {
     "type": "git",
@@ -20,12 +21,24 @@
     "electron",
     "android",
     "bootstrap",
-    "cms"
+    "cms",
+    "schematics"
   ],
+  "schematics": "./src/collection.json",
   "author": "eldeeb <sh.eldeeb.2010+dev@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/xxyyzz2050/eldeeb-cli/issues"
   },
-  "homepage": "https://github.com/xxyyzz2050/eldeeb-cli#readme"
+  "homepage": "https://github.com/xxyyzz2050/eldeeb-cli#readme",
+  "dependencies": {
+    "@angular-devkit/core": "^8.1.0",
+    "@angular-devkit/schematics": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/jasmine": "^3.3.9",
+    "@types/node": "^12.6.2",
+    "jasmine": "^3.3.1",
+    "typescript": "~3.4.3"
+  }
 }
