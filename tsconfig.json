@@ -1,21 +1,19 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "rootDir": "src/",
     "target": "es6",
     "module": "commonjs",
     "lib": [],
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "outDir": "./dist/out-tsc",
-    "rootDir": "src/",
-    "composite": true,
+    "declaration": false,
+    "declarationMap": false,
+    "sourceMap": false,
+    "outDir": "./dist",
     "removeComments": true,
     "noEmit": false,
     "noEmitOnError": false,
     "importHelpers": true,
     "downlevelIteration": true,
-    "isolatedModules": true,
     "strict": false,
     "noImplicitAny": false,
     "strictNullChecks": true,
@@ -39,12 +37,9 @@
     "preserveSymlinks": true,
     "sourceRoot": "",
     "mapRoot": "",
-    "inlineSourceMap": true,
-    "inlineSources": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "locale": "en",
-    "watch": false,
-    "include": ["src"]
+    "watch": false
   }
 }
