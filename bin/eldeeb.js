@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-//run other bin commands based on the provided arguments ex: > eldeeb --build
-// will run bin/build.js
-//run >npm link to register the bin commands to make them available every where
+//run `eldeeb new [options]` to init a new project (i.e: create creator.json file)
+//then run `eldeeb build` to convert creator.json to a project
+
+//run `npm link` to register the bin commands to make them available every where
 
 const { execSync } = require("child_process");
 

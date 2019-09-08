@@ -7,7 +7,7 @@
     "build": "tsc -p tsconfig.json"
   },
   "bin": {
-    "eldeeb": "./bin/index.js"
+    "eldeeb": "./bin/eldeeb.js"
   },
   "repository": {
     "type": "git",
