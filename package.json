@@ -1,5 +1,5 @@
 {
-  "name": "@eldeeb/cli",
+  "name": "@eldeeb/creator",
   "version": "1.0.0",
   "description": "build a modern CMS with Angular universal (SSR) and material design, add and manage many features like nativescript and electron at any time.",
   "main": "dist/index.js",
@@ -11,11 +11,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xxyyzz2050/eldeeb-cli.git"
+    "url": "git+https://github.com/xxyyzz2050/creator.git"
   },
   "keywords": [
     "eldeeb",
     "cli",
+    "creator",
     "angular",
     "nativescript",
     "material",
@@ -30,9 +31,9 @@
   "author": "eldeeb <sh.eldeeb.2010+dev@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/xxyyzz2050/eldeeb-cli/issues"
+    "url": "https://github.com/xxyyzz2050/creator/issues"
   },
-  "homepage": "https://github.com/xxyyzz2050/eldeeb-cli#readme",
+  "homepage": "https://github.com/xxyyzz2050/creator#readme",
   "dependencies": {
     "@angular-devkit/core": "^8.1.0",
     "@angular-devkit/schematics": "^8.1.0"
