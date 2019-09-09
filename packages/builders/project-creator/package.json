@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xxyyzz2050/project-creator.git"
+    "url": "git+https://github.com/xxyyzz2050/creator.git"
   },
   "keywords": [
     "creator",
@@ -20,7 +20,7 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/xxyyzz2050/project-creator/issues"
+    "url": "https://github.com/xxyyzz2050/creator/issues"
   },
-  "homepage": "https://github.com/xxyyzz2050/project-creator#readme"
+  "homepage": "https://github.com/xxyyzz2050/creator#readme"
 }
