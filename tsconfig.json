@@ -1,7 +1,6 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "rootDir": "src/",
     "target": "es6",
     "module": "commonjs",
     "lib": [],
@@ -40,6 +39,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "locale": "en",
-    "watch": false
+    "watch": false,
+    "exclude": ["packages/**/files/*"]
   }
 }
