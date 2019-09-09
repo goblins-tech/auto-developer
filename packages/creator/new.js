@@ -5,7 +5,17 @@ const fs = require("fs");
 console.log("======= init a project =========");
 
 const creator = {
-  project: "my-project",
+  project: {
+    name: "my-project",
+    builder: "@eldeeb/project-creator"
+    //add other project's info & author's info
+  },
+  tsconfig: {
+    builder: ""
+    //override any default option
+    //by default it uses @eldeeb/project-creator
+  },
+  gitignore: [], //gitignore:{builder:'', ignore:[]}
   front: ["angular@8.0", { builder: "@xxyyzz2050/creator-angular" }], //angular@latest
   back: ["express"],
   api: ["graphQl", {}], //or restful
