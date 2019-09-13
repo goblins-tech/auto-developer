@@ -4,34 +4,16 @@ const fs = require("fs");
 
 console.log("======= init a project =========");
 
-const creator = {
-  project: {
-    name: "my-project",
-    builder: "@eldeeb/project-creator"
-    //add other project's info & author's info
-  },
-  tsconfig: {
-    builder: ""
-    //override any default option
-    //by default it uses @eldeeb/project-creator
-  },
-  gitignore: [], //gitignore:{builder:'', ignore:[]}
-  front: ["angular@8.0", { builder: "@xxyyzz2050/creator-angular" }], //angular@latest
-  back: ["express"],
-  api: ["graphQl", {}], //or restful
-  database: ["mongoDB", {}], //the default db, you can add another databases in add[] section
-  ui: ["material", {}], //will be converted to @angular/material, or use add:['@angular/material',{}]
+export default function creator() {
+  const defaultCreator = require("./creator.json");
+  const creator = {}; //merge project's creator.json with defaultCreator; foreach entry, if no builder, set the default builder
+  if (!validate.check(creator)) throw new Error("== invalid creator object ==");
 
-  //add sections, modules, components, install packages, ...
-  //to generate a component add:[['component',{name:'myComponent',..}]]
-  add: [["articles", {}]] //package name on npm, or short name (for predefined packages)
-};
-
-if (!validate.check(creator)) console.log(" ===  error ===");
-else
-  fs.writeFile("creator.json", creator, function(err) {
+  //todo: create creator.json file in the root of the current folder
+  fs.writeFile("./creator.json", creator, function(err) {
+    //todo: path of the new project's root folder, not this project's root
     if (err) return console.log(err);
     console.log("creator.json has been created!");
   });
-
-//todo: create creator.json file in the root of the current folder
+  return creator;
+}
