@@ -1,4 +1,5 @@
 {
+  "schematics": "./collection.json",
   "name": "@eldeeb/project-creator",
   "version": "1.0.0",
   "description": "init a new project with package.json including the project info and the author info, and set up the basic settings for tsconfig, gitignore, ...",
