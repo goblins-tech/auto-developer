@@ -10,7 +10,7 @@ import {
   url*/
 } from "@angular-devkit/schematics";
 //returns a Schematics Rule to initiate the workspace
-export function projectCreator(
+export function projectCreator( //'main' schematic function, todo: rename to main()?
   creator: any /*creator:Creator*/,
   options: any
 ): Rule {

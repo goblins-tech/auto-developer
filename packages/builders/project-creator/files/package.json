@@ -1,48 +1,22 @@
 {
   "name": "<%= name %>",
   "version": "1.0.0",
-  "description": "build a modern CMS with Angular universal (SSR) and material design, add and manage many features like nativescript and electron at any time.",
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "tsc -p tsconfig.json"
-  },
-  "bin": {
-    "eldeeb": "./bin/eldeeb.js"
-  },
+  "description": "<%= description %>",
+  "main": "<%= main %>",
+  "scripts": {},
+  "bin": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xxyyzz2050/creator.git"
+    "url": "<%= repo.url %>"
   },
-  "keywords": [
-    "eldeeb",
-    "cli",
-    "creator",
-    "angular",
-    "nativescript",
-    "material",
-    "design",
-    "electron",
-    "android",
-    "bootstrap",
-    "cms",
-    "schematics"
-  ],
+  "keywords": [],
   "schematics": "./src/collection.json",
-  "author": "eldeeb <sh.eldeeb.2010+dev@gmail.com>",
-  "license": "ISC",
+  "author": "<%= author.name %> <<%= author.email %>>",
+  "license": "<%= license %>",
   "bugs": {
-    "url": "https://github.com/xxyyzz2050/creator/issues"
+    "url": "<%= repo.url %>/issues"
   },
-  "homepage": "https://github.com/xxyyzz2050/creator#readme",
-  "dependencies": {
-    "@angular-devkit/core": "^8.1.0",
-    "@angular-devkit/schematics": "^8.1.0"
-  },
-  "devDependencies": {
-    "@angular/cli": "^8.1.0",
-    "@types/jasmine": "^3.3.9",
-    "@types/node": "^12.6.2",
-    "jasmine": "^3.3.1",
-    "typescript": "~3.4.3"
-  }
+  "homepage": "<%= homepage %>",
+  "dependencies": {},
+  "devDependencies": {}
 }
