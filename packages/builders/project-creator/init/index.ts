@@ -17,7 +17,7 @@ import {
 */
 } from "@angular-devkit/schematics";
 
-import { strings } from "@angular-devkit/core";
+import { strings, normalize } from "@angular-devkit/core";
 
 //returns a Schematics Rule to initiate the workspace
 //'main' schematic function, todo: rename to main()?
@@ -25,12 +25,14 @@ export interface initOptions {
   name: "string";
   path?: string;
 }
-export function init(
-  creator: any /*creator:Creator*/,
-  options: initOptions
-): Rule {
+
+//todo: pass the Tree from the previous builder, and also pass creator.json
+export function init(options: initOptions): Rule {
   if (!options.name)
     throw new SchematicsException("project's name is required");
+
+  //todo: check if the files already exists and offer options to:
+  //override, ignore, mergeTo, mergeFrom
 
   return (tree: Tree, context: SchematicContext) => {
     options.path = normalize(options.path);
@@ -47,7 +49,7 @@ export function init(
       template({ ...strings, ...options }),
       move(options.path)
     ]);
-    return chain([branchAndMerge(chain(mergeWith(tmpl)))]);
+    return chain([branchAndMerge(chain([mergeWith(tmpl)]))]);
     //or: mergeWith(templateSource, MergeStrategy.Overwrite);
   };
 }

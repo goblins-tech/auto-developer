@@ -5,7 +5,8 @@
   "type": "object",
   "properties": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "x-prompt": "project name"
     },
     "path": {
       "type": "string",
