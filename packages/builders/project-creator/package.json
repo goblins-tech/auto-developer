@@ -5,7 +5,8 @@
   "description": "init a new project with package.json including the project info and the author info, and set up the basic settings for tsconfig, gitignore, ...",
   "main": "index.js",
   "scripts": {
-    "example": "schematics .:init --name=myProject --path=/myProject --dry-run=false"
+    "example": "schematics .:init --name=myProject --path=/myProject --dry-run=false",
+    "example2": "schematics .:init"
   },
   "repository": {
     "type": "git",

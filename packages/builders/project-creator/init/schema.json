@@ -10,7 +10,8 @@
     },
     "path": {
       "type": "string",
-      "defult": "/"
+      "defult": "/",
+      "x-prompt": "project path (default: '/')"
     }
   },
   "required": ["name"]
