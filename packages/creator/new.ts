@@ -1,13 +1,14 @@
 //create a new project i.e: create a creator.json file
 
-const fs = require("fs");
+import { validate } from "./validate";
+import fs from "fs";
 
 console.log("======= init a project =========");
 
 export default function creator() {
   const defaultCreator = require("./creator.json");
   const creator = {}; //merge project's creator.json with defaultCreator; foreach entry, if no builder, set the default builder
-  if (!validate.check(creator)) throw new Error("== invalid creator object ==");
+  if (!validate(creator)) throw new Error("== invalid creator object ==");
 
   //todo: create creator.json file in the root of the current folder
   fs.writeFile("./creator.json", creator, function(err) {

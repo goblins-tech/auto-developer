@@ -35,6 +35,7 @@ export function init(options: initOptions): Rule {
   //override, ignore, mergeTo, mergeFrom
 
   return (tree: Tree, context: SchematicContext) => {
+    if (!options.path) options.path = "/"; //just for typescript
     options.path = normalize(options.path);
 
     /*

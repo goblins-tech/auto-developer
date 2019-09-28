@@ -1,3 +1,3 @@
-module.exports fuunction check(creator){
+export function validate(creator) {
   return true;
 }
