@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "projectCreatorInit",
+  "title": "init a workspace",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "path": {
+      "type": "string",
+      "defult": "/"
+    }
+  },
+  "required": ["name"]
+}

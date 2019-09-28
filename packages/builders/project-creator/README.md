@@ -2,13 +2,11 @@
 
 > This package is a part of [The Creator](https://github.com/xxyyzz2050/creator) workflow, just add it to creator.json file
 
-initiates a workspace and creates some basic files such as package.json, .gitignore, tsconfig.json, ...
-
-# Example
+# usage
 
 ```
 [
-  ['@eldeeb/project-creator', {/*options*/} ]
+'@eldeeb/project-creator'
 ]
 ```
 
@@ -16,11 +14,33 @@ or
 
 ```
 [
-'@eldeeb/project-creator' //just use the default options
+  ['@eldeeb/project-creator', {/*options*/} ]
 ]
 ```
 
-# Options
+# commands
+
+## init
+
+initiates a workspace and creates some basic files such as package.json, .gitignore, tsconfig.json, ...
+
+### Examples
+
+```
+//init a new project
+[
+  ['@eldeeb/project-creator', {
+    name:"projectName",
+    tsconfig:{/*tsconfig options, override project-creator's defaults*/},
+    gitignore:['node_modules','dist'],
+    npmignore:[],
+    //and other package.json stuff
+    } ]
+]
+
+```
+
+### Options
 
 - **name** project name, also applies by default for other builders such as @eldeeb/angular-creator if no other project name provided
 
@@ -29,7 +49,7 @@ or
 - **gitignore : [] | string**
   add or modify the default .gitignore entries
 
-- **ts** tsconfig options
+- **tsconfig** tsconfig options
 
 # default options
 

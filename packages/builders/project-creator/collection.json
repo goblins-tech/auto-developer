@@ -1,9 +1,10 @@
 {
   "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
-    "main": {
+    "init": {
       "description": "creates a new workspace",
-      "factory": "../../../dist/packages/builders/project-creator/schematics/index#projectCreator"
+      "factory": "../../../dist/packages/builders/project-creator/init/index#init",
+      "schema": "./schematics/init/schema.json"
     }
   }
 }

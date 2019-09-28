@@ -10,10 +10,7 @@ import {
   url*/
 } from "@angular-devkit/schematics";
 //returns a Schematics Rule to initiate the workspace
-export function projectCreator( //'main' schematic function, todo: rename to main()?
-  creator: any /*creator:Creator*/,
-  options: any
-): Rule {
+export function init(creator: any /*creator:Creator*/, options: any): Rule { //'main' schematic function, todo: rename to main()?
   return (tree: Tree, context: SchematicContext) => {
     /*  const movePath = "/"; //normalize(_options.path + "/");
     const templateSource = apply(url("./files"), [
