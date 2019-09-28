@@ -1,13 +1,14 @@
 {
   "schematics": "./collection.json",
-  "name": "@eldeeb/project-creator",
+  "name": "@xxyyzz2050/project-creator",
   "version": "1.0.0",
   "description": "init a new project with package.json including the project info and the author info, and set up the basic settings for tsconfig, gitignore, ...",
   "main": "index.js",
   "private": false,
   "scripts": {
     "example": "schematics .:init --name=myProject --path=/myProject --dry-run=false",
-    "example2": "schematics .:init"
+    "example2": "schematics .:init",
+    "publish": "npm publish --access=public"
   },
   "repository": {
     "type": "git",
