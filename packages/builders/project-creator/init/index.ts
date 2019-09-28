@@ -46,6 +46,9 @@ export function init(options: initOptions): Rule {
 
     //take the files from './files' and apply templating (on path and content)
     // of each file
+
+    //todo: url("./files") will read ./files related to 'dist', not related to this files
+
     let tmpl = apply(url("./files"), [
       template({ ...strings, ...options }),
       move(options.path)
