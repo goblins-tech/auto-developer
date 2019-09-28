@@ -4,7 +4,7 @@
     "init": {
       "description": "creates a new workspace",
       "factory": "../../../dist/packages/builders/project-creator/init/index#init",
-      "schema": "./schematics/init/schema.json"
+      "schema": "./init/schema.json"
     }
   }
 }

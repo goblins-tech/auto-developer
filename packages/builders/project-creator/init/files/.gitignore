@@ -1,5 +1,6 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+#todo: add options.gitignore[]
 node_modules
 *.lnk
 temp
@@ -23,6 +24,7 @@ bazel-out
 *.launch
 .history/*
 .vscode/*
+
 
 # notes:
 # - don't ignore package-lock.json because it used by npm to install the exactly same versions of dependencies, https://stackoverflow.com/a/50868690

@@ -1,24 +1,53 @@
 import {
   Rule,
+  Tree,
   SchematicContext,
-  Tree
-  /*apply,
-  MergeStrategy,
-  mergeWith,
-  move,
+  SchematicsException,
+  apply,
   template,
-  url*/
+  url,
+  move,
+  chain,
+  branchAndMerge,
+  mergeWith
+  /*
+  MergeStrategy,
+  ,
+  ,
+*/
 } from "@angular-devkit/schematics";
+
+import { strings } from "@angular-devkit/core";
+
 //returns a Schematics Rule to initiate the workspace
-export function init(creator: any /*creator:Creator*/, options: any): Rule { //'main' schematic function, todo: rename to main()?
+//'main' schematic function, todo: rename to main()?
+export interface initOptions {
+  name: "string";
+  path?: string;
+}
+export function init(
+  creator: any /*creator:Creator*/,
+  options: initOptions
+): Rule {
+  if (!options.name)
+    throw new SchematicsException("project's name is required");
+
   return (tree: Tree, context: SchematicContext) => {
-    /*  const movePath = "/"; //normalize(_options.path + "/");
-    const templateSource = apply(url("./files"), [
-      template({ ...options }),
-      move(movePath)
-    ]);
-    const rule = mergeWith(templateSource, MergeStrategy.Overwrite);*/
+    options.path = normalize(options.path);
+
+    /*
+    //ex: create a file
     tree.create("hello.ts", 'console.log("Hello, World")');
     return tree;
+     */
+
+    //take the files from './files' and apply templating (on path and content)
+    // of each file
+    let tmpl = apply(url("./files"), [
+      template({ ...strings, ...options }),
+      move(options.path)
+    ]);
+    return chain([branchAndMerge(chain(mergeWith(tmpl)))]);
+    //or: mergeWith(templateSource, MergeStrategy.Overwrite);
   };
 }
