@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "build a modern CMS with Angular universal (SSR) and material design, add and manage many features like nativescript and electron at any time.",
   "main": "dist/index.js",
+  "private": false,
   "scripts": {
     "build": "tsc -p tsconfig.json"
   },
