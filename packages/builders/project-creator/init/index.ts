@@ -49,10 +49,10 @@ export function init(options: initOptions): Rule {
 
     //todo: url("./files") will read ./files related to 'dist', not related to this files
 
-    let tmpl = apply(url("./files"), [
-      template({ ...strings, ...options }),
-      move(options.path)
-    ]);
+    let tmpl = apply(
+      url("../../../../../packages/builders/project-creator/init/files"),
+      [template({ ...strings, ...options }), move(options.path)]
+    );
 
     return chain([branchAndMerge(chain([mergeWith(tmpl)]))]);
     //or: mergeWith(templateSource, MergeStrategy.Overwrite);

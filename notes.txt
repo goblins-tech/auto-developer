@@ -1,0 +1,4 @@
+> schematics ./packages/builders/project-creator/collection.json:init
+
+or: (from inside `project-creator` folder)
+> schematics .:init
