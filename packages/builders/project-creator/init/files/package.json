@@ -1,8 +1,10 @@
 {
-  "name": "<%= name %>",
-  "version": "1.0.0",
-  "description": "<%= description %>",
-  "main": "<%= main %>",
+  "name": "<%= dasherize(name) %>",
+  "version": "<%=version ||'1.0.0' %>",
+  "private": true": "<%=private ||true %>",
+  "description": "<% if(description){description}%>",
+  <% if(main) { %> "main": "<% main %>", <% } %>
+  <% if(schematics) { %> "main": "<% schematics %>", <% } %>
   "scripts": {},
   "bin": {},
   "repository": {
@@ -10,7 +12,6 @@
     "url": "<%= repo.url %>"
   },
   "keywords": [],
-  "schematics": "./src/collection.json",
   "author": "<%= author.name %> <<%= author.email %>>",
   "license": "<%= license %>",
   "bugs": {
