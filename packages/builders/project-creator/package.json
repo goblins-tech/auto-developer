@@ -6,7 +6,7 @@
   "main": "index.js",
   "private": false,
   "scripts": {
-    "example": "schematics .:init --name=myProject --path=/myProject --dry-run=false",
+    "example": "schematics .:init --name=myProject --path=/myProject --dry-run=false --force=true",
     "example2": "schematics .:init",
     "publish": "npm publish --access=public"
   },
