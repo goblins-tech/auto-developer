@@ -41,5 +41,5 @@
     "locale": "en",
     "watch": true
   },
-  "exclude": ["packages/**/files/*"]
+  "exclude": ["packages"]
 }
