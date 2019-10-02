@@ -6,6 +6,7 @@
   "main": "index.js",
   "private": false,
   "scripts": {
+    "build": "tsc -p tsconfig.json",
     "example": "schematics .:init --name=myProject --path=/myProject --dry-run=false --force=true",
     "example2": "schematics .:init",
     "publish": "npm publish --access=public"

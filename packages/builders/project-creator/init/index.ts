@@ -72,20 +72,73 @@ export function init(options: initOptions): Rule {
         dependencies: {},
         devDependencies: {}
       },
-      defaultTs = {};
+      defaultTs = {
+        compileOnSave: false,
+        compilerOptions: {
+          target: "es6",
+          module: "commonjs",
+          lib: [],
+          declaration: true,
+          declarationMap: true,
+          sourceMap: true,
+          outDir: "./dist",
+          removeComments: true,
+          noEmit: false,
+          noEmitOnError: false,
+          importHelpers: true,
+          downlevelIteration: true,
+          strict: false,
+          noImplicitAny: false,
+          strictNullChecks: true,
+          strictFunctionTypes: true,
+          strictBindCallApply: true,
+          strictPropertyInitialization: true,
+          noImplicitThis: true,
+          alwaysStrict: true,
+          noUnusedLocals: false,
+          noUnusedParameters: false,
+          noImplicitReturns: false,
+          noFallthroughCasesInSwitch: true,
+          moduleResolution: "node",
+          baseUrl: "./",
+          paths: { "*": ["node_modules/*", "src/types/*"] },
+          rootDirs: [],
+          typeRoots: ["node_modules/@types"],
+          types: [],
+          allowSyntheticDefaultImports: true,
+          esModuleInterop: true,
+          preserveSymlinks: true,
+          sourceRoot: "",
+          mapRoot: "",
+          experimentalDecorators: true,
+          emitDecoratorMetadata: true,
+          locale: "en",
+          watch: true
+        }
+      };
 
-    let ts = options.ts,
-      gitignore = options.gitignore,
-      npm = options.npmignore,
-      readMe = options.readMe;
+    let ts = options.ts || {},
+      gitignore = options.gitignore || "",
+      npmignore = options.npmignore || "",
+      readMe = options.readMe || "",
+      _tree = options.tree, //last updated tree by the previous builder
+      path = options.path; //project's path (not a part of package.json)
+
+    //to add more files (or modify an existing file) use files-creator=> [{fileName:content}]
 
     delete options.ts;
     delete options.gitignore;
     delete options.npmignore;
     delete options.readMe;
+    delete options.path;
+    delete options.tree;
 
     options = Object.assign(defaultPkg, options);
     ts = Object.assign(defaultTs, ts);
+
+    if (ts instanceof Array) ts = ts.join("\n");
+    if (gitignore instanceof Array) gitignore = gitignore.join("\n");
+    if (npmignore instanceof Array) npmignore = npmignore.join("\n");
 
     //adjust the options
     options.keywords = options.keywords || ["the-creator", "test"];
@@ -102,11 +155,10 @@ export function init(options: initOptions): Rule {
       options.repository &&
       options.repository.url &&
       options.repository.type == "git"
-    ) {
+    )
       options.bugs = options.repository.url + "/issues";
-    }
 
-    options.name = dasherize(options.name);
+    options.name = strings.dasherize(options.name);
 
     if (options.author instanceof Object) {
       //[] is also an instanceof Object, but we don't need to check because author here is {} or string
@@ -124,25 +176,33 @@ export function init(options: initOptions): Rule {
 
     //tmp, just for tests
     let test = {
-      author = {
+      author: {
         name: "aName",
         email: "author@gmail.com",
         url: "http://author.com"
       },
-      scripts = {
+      scripts: {
         build: "npm run build",
         test: "npm run test"
       }
     };
 
+    options = Object.assign(options, test);
+
     //take the files from './files' and apply templating (on path and content)
     // of each file
 
     //todo: url("./files") will read ./files related to 'dist', not related to this files
-    let tmpl = apply(
-      url("../../../../../packages/builders/project-creator/init/files"),
-      [template({ ...strings, opt: options }), move(options.path)]
-    );
+    let tmpl = apply(url("../../init/files"), [
+      template({
+        opt: options,
+        ts,
+        gitignore,
+        npmignore,
+        readMe /*...strings*/
+      }),
+      move(path)
+    ]);
 
     return chain([branchAndMerge(chain([mergeWith(tmpl)]))]);
     //or: mergeWith(templateSource, MergeStrategy.Overwrite);
