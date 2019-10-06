@@ -39,7 +39,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "locale": "en",
-    "watch": true
+    "watch": false
   },
   "exclude": ["packages"]
 }

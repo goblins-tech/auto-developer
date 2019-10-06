@@ -1,15 +1,17 @@
 {
   "schematics": "./collection.json",
   "name": "@xxyyzz2050/project-creator",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "init a new project with package.json including the project info and the author info, and set up the basic settings for tsconfig, gitignore, ...",
   "main": "index.js",
   "private": false,
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "if exist dist/ rmdir dist /s /Q && tsc -p tsconfig.json",
+    "build:watch": "npm run build --watch",
     "example": "schematics .:init --name=myProject --path=/myProject --dry-run=false --force=true",
     "example2": "schematics .:init",
-    "publish": "npm publish --access=public"
+    "publish": "npm run build && npm publish --access=public",
+    "pack": "npm run build && npm pack"
   },
   "repository": {
     "type": "git",

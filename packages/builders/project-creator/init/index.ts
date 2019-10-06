@@ -9,7 +9,8 @@ import {
   move,
   chain,
   branchAndMerge,
-  mergeWith
+  mergeWith,
+  filter
   /*
   MergeStrategy,
   ,
@@ -36,6 +37,8 @@ export interface initOptions {
   gitignore?: {};
   npmignore?: {};
   readMe?: string;
+  creator: {};
+  [key: string]: any;
 }
 
 //todo: pass the Tree from the previous builder, and also pass creator.json
@@ -50,6 +53,8 @@ export function init(options: initOptions): Rule {
     if (!options.path) options.path = "/"; //just for typescript
     options.path = normalize(options.path);
 
+    console.log("tree", tree);
+    console.log("context", context);
     /*
     //ex: create a file
     tree.create("hello.ts", 'console.log("Hello, World")');
@@ -57,22 +62,58 @@ export function init(options: initOptions): Rule {
      */
 
     let defaultPkg = {
-        name: "",
-        version: "1.0.0",
-        private: false,
-        description: "created by `The Creator` the-creator.com",
-        main: "index.js",
-        scripts: {},
-        repository: {
-          type: "",
-          url: ""
-        },
-        keywords: ["the-creator"],
-        license: "MIT",
-        dependencies: {},
-        devDependencies: {}
+      name: "",
+      version: "1.0.0",
+      private: false,
+      description: "created by `The Creator` the-creator.com",
+      main: "index.js",
+      scripts: {},
+      repository: {
+        type: "",
+        url: ""
       },
-      defaultTs = {
+      keywords: ["the-creator"],
+      license: "MIT",
+      dependencies: {},
+      devDependencies: {}
+    };
+
+    let ts = options.ts || {},
+      gitignore = options.gitignore || "",
+      npmignore = options.npmignore || "",
+      readMe = options.readMe || "",
+      path = options.path, //project's path (not a part of package.json)
+      creator = options.creator || {}; //creator elements, such as: config, tree, creator(i.e creator.json data),...
+
+    //to add more files (or modify an existing file) use files-creator=> [{fileName:content}]
+
+    delete options.ts;
+    delete options.gitignore;
+    delete options.npmignore;
+    delete options.readMe;
+    delete options.creator;
+    delete options.path;
+
+    //todo: check it the parameter 'options' changes the global var 'options'
+    function merge(options, defaultOptions: {} | boolean, removeNull = true) {
+      if (defaultOptions instanceof Object) {
+        //note tat: ([] instanceof Object) also ==true
+        options = Object.assign(defaultOptions, options);
+      } else removeNull = defaultOptions;
+
+      if (removeNull !== false) {
+        for (let k in options) {
+          if (options.hasOwnProperty(k) && options[k] === null)
+            delete options[k];
+        }
+        return options;
+      }
+    }
+
+    options = merge(options, defaultPkg, true);
+    if (ts !== null) {
+      //the user may dosen't want to create tsconfig.json
+      let defaultTs = {
         compileOnSave: false,
         compilerOptions: {
           target: "es6",
@@ -116,27 +157,9 @@ export function init(options: initOptions): Rule {
           watch: true
         }
       };
+      ts = merge(ts, defaultTs, true);
+    }
 
-    let ts = options.ts || {},
-      gitignore = options.gitignore || "",
-      npmignore = options.npmignore || "",
-      readMe = options.readMe || "",
-      _tree = options.tree, //last updated tree by the previous builder
-      path = options.path; //project's path (not a part of package.json)
-
-    //to add more files (or modify an existing file) use files-creator=> [{fileName:content}]
-
-    delete options.ts;
-    delete options.gitignore;
-    delete options.npmignore;
-    delete options.readMe;
-    delete options.path;
-    delete options.tree;
-
-    options = Object.assign(defaultPkg, options);
-    ts = Object.assign(defaultTs, ts);
-
-    if (ts instanceof Array) ts = ts.join("\n");
     if (gitignore instanceof Array) gitignore = gitignore.join("\n");
     if (npmignore instanceof Array) npmignore = npmignore.join("\n");
 
@@ -194,6 +217,16 @@ export function init(options: initOptions): Rule {
 
     //todo: url("./files") will read ./files related to 'dist', not related to this files
     let tmpl = apply(url("../../init/files"), [
+      filter(path => {
+        if (
+          (path == "tsconfig.json" && ts == null) ||
+          (path == ".npmignore" && npmignore == null) ||
+          (path == ".gitignore" && gitignore == null) ||
+          (path == "README.md" && readMe == null)
+        )
+          return false;
+        else return true;
+      }),
       template({
         opt: options,
         ts,
@@ -207,4 +240,7 @@ export function init(options: initOptions): Rule {
     return chain([branchAndMerge(chain([mergeWith(tmpl)]))]);
     //or: mergeWith(templateSource, MergeStrategy.Overwrite);
   };
+
+  //todo: add @angular-devkit/schematics (and all packages used by this builder) to devDependencies
+  //creator is responible of installing all packages it uses before working with creator.json
 }
