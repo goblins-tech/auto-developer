@@ -40,6 +40,5 @@
     "emitDecoratorMetadata": true,
     "locale": "en",
     "watch": false
-  },
-  "exclude": ["packages"]
+  }
 }
