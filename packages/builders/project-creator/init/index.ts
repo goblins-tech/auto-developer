@@ -16,7 +16,7 @@ import {
 } from "@angular-devkit/schematics";
 
 import { strings, normalize } from "@angular-devkit/core";
-import { mergeOptions, template } from "../../creator/tools";
+import { mergeOptions, template } from "packages/creator/tools";
 
 //returns a Schematics Rule to initiate the workspace
 //'main' schematic function, todo: rename to main()?
@@ -199,7 +199,7 @@ export function init(options: initOptions): Rule {
     // of each file
 
     return template(
-      "../../init/files", //related to dist/**, not to this file
+      "builders/project-creator/init/files", //related to dist/**, not to this file
       {
         opt: options,
         ts,

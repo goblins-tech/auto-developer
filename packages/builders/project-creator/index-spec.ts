@@ -9,4 +9,4 @@ let options = {
 
 let test = init(options);
 console.log("init:", init);
-console.log("test:", test);
+console.log("test:",typeof test, test);
