@@ -1,0 +1,57 @@
+<# todo:
+- add libs
+%>
+
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    <% for(let i=0;i<opt.apps.length;i++){ %>
+    "<%=opt.apps[i].name%>": {
+      "projectType": "application",
+      "schematics": {
+        "<%=opt.apps[i].schematics%>": {
+          "style": "<%=opt.apps[i].style%>"
+        }
+      },
+      "root": "<%=opt.apps[i].root%>",
+      "sourceRoot": "<%=opt.apps[i].src%>",
+      "prefix": "<%=opt.apps[i].app%>",
+      "architect": {
+        "build": {
+          "builder": "<%=opt.apps[i].builder.app[0]%>",
+          "options": "<%=opt.apps[i].builder.app[1]%>",
+          "configurations": "<%=opt.apps[i].builder.app[2]%>"
+        },
+        "serve": {
+          "builder": "<%=opt.apps[i].builders.server[0]%>",
+          "options": "<%=opt.apps[i].builders.server[1]%>",
+          "configurations": "<%=opt.apps[i].builders.server[2]%>"
+        },
+        "extract-i18n": {
+          "builder": "<%=opt.apps[i].builders.i18n[0]%>",
+          "options": "<%=opt.apps[i].builders.i18n[1]%>",
+        },
+        "test": {
+          "builder": "<%=opt.apps[i].builders.test[0]%>",
+          "builder": "<%=opt.apps[i].builders.test[1]%>",
+
+        },
+        "lint": {
+          "builder": "<%=opt.apps[i].builders.lint[0]%>",
+          "options": "<%=opt.apps[i].builders.lint[1]%>",
+        },
+        "e2e": {
+          "builder": "<%=opt.apps[i].builders.e2e[0]%>",
+          "options": "<%=opt.apps[i].builders.e2e[1]%>",
+          "configurations": "<%=opt.apps[i].builders.e2e[2]%>"
+        }
+      }
+    }
+
+    <% } %>
+
+  },
+  "defaultProject": "<%=opt.apps[0].name%>"
+}
