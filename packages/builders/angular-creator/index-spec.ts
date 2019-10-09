@@ -1,9 +1,9 @@
-import init from "./";
+import setup from "./";
 
 //tmp: for test
 let options = {
-  ts: { compileOnSave: true },
-  name: "myproject",
+  apps: ["ngProject"],
+  libs: ["nglib"],
   path: "/myproject"
 };
 

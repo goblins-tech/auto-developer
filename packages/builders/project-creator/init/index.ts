@@ -2,23 +2,21 @@ import {
   Rule,
   Tree,
   SchematicContext,
-  SchematicsException,
-  apply,
-  template,
+  SchematicsException
+  /*  apply,
+  template as _template,
   url,
   move,
   chain,
   branchAndMerge,
   mergeWith,
-  filter
-  /*
+  filter ,
   MergeStrategy,
-  ,
-  ,
 */
 } from "@angular-devkit/schematics";
 
 import { strings, normalize } from "@angular-devkit/core";
+import { mergeOptions, template } from "../../creator/tools";
 
 //returns a Schematics Rule to initiate the workspace
 //'main' schematic function, todo: rename to main()?
@@ -38,7 +36,7 @@ export interface initOptions {
   npmignore?: {};
   readMe?: string;
   creator: {};
-  [key: string]: any;
+  [key: string]: any; //add arbitrary data to package.json, to create or modify other files use files-creator builder
 }
 
 //todo: pass the Tree from the previous builder, and also pass creator.json
@@ -95,22 +93,7 @@ export function init(options: initOptions): Rule {
     delete options.path;
 
     //todo: check it the parameter 'options' changes the global var 'options'
-    function merge(options, defaultOptions: {} | boolean, removeNull = true) {
-      if (defaultOptions instanceof Object) {
-        //note tat: ([] instanceof Object) also ==true
-        options = Object.assign(defaultOptions, options);
-      } else removeNull = defaultOptions;
-
-      if (removeNull !== false) {
-        for (let k in options) {
-          if (options.hasOwnProperty(k) && options[k] === null)
-            delete options[k];
-        }
-        return options;
-      }
-    }
-
-    options = merge(options, defaultPkg, true);
+    options = mergeOptions(options, defaultPkg, true);
     if (ts !== null) {
       //the user may dosen't want to create tsconfig.json
       let defaultTs = {
@@ -157,7 +140,7 @@ export function init(options: initOptions): Rule {
           watch: true
         }
       };
-      ts = merge(ts, defaultTs, true);
+      ts = mergeOptions(ts, defaultTs, true);
     }
 
     if (gitignore instanceof Array) gitignore = gitignore.join("\n");
@@ -215,32 +198,33 @@ export function init(options: initOptions): Rule {
     //take the files from './files' and apply templating (on path and content)
     // of each file
 
-    //todo: url("./files") will read ./files related to 'dist', not related to this files
-    let tmpl = apply(url("../../init/files"), [
-      filter(path => {
-        if (
-          (path == "tsconfig.json" && ts == null) ||
-          (path == ".npmignore" && npmignore == null) ||
-          (path == ".gitignore" && gitignore == null) ||
-          (path == "README.md" && readMe == null)
-        )
-          return false;
-        else return true;
-      }),
-      template({
+    return template(
+      "../../init/files", //related to dist/**, not to this file
+      {
         opt: options,
         ts,
         gitignore,
         npmignore,
-        readMe /*...strings*/
-      }),
-      move(path)
-    ]);
-
-    return chain([branchAndMerge(chain([mergeWith(tmpl)]))]);
-    //or: mergeWith(templateSource, MergeStrategy.Overwrite);
+        readMe /*,...strings*/
+      },
+      filter(
+        path => {
+          if (
+            (path == "tsconfig.json" && ts == null) ||
+            (path == ".npmignore" && npmignore == null) ||
+            (path == ".gitignore" && gitignore == null) ||
+            (path == "README.md" && readMe == null)
+          )
+            return false;
+          else return true;
+        },
+        path,
+        true
+      )
+    );
   };
 
   //todo: add @angular-devkit/schematics (and all packages used by this builder) to devDependencies
   //creator is responible of installing all packages it uses before working with creator.json
+  //todo: offer to install prettier (via prettier-creator), tslint (via tslint-creator) or (code-formatter-creator)
 }

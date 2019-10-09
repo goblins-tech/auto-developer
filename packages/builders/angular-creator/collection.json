@@ -1,0 +1,10 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "setup": {
+      "description": "creates a new workspace",
+      "factory": "./dist/setup/#setup",
+      "schema": "./setup/schema.json"
+    }
+  }
+}

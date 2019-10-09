@@ -1,14 +1,14 @@
 {
   "schematics": "./collection.json",
-  "name": "@xxyyzz2050/project-creator",
+  "name": "@xxyyzz2050/angular-creator",
   "version": "1.0.3",
-  "description": "init a new project with package.json including the project info and the author info, and set up the basic settings for tsconfig, gitignore, ...",
+  "description": "installs Angular (a front-end framework https://angular.io), and material-design for Angular, and directly generates Angular modules and components",
   "main": "index.js",
   "private": false,
   "scripts": {
     "build": "if exist dist rmdir dist /s /Q && tsc -p tsconfig.json",
     "build:watch": "npm run build --watch",
-    "example": "schematics .:init --name=myProject --path=/myProject --dry-run=false --force=true",
+    "example": "schematics .:init --app=ngProject --path=/myProject --dry-run=false --force=true",
     "example2": "schematics .:init",
     "example3": "node dist/index-spec",
     "publish": "npm run build && npm publish --access=public",
@@ -20,11 +20,9 @@
   },
   "keywords": [
     "creator-builder",
-    "project-creator",
-    "developer",
-    "init",
-    "project",
-    "workspace"
+    "angular-creator",
+    "angular",
+    "material design"
   ],
   "author": "",
   "license": "ISC",
