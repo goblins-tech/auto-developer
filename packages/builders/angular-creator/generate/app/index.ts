@@ -7,7 +7,7 @@ import {
 } from "@angular-devkit/schematics";
 
 import { strings, normalize } from "@angular-devkit/core";
-import { mergeOptions, template } from "creator/tools";
+import { mergeOptions, template } from "creator/tools/schematics";
 
 export interface appOptions {
   name: string;
@@ -140,4 +140,14 @@ export default function(options: AppOptions): Rule {
       }
     }
   };
+
+  //todo: get current installed Angular version
+  //todo: adjust version, i.e: modify the baseVersion template based on the required version
+  return template(
+    `builders/angular-creator/init/files/v${options.baseVersion}`,
+    { opt: options },
+    null,
+    options.path,
+    true
+  );
 }

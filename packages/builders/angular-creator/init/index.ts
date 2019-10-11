@@ -12,7 +12,7 @@ import {
 } from "@angular-devkit/schematics";
 
 import { strings, normalize } from "@angular-devkit/core";
-import { mergeOptions, template } from "creator/tools";
+import { mergeOptions, template } from "creator/tools/schematics";
 import fs from "fs";
 
 //returns a Schematics Rule to initiate the workspace
@@ -134,16 +134,15 @@ export default function(options: InitOptions): Rule {
         "ts-node": "~7.0.0"
       };
 
-    let rules = [];
-    rules.push(
+    let rules = [
       template(
-        `../../init/files/v${options.baseVersion}`,
+        `builders/angular-creator/init/files/v${options.baseVersion}`,
         { opt: options },
-        path => !path.includes("[apps]"),
+        null, //path => !path.includes("[apps]"),
         options.path,
         true
       )
-    );
+    ];
 
     if (options.generate) {
       //todo: plugins can register other parts to generate

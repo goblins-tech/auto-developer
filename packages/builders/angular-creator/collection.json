@@ -6,7 +6,7 @@
       "factory": "builders/angular-creator/init",
       "schema": "./init/schema.json"
     },
-    "generate-apps": {
+    "app": {
       "description": "generate Angular applications",
       "factory": "builders/angular-creator/generate/app",
       "schema": "./generate/app/schema.json"
