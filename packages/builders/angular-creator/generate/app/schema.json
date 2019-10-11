@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "projectCreatorInit",
+  "title": "init a workspace",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "x-prompt": "app name",
+      "description": "app's name"
+    },
+    "path": {
+      "type": "string",
+      "defult": "/src",
+      "x-prompt": "project path (default: '/')",
+      "description": "app's root path"
+    }
+  },
+  "required": ["name"]
+}
