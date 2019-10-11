@@ -1,10 +1,15 @@
 {
   "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
-    "setup": {
+    "init": {
       "description": "creates a new workspace",
-      "factory": "./dist/setup/#setup",
-      "schema": "./setup/schema.json"
+      "factory": "./dist/setup/",
+      "schema": "./init/schema.json"
+    },
+    "generate-apps": {
+      "description": "generate Angular applications",
+      "factory": "./dist/setup/",
+      "schema": "./generate/app/schema.json"
     }
   }
 }
