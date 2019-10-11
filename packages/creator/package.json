@@ -1,15 +1,15 @@
 {
   "schematics": "./collection.json",
-  "name": "@xxyyzz2050/angular-creator",
-  "version": "1.0.3",
-  "description": "installs Angular (a front-end framework https://angular.io), and material-design for Angular, and directly generates Angular modules and components",
+  "name": "@xxyyzz2050/creator",
+  "version": "1.0.0",
+  "description": "automatically create any type of applications with any programming language, without coding",
   "main": "index.js",
   "private": false,
   "scripts": {
     "build": "if exist dist rmdir dist /s /Q && tsc -p tsconfig.json",
     "build:watch": "npm run build --watch",
-    "example": "schematics .:setup --apps[]=ngProject --path=/myProject --dry-run=false --force=true",
-    "example2": "schematics .:setup",
+    "example": "schematics .:build --name=myProject --path=/myProject --dry-run=false --force=true",
+    "example2": "schematics .:build",
     "example3": "node dist/index-spec",
     "publish": "npm run build && npm publish --access=public",
     "pack": "npm run build && npm pack"
@@ -19,10 +19,8 @@
     "url": "git+https://github.com/xxyyzz2050/creator.git"
   },
   "keywords": [
-    "creator-builder",
-    "angular-creator",
-    "angular",
-    "material design"
+    "creator",
+    "developer"
   ],
   "author": "",
   "license": "ISC",

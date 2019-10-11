@@ -7,6 +7,6 @@ let options = {
   path: "/myproject"
 };
 
-let test = init(options);
-console.log("init:", init);
+let test = setup(options);
+console.log("init:", setup);
 console.log("test:", test);
