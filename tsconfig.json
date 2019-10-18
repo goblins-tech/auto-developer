@@ -30,8 +30,9 @@
     "paths": {
       "*": ["node_modules/*", "src/types/*"],
       "packages/*": ["dist/packages/*"],
-      "builders/*": ["packages/builders/*"],
-      "creator/*": ["packages/creator/*"],
+      "core/*": ["packages/core/*"],
+      "tools/*": ["packages/core/tools/*"],
+      "tools": ["packages/core/tools/"],
       "*-builder/*": ["packages/builders/*"]
     },
     "rootDir": "./",
