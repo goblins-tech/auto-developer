@@ -20,15 +20,15 @@ export interface InitOptions {
   version?: string | number;
   spec?: boolean; //add spec files when generating components,...
   e2e?: boolean;
-  generate: generateOptions;
-  universal: universalOptions; //via express-builder:setup
-  material: materialOptions; //via material-builder:setup {front-end=Angular}
-  karma: karmaOptions;
+  generate: GenerateOptions;
+  universal: UniversalOptions; //via express-builder:setup
+  material: MaterialOptions; //via material-builder:setup {front-end=Angular}
+  karma: KarmaOptions;
   config: {
-    apps: appOptions;
-    libs: libsOptions;
-    modules: modulesOptions;
-    components: componentsOptions;
+    apps: AppOptions;
+    libs: LibOptions;
+    modules: ModuleOptions;
+    components: ComponentOptions;
   };
 }
 
@@ -41,6 +41,15 @@ export interface GenerateOptions {
   for components: if(!module)use modules[0]; if(!exists(module))generate it
    */
 }
+
+//todo: import from generate/$part/index
+export interface AppOptions {}
+export interface UniversalOptions {}
+export interface MaterialOptions {}
+export interface KarmaOptions {}
+export interface LibOptions {}
+export interface ModuleOptions {}
+export interface ComponentOptions {}
 
 export default function(options: InitOptions): Rule {
   //todo: check if the files already exists and offer options to:

@@ -32,8 +32,7 @@
       "packages/*": ["dist/packages/*"],
       "core/*": ["packages/core/*"],
       "tools/*": ["packages/core/tools/*"],
-      "tools": ["packages/core/tools/"],
-      "*-builder/*": ["packages/builders/*"]
+      "builders/*": ["packages/builders/*"]
     },
     "rootDir": "./",
     "typeRoots": ["node_modules/@types"],

@@ -20,16 +20,18 @@ import {
 */
 } from "@angular-devkit/schematics";
 
+import { objectType } from "./objects";
+
 export function template(
   files: string | Source,
   vars?: any,
-  filter: Rule = path => _filter(path => true), //todo: benchmark filter=null VS filter=path=>_filter(..)
+  filter:path=>boolean //todo: | Rule   // Rule = path => _filter(path => true), //todo: benchmark filter=null VS filter=path=>_filter(..)
   path?: string,
   merge = true
 ) {
   if (typeof files == "string") files = url(files); //or if(!(files instanceof Source)
   let tmpl = apply(files, [
-    filter ? filter : null,
+    filter ? _filter(filter) : null,
     _template(vars),
     path ? move(path) : null
   ]);
@@ -43,12 +45,12 @@ export function mergeTemplate(tmpl) {
 }
 
 //merge options with defaultOptions, remove null values (ex: {x:null} -> remove x from defaultOptions)
-function mergeOptions(
+export function mergeOptions(
   options,
   defaultOptions: {} | boolean,
   removeNull = true
 ) {
-  if (defaultOptions instanceof Object && !(defaultOptions instanceof Array)) {
+  if (objectType(defaultOptions) == "object") {
     //note that: also ([] instanceof Object)==true
     options = Object.assign(defaultOptions, options);
   } else removeNull = defaultOptions;

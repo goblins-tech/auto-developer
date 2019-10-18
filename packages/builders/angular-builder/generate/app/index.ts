@@ -9,7 +9,7 @@ import {
 import { strings, normalize } from "@angular-devkit/core";
 import { mergeOptions, template } from "tools/schematics";
 
-export interface appOptions {
+export interface AppOptions {
   name: string;
   style?: "css" | "scss" | "sass" | "less" | "styl";
   /*private*/ styleExt?: string; //cannot use private for interface members; this value shouldn't be provided by the user
@@ -21,27 +21,17 @@ export interface appOptions {
   root?: string;
   src?: string;
   prefix?: string /*= "app";*/; //todo: use different prefix for each app
-  architect?: architectOptions; //todo:
+  architect?: ArchitectOptions; //todo:
 }
 
-export interface architectOptions {}
-export interface AppOptions {}
+export interface ArchitectOptions {}
 
 export default function(options: AppOptions): Rule {
-  let defaultAppOptions = {
-    style: "scss",
-    routing: true,
-    verbose: false,
-    spec: false,
-    e2e: false,
-    root: this.name,
-    src: "src",
-    prefix: strings.dasherize(this.name),
-    architect: defaultArchitectOptions,
-    schematics: "@schematics/angular:component",
-    architect: defaultArchitectOptions
-  };
-  let defaultArchitectOptions = {
+  //first we merge options.archetect to perforum a deep merging here
+  //i.e: don't totally override user's options.architecture, but merge it with
+  //the default architect options
+
+  options.architect = mergeOptions(options.architect, {
     build: {
       builder: "@angular-devkit/build-angular:browser",
       options: {
@@ -139,7 +129,19 @@ export default function(options: AppOptions): Rule {
         }
       }
     }
-  };
+  });
+
+  options = mergeOptions(options, {
+    style: "scss",
+    routing: true,
+    verbose: false,
+    spec: false,
+    e2e: false,
+    root: this.name,
+    src: "src",
+    prefix: strings.dasherize(this.name),
+    schematics: "@schematics/angular:component"
+  });
 
   //todo: get current installed Angular version
   //todo: adjust version, i.e: modify the baseVersion template based on the required version

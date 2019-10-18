@@ -8,7 +8,8 @@ import {
   Tree,
   SchematicContext,
   SchematicsException
-  /*  apply,
+  /*
+  apply,
   template as _template,
   url,
   move,
@@ -21,8 +22,7 @@ import {
 } from "@angular-devkit/schematics";
 
 import { strings, normalize } from "@angular-devkit/core";
-import { mergeOptions, template } from "tools/schematics";
-//import { mergeOptions, template } from "../../../core/tools/schematics";
+import { mergeOptions, template } from "../../../core/tools/schematics"; //todo: "tools/schematics"
 
 //returns a Schematics Rule to initiate the workspace
 //'main' schematic function, todo: rename to main()?
@@ -212,20 +212,19 @@ export function init(options: initOptions): Rule {
         npmignore,
         readMe /*,...strings*/
       },
-      filter(
-        path => {
-          if (
-            (path == "tsconfig.json" && ts == null) ||
-            (path == ".npmignore" && npmignore == null) ||
-            (path == ".gitignore" && gitignore == null) ||
-            (path == "README.md" && readMe == null)
-          )
-            return false;
-          else return true;
-        },
-        path,
-        true
-      )
+      path => {
+        //todo: TypeError: Cannot use 'in' operator to search for 'Symbol(schematic-tree)' in true
+        if (
+          (path == "tsconfig.json" && ts == null) ||
+          (path == ".npmignore" && npmignore == null) ||
+          (path == ".gitignore" && gitignore == null) ||
+          (path == "README.md" && readMe == null)
+        )
+          return false;
+        else return true;
+      },
+      path,
+      true
     );
   };
 
