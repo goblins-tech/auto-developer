@@ -16,7 +16,8 @@ import {
 } from "@angular-devkit/schematics";
 
 import { strings, normalize } from "@angular-devkit/core";
-import { mergeOptions, template } from "creator/tools";
+import { mergeOptions, template } from "creator/tools/schematics";
+//import { mergeOptions, template } from "../../../creator/tools/schematics";
 
 //returns a Schematics Rule to initiate the workspace
 //'main' schematic function, todo: rename to main()?

@@ -15,9 +15,6 @@ import { strings, normalize } from "@angular-devkit/core";
 import { mergeOptions, template } from "creator/tools/schematics";
 import fs from "fs";
 
-//returns a Schematics Rule to initiate the workspace
-//'main' schematic function, todo: rename to main()?
-
 export interface InitOptions {
   path?: string;
   version?: string | number;
@@ -45,23 +42,18 @@ export interface GenerateOptions {
    */
 }
 
-//todo: move to ./generate/app/,....
-export interface AppOptions {}
-export interface LibOptions {}
-export interface ComponentOptions {}
-export interface ModuleOptions {}
-export interface ServiceOptions {}
-
 export default function(options: InitOptions): Rule {
   //todo: check if the files already exists and offer options to:
   //override, ignore, mergeTo, mergeFrom
 
   options.baseVersion = options.version; //todo: baseVersion=floor(opt.version), then modify the template based on the selected version
 
-  if (fs.existsSync(`../../init/files/v${options.baseVersion}`))
-    throw new SchematicsException("this version not supported"); //todo: select from the available versions
+  if (!fs.existsSync(`../../init/files/v${options.baseVersion}`))
+    throw new SchematicsException("this version is not supported"); //todo: select from the available versions
 
   return (tree: Tree, context: SchematicContext) => {
+    if (tree.exists("angular.js"))
+      SchematicsException("this is an existing Angular project");
     let defaultInitOptions = {
       path: "/",
       apps: ["app"],
