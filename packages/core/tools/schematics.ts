@@ -23,17 +23,18 @@ import {
 import { objectType } from "./objects";
 
 export function template(
-  files: string | Source,
+  from: string | Source,
+  to?: string,
   vars?: any,
-  filter:path=>boolean //todo: | Rule   // Rule = path => _filter(path => true), //todo: benchmark filter=null VS filter=path=>_filter(..)
-  path?: string,
+  filter?:(filePath:string)=>boolean //todo: | Rule   // Rule = path => _filter(path => true), //todo: benchmark filter=null VS filter=path=>_filter(..)
   merge = true
 ) {
-  if (typeof files == "string") files = url(files); //or if(!(files instanceof Source)
-  let tmpl = apply(files, [
+  //console.log({from,to,vars,filter,merge})
+  if (typeof from == "string") from = url(from); //or if(!(files instanceof Source)
+  let tmpl = apply(from, [
     filter ? _filter(filter) : null,
     _template(vars),
-    path ? move(path) : null
+    to ? move(to) : null
   ]);
   if (!merge) return tmpl;
   else return mergeTemplate(tmpl);

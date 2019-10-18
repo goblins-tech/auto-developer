@@ -56,8 +56,8 @@ export function init(options: initOptions): Rule {
     if (!options.path) options.path = "/"; //just for typescript
     options.path = normalize(options.path);
 
-    console.log("tree", tree);
-    console.log("context", context);
+    //console.log("tree", tree);
+    //console.log("context", context);
     /*
     //ex: create a file
     tree.create("hello.ts", 'console.log("Hello, World")');
@@ -204,7 +204,8 @@ export function init(options: initOptions): Rule {
     // of each file
 
     return template(
-      "builders/project-builder/init/files", //related to dist/**, not to this file
+      "../../../../../packages/builders/project-builder/init/files", //related to dist/**, not to this file
+      path,
       {
         opt: options,
         ts,
@@ -212,18 +213,18 @@ export function init(options: initOptions): Rule {
         npmignore,
         readMe /*,...strings*/
       },
-      path => {
+      filePath => {
         //todo: TypeError: Cannot use 'in' operator to search for 'Symbol(schematic-tree)' in true
         if (
-          (path == "tsconfig.json" && ts == null) ||
-          (path == ".npmignore" && npmignore == null) ||
-          (path == ".gitignore" && gitignore == null) ||
-          (path == "README.md" && readMe == null)
+          (filePath == "tsconfig.json" && ts == null) ||
+          (filePath == ".npmignore" && npmignore == null) ||
+          (filePath == ".gitignore" && gitignore == null) ||
+          (filePath == "README.md" && readMe == null)
         )
           return false;
         else return true;
       },
-      path,
+
       true
     );
   };
