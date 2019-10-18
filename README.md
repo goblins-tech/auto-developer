@@ -27,3 +27,66 @@ autoDeveloper will not make any changes to the current project until all builder
 This feature ensure safety and speed the process.
 
 autoDeveloper may use the AI to chat with the user in a natural human language, but it also uses simple commands to create the desired project‘s structure.
+
+# usage
+
+all you need is to create an autoDeveloper configuration object
+you can create it in a normal json (or js) file, or at building time via CLI or GUI
+or even by having a friendly chat with autoDeveloper by facebook messenger or whatsapp
+or any other chatting service.
+
+```
+autoDeveloper = {
+  config:{},
+  builders: []
+}
+```
+
+every step contains 3 parts:
+
+- a builder which may be a normal NPM package or a schematic or a function
+- builder's options
+- autoDeveloper configurations, which overrides the global configuration just for this builder
+
+```
+builders:[
+   [ 'builderName', {builderOptions}, {config} ],
+   'builderName' //without options (i.e: useing it's default's options)
+]
+```
+
+# Example
+
+to build a CRUD app using the following technologies:
+
+front-end: Angular
+back-end: node.js with express
+UI: material design
+database: mongoDB
+API: graphQl
+
+```
+autoDeveloper = {
+  config:{
+  name: "my project",
+  path: "/my-project"
+},
+builders:[
+ '@goblins-tech/project-builder',
+ ['@goblins-tech/angular-builder',{
+   generate:{
+     apps:["my app"],
+     serves:["back-end-service"]
+   }
+   }],
+ ['@goblins-tech/material-builder',{
+   theme: "purble"
+   }],
+ '@goblins-tech/express-builder',
+ '@goblins-tech/mongoDB-builder',
+ '@goblins-tech/graphQl-builder',
+]
+}
+```
+
+go to every builder on NPM to view it's options.
