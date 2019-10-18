@@ -204,7 +204,7 @@ export function init(options: initOptions): Rule {
     // of each file
 
     return template(
-      "../../../../../packages/builders/project-builder/init/files", //related to dist/**, not to this file
+      "../../../../../packages/builders/project-builder/init/files", //related to dist/**, not to this file, todo: use tsConfig.paths{}
       path,
       {
         opt: options,
