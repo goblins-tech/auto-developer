@@ -4,11 +4,11 @@ const autoDeveloper = {
     path: "/my-project"
   },
   builders: [
-    ["@xxyyzz2050/project-builder", {}],
-    ["@xxyyzz2050/angular-builder", {}],
-    ["@xxyyzz2050/material-builder", {}],
-    ["@xxyyzz2050/express-builder", {}],
-    ["@xxyyzz2050/mongodb-builder", {}]
+    ["@goblins-tech/project-builder", {}],
+    ["@goblins-tech/angular-builder", {}],
+    ["@goblins-tech/material-builder", {}],
+    ["@goblins-tech/express-builder", {}],
+    ["@goblins-tech/mongodb-builder", {}]
   ]
 };
 

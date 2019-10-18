@@ -1,6 +1,6 @@
 # Project builder
 
-> a builder for [autoDeveloper](https://github.com/xxyyzz2050/autoDeveloper) workflow, just add it to autoDeveloper.json file
+> a builder for [autoDeveloper](https://github.com/goblins-tech/autoDeveloper) workflow, just add it to autoDeveloper.json file
 
 # usage
 

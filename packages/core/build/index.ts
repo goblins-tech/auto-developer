@@ -5,7 +5,7 @@ export interface buildOptions {}
 export function build(options: buildOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     //for test:
-    return externalSchematic("@xxyyzz2050/project-builder", "init", {
+    return externalSchematic("@goblins-tech/project-builder", "init", {
       name: "myProjectBuilder",
       path: "/myProjectBuilderPath"
     });

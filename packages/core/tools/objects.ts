@@ -1,5 +1,5 @@
 export function objectType(obj: any): string {
-  //from: eldeeb/src/index.ts https://github.com/xxyyzz2050/eldeeb/blob/master/src/index.ts
+  //from: eldeeb/src/index.ts https://github.com/goblins-tech/eldeeb/blob/master/src/index.ts
   //todo: move to @eldeeb/utils
   return Object.prototype.toString
     .call(obj)
