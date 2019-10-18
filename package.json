@@ -1,5 +1,5 @@
 {
-  "name": "@xxyyzz2050/creator",
+  "name": "@xxyyzz2050/autoDeveloper",
   "version": "1.0.0",
   "description": "build a modern CMS with Angular universal (SSR) and material design, add and manage many features like nativescript and electron at any time.",
   "main": "dist/index.js",
@@ -12,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xxyyzz2050/creator.git"
+    "url": "git+https://github.com/xxyyzz2050/autoDeveloper.git"
   },
   "keywords": [
     "eldeeb",
     "cli",
-    "creator",
+    "autoDeveloper",
     "angular",
     "nativescript",
     "material",
@@ -32,9 +32,9 @@
   "author": "eldeeb <sh.eldeeb.2010+dev@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/xxyyzz2050/creator/issues"
+    "url": "https://github.com/xxyyzz2050/autoDeveloper/issues"
   },
-  "homepage": "https://github.com/xxyyzz2050/creator#readme",
+  "homepage": "https://github.com/xxyyzz2050/autoDeveloper#readme",
   "dependencies": {
     "@angular-devkit/core": "^8.1.0",
     "@angular-devkit/schematics": "^8.1.0"

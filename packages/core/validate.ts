@@ -1,3 +1,3 @@
-export function validate(creator) {
+export function validate(autoDeveloper) {
   return true;
 }

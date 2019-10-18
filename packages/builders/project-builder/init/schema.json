@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "projectCreatorInit",
+  "id": "projectBuilderInit",
   "title": "init a workspace",
   "type": "object",
   "properties": {

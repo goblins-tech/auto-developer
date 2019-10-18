@@ -1,20 +1,8 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "projectCreatorInit",
-  "title": "init a workspace",
+  "id": "angularBuilderInit",
+  "title": "create an Angular project",
   "type": "object",
-  "properties": {
-    "name": {
-      "type": "string",
-      "x-prompt": "project name",
-      "description": "project's name"
-    },
-    "path": {
-      "type": "string",
-      "defult": "/",
-      "x-prompt": "project path (default: '/')",
-      "description": "project's root path"
-    }
-  },
-  "required": ["name"]
+  "properties": {  },
+
 }

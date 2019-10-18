@@ -1,12 +1,12 @@
-# Project Creator
+# Project builder
 
-> a builder for [The Creator](https://github.com/xxyyzz2050/creator) workflow, just add it to creator.json file
+> a builder for [autoDeveloper](https://github.com/xxyyzz2050/autoDeveloper) workflow, just add it to autoDeveloper.json file
 
 # usage
 
 ```
 [
-'@eldeeb/project-creator'
+'@eldeeb/project-builder'
 ]
 ```
 
@@ -14,7 +14,7 @@ or
 
 ```
 [
-  ['@eldeeb/project-creator', {/*options*/} ]
+  ['@eldeeb/project-builder', {/*options*/} ]
 ]
 ```
 
@@ -29,9 +29,9 @@ initiates a workspace and creates some basic files such as package.json, .gitign
 ```
 //init a new project
 [
-  ['@eldeeb/project-creator', {
+  ['@eldeeb/project-builder', {
     name:"projectName",
-    tsconfig:{/*tsconfig options, override project-creator's defaults*/},
+    tsconfig:{/*tsconfig options, override project-builder's defaults*/},
     gitignore:['node_modules','dist'],
     npmignore:[],
     //and other package.json stuff
@@ -42,7 +42,7 @@ initiates a workspace and creates some basic files such as package.json, .gitign
 
 ### Options
 
-- **name** project name, also applies by default for other builders such as @eldeeb/angular-creator if no other project name provided
+- **name** project name, also applies by default for other builders such as @eldeeb/angular-builder if no other project name provided
 
 - **info** project & author info
 

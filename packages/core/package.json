@@ -1,6 +1,6 @@
 {
   "schematics": "./collection.json",
-  "name": "@xxyyzz2050/creator",
+  "name": "@xxyyzz2050/autoDeveloper",
   "version": "1.0.0",
   "description": "automatically create any type of applications with any programming language, without coding",
   "main": "index.js",
@@ -16,16 +16,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xxyyzz2050/creator.git"
+    "url": "git+https://github.com/xxyyzz2050/autoDeveloper.git"
   },
   "keywords": [
-    "creator",
-    "developer"
+    "autoDeveloper",
+    "developer",
+    "angular",
+    "react",
+    "vue"
   ],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/xxyyzz2050/creator/issues"
+    "url": "https://github.com/xxyyzz2050/autoDeveloper/issues"
   },
-  "homepage": "https://github.com/xxyyzz2050/creator#readme"
+  "homepage": "https://github.com/xxyyzz2050/autoDeveloper#readme"
 }

@@ -1,3 +1,8 @@
+/*
+todo:
+make every builders/$builderName/package.json inhirits from builders/package.json
+ */
+
 import {
   Rule,
   Tree,
@@ -17,7 +22,7 @@ import {
 
 import { strings, normalize } from "@angular-devkit/core";
 import { mergeOptions, template } from "tools/schematics";
-//import { mergeOptions, template } from "../../../creator/tools/schematics";
+//import { mergeOptions, template } from "../../../core/tools/schematics";
 
 //returns a Schematics Rule to initiate the workspace
 //'main' schematic function, todo: rename to main()?
@@ -36,11 +41,10 @@ export interface initOptions {
   gitignore?: {};
   npmignore?: {};
   readMe?: string;
-  creator: {};
-  [key: string]: any; //add arbitrary data to package.json, to create or modify other files use files-creator builder
+  [key: string]: any; //add arbitrary data to package.json, to create or modify other files use files-builder builder
 }
 
-//todo: pass the Tree from the previous builder, and also pass creator.json
+//todo: pass the Tree from the previous builder, and also pass autoDeveloper.json
 export function init(options: initOptions): Rule {
   if (!options.name)
     throw new SchematicsException("project's name is required");
@@ -64,14 +68,14 @@ export function init(options: initOptions): Rule {
       name: "",
       version: "1.0.0",
       private: false,
-      description: "created by `The Creator` the-creator.com",
+      description: "created by `autoDeveloper` autoDeveloper.com",
       main: "index.js",
       scripts: {},
       repository: {
         type: "",
         url: ""
       },
-      keywords: ["the-creator"],
+      keywords: ["autoDeveloper"],
       license: "MIT",
       dependencies: {},
       devDependencies: {}
@@ -82,15 +86,15 @@ export function init(options: initOptions): Rule {
       npmignore = options.npmignore || "",
       readMe = options.readMe || "",
       path = options.path, //project's path (not a part of package.json)
-      creator = options.creator || {}; //creator elements, such as: config, tree, creator(i.e creator.json data),...
+      autoDeveloper = options.autoDeveloper || {}; //autoDeveloper elements, such as: config, tree, autoDeveloper(i.e autoDeveloper.json data),...
 
-    //to add more files (or modify an existing file) use files-creator=> [{fileName:content}]
+    //to add more files (or modify an existing file) use files-builder=> [{fileName:content}]
 
     delete options.ts;
     delete options.gitignore;
     delete options.npmignore;
     delete options.readMe;
-    delete options.creator;
+    delete options.autoDeveloper;
     delete options.path;
 
     //todo: check it the parameter 'options' changes the global var 'options'
@@ -148,9 +152,9 @@ export function init(options: initOptions): Rule {
     if (npmignore instanceof Array) npmignore = npmignore.join("\n");
 
     //adjust the options
-    options.keywords = options.keywords || ["the-creator", "test"];
-    if (!options.keywords.includes("the-creator"))
-      options.keywords.unshift("the-creator");
+    options.keywords = options.keywords || ["autoDeveloper", "test"];
+    if (!options.keywords.includes("autoDeveloper"))
+      options.keywords.unshift("autoDeveloper");
     //console.log("keywords", options.keywords);
 
     if (!options.repository) options.repository = options.repo;
@@ -200,7 +204,7 @@ export function init(options: initOptions): Rule {
     // of each file
 
     return template(
-      "builders/project-creator/init/files", //related to dist/**, not to this file
+      "builders/project-builder/init/files", //related to dist/**, not to this file
       {
         opt: options,
         ts,
@@ -226,6 +230,6 @@ export function init(options: initOptions): Rule {
   };
 
   //todo: add @angular-devkit/schematics (and all packages used by this builder) to devDependencies
-  //creator is responible of installing all packages it uses before working with creator.json
-  //todo: offer to install prettier (via prettier-creator), tslint (via tslint-creator) or (code-formatter-creator)
+  //autoDeveloper is responible of installing all packages it uses before working with autoDeveloper.json
+  //todo: offer to install prettier (via prettier-builder), tslint (via tslint-builder) or (code-formatter-builder)
 }

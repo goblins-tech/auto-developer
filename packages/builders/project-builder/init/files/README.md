@@ -1,4 +1,4 @@
 <%= readMe %>
 
-# Getting Started With `Creator`
-this package is created using [the creator](the-creator.com)
+# Getting Started With `autoDeveloper`
+this package is created using [autoDeveloper](autoDeveloper.com)

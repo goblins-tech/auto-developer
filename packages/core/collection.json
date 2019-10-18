@@ -3,7 +3,7 @@
   "schematics": {
     "build": {
       "description": "build your project",
-      "factory": "packages/creator/build/#build",
+      "factory": "packages/core/build/#build",
       "schema": "./build/schema.json"
     }
   }

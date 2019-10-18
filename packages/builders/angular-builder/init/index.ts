@@ -12,7 +12,7 @@ import {
 } from "@angular-devkit/schematics";
 
 import { strings, normalize } from "@angular-devkit/core";
-import { mergeOptions, template } from "creator/tools/schematics";
+import { mergeOptions, template } from "tools/schematics";
 import fs from "fs";
 
 export interface InitOptions {
@@ -21,8 +21,8 @@ export interface InitOptions {
   spec?: boolean; //add spec files when generating components,...
   e2e?: boolean;
   generate: generateOptions;
-  universal: universalOptions; //via express-creator:setup
-  material: materialOptions; //via material-creator:setup {front-end=Angular}
+  universal: universalOptions; //via express-builder:setup
+  material: materialOptions; //via material-builder:setup {front-end=Angular}
   karma: karmaOptions;
   config: {
     apps: appOptions;
@@ -63,7 +63,7 @@ export default function(options: InitOptions): Rule {
       e2e: false,
       src: "src",
       dist: "dist/angular",
-      readMe: "", //add readMe to #Angular-creator section
+      readMe: "", //add readMe to #Angular-builder section
       tsConfigApp: {
         extends: "./tsconfig.json",
         compilerOptions: {
@@ -108,8 +108,8 @@ export default function(options: InitOptions): Rule {
         "@angular/compiler-cli": "~8.2.9",
         "@angular/language-service": "~8.2.9",
 
-        //todo: move to custom builders (ex: karma-creator, code-formatter-creator)
-        "@types/node": "~8.9.4", //project-creator
+        //todo: move to custom builders (ex: karma-builder, code-formatter-builder)
+        "@types/node": "~8.9.4", //project-builder
         "@types/jasmine": "~3.3.8",
         "@types/jasminewd2": "~2.0.3",
         codelyzer: "^5.0.0",
@@ -122,13 +122,13 @@ export default function(options: InitOptions): Rule {
         "karma-jasmine-html-reporter": "^1.4.0",
         protractor: "~5.4.0",
         tslint: "~5.15.0",
-        typescript: "~3.5.3", //todo: move to project-creator (if(opt.ts!=null))
+        typescript: "~3.5.3", //todo: move to project-builder (if(opt.ts!=null))
         "ts-node": "~7.0.0"
       };
 
     let rules = [
       template(
-        `builders/angular-creator/init/files/v${options.baseVersion}`,
+        `builders/angular-builder/init/files/v${options.baseVersion}`,
         { opt: options },
         null, //path => !path.includes("[apps]"),
         options.path,
@@ -173,7 +173,7 @@ export default function(options: InitOptions): Rule {
 */
 
 /*
-//todo: move to material-creator, karma-creator, express-creator or back-end-creator
+//todo: move to material-builder, karma-builder, express-builder or back-end-builder
 export interface MaterialOptions {
   theme: "purble" | MaterialThemeCustom;
   animations: boolean;

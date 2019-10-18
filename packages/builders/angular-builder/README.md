@@ -1,3 +1,3 @@
-# angular Creator
+# angular builder
 
-> a builder for [The Creator](https://github.com/xxyyzz2050/creator) workflow, just add it to creator.json file
+> a builder for [autoDeveloper](https://github.com/xxyyzz2050/autoDeveloper) workflow, just add it to autoDeveloper.json file

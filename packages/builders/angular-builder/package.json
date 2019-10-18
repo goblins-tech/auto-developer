@@ -1,6 +1,6 @@
 {
   "schematics": "./collection.json",
-  "name": "@xxyyzz2050/angular-creator",
+  "name": "@xxyyzz2050/angular-builder",
   "version": "1.0.3",
   "description": "installs Angular (a front-end framework https://angular.io), and material-design for Angular, and directly generates Angular modules and components",
   "main": "index.js",
@@ -16,18 +16,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xxyyzz2050/creator.git"
+    "url": "git+https://github.com/xxyyzz2050/autoDeveloper.git"
   },
   "keywords": [
-    "creator-builder",
-    "angular-creator",
+    "autoDeveloper-builder",
+    "angular-builder",
     "angular",
     "material design"
   ],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/xxyyzz2050/creator/issues"
+    "url": "https://github.com/xxyyzz2050/autoDeveloper/issues"
   },
-  "homepage": "https://github.com/xxyyzz2050/creator#readme"
+  "homepage": "https://github.com/xxyyzz2050/autoDeveloper#readme"
 }

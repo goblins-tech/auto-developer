@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-//run `eldeeb new [options]` to init a new project (i.e: create creator.json file)
-//then run `eldeeb build` to convert creator.json to a project
+//run `eldeeb new [options]` to init a new project (i.e: create autoDeveloper.json file)
+//then run `eldeeb build` to convert autoDeveloper.json to a project
 
 //run `npm link` to register the bin commands to make them available every where
 

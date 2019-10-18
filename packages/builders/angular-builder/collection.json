@@ -3,12 +3,12 @@
   "schematics": {
     "init": {
       "description": "creates a new workspace",
-      "factory": "builders/angular-creator/init",
+      "factory": "builders/angular-builder/init",
       "schema": "./init/schema.json"
     },
     "app": {
       "description": "generate Angular applications",
-      "factory": "builders/angular-creator/generate/app",
+      "factory": "builders/angular-builder/generate/app",
       "schema": "./generate/app/schema.json"
     }
   }

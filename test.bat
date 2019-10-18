@@ -1,6 +1,6 @@
 ﻿::npm run build
-schematics ./packages/builders/project-creator:project-creator --dry-run=true
+schematics ./packages/builders/project-builder:project-builder --dry-run=true
 pause
 ::use --dry-run=false to physically create the files
 
-:: or from 'project-creator' dir: >schematics .:project-creator
+:: or from 'project-builder' dir: >schematics .:project-builder
