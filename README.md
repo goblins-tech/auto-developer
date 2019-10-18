@@ -48,6 +48,8 @@ every step contains 3 parts:
 - builder's options
 - autoDeveloper configurations, which overrides the global configuration just for this builder
 
+you don't need to install every builder, as autoDeveloper will automatically do it for you, and will control the whole workflow.
+
 ```
 builders:[
    [ 'builderName', {builderOptions}, {config} ],
