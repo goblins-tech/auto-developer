@@ -26,7 +26,7 @@ export function template(
   from: string | Source,
   to?: string,
   vars?: any,
-  filter?:(filePath:string)=>boolean //todo: | Rule   // Rule = path => _filter(path => true), //todo: benchmark filter=null VS filter=path=>_filter(..)
+  filter?: (filePath: string) => boolean, //todo: | Rule   // Rule = path => _filter(path => true), //todo: benchmark filter=null VS filter=path=>_filter(..)
   merge = true
 ) {
   //console.log({from,to,vars,filter,merge})
@@ -41,6 +41,7 @@ export function template(
 }
 
 export function mergeTemplate(tmpl) {
+  if (tmpl instanceof Array) tmpl = chain(tmpl);
   return chain([branchAndMerge(chain([mergeWith(tmpl)]))]);
   //or: mergeWith(templateSource, MergeStrategy.Overwrite);
 }

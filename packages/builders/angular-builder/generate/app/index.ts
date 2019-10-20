@@ -1,13 +1,4 @@
-import {
-  Rule,
-  Tree,
-  SchematicContext,
-  SchematicsException,
-  chain
-} from "@angular-devkit/schematics";
-
-import { strings, normalize } from "@angular-devkit/core";
-import { mergeOptions, template } from "tools/schematics";
+import * as tools from "../../../tools";
 
 export interface AppOptions {
   name: string;
@@ -21,7 +12,8 @@ export interface AppOptions {
   root?: string;
   src?: string;
   prefix?: string /*= "app";*/; //todo: use different prefix for each app
-  architect?: ArchitectOptions; //todo:
+  architect?: ArchitectOptions;
+  path?: string;
 }
 
 export interface ArchitectOptions {}
@@ -31,7 +23,7 @@ export default function(options: AppOptions): Rule {
   //i.e: don't totally override user's options.architecture, but merge it with
   //the default architect options
 
-  options.architect = mergeOptions(options.architect, {
+  options.architect = tools.mergeOptions(options.architect, {
     build: {
       builder: "@angular-devkit/build-angular:browser",
       options: {
@@ -131,7 +123,7 @@ export default function(options: AppOptions): Rule {
     }
   });
 
-  options = mergeOptions(options, {
+  options = tools.mergeOptions(options, {
     style: "scss",
     routing: true,
     verbose: false,
@@ -139,17 +131,18 @@ export default function(options: AppOptions): Rule {
     e2e: false,
     root: this.name,
     src: "src",
-    prefix: strings.dasherize(this.name),
-    schematics: "@schematics/angular:component"
+    prefix: tools.strings.dasherize(this.name),
+    schematics: "@schematics/angular:component",
+    path: "" //todo: get path from Config.path+appName
   });
 
   //todo: get current installed Angular version
   //todo: adjust version, i.e: modify the baseVersion template based on the required version
-  return template(
+  return tools.template(
     `builders/angular-builder/init/files/v${options.baseVersion}`,
+    `${options.path}/${options.name}`,
     { opt: options },
     null,
-    options.path,
     true
   );
 }

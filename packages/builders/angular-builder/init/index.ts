@@ -2,17 +2,7 @@
 todo:
  */
 
-import {
-  Rule,
-  Tree,
-  SchematicContext,
-  SchematicsException,
-  chain,
-  schematic
-} from "@angular-devkit/schematics";
-
-import { strings, normalize } from "@angular-devkit/core";
-import { mergeOptions, template } from "tools/schematics";
+import * as tools from "../../tools";
 import fs from "fs";
 
 export interface InitOptions {
@@ -21,8 +11,8 @@ export interface InitOptions {
   spec?: boolean; //add spec files when generating components,...
   e2e?: boolean;
   generate: GenerateOptions;
-  universal: UniversalOptions; //via express-builder:setup
-  material: MaterialOptions; //via material-builder:setup {front-end=Angular}
+  universal: UniversalOptions; //via express-builder:init
+  material: MaterialOptions; //via material-builder:init {front-end=Angular}
   karma: KarmaOptions;
   config: {
     apps: AppOptions;
@@ -55,14 +45,9 @@ export default function(options: InitOptions): Rule {
   //todo: check if the files already exists and offer options to:
   //override, ignore, mergeTo, mergeFrom
 
-  options.baseVersion = options.version; //todo: baseVersion=floor(opt.version), then modify the template based on the selected version
-
-  if (!fs.existsSync(`../../init/files/v${options.baseVersion}`))
-    throw new SchematicsException("this version is not supported"); //todo: select from the available versions
-
   return (tree: Tree, context: SchematicContext) => {
     if (tree.exists("angular.js"))
-      SchematicsException("this is an existing Angular project");
+      tools.SchematicsException("this is an existing Angular project");
     let defaultInitOptions = {
       path: "/",
       apps: ["app"],
@@ -94,8 +79,27 @@ export default function(options: InitOptions): Rule {
       }
     };
 
-    options = mergeOptions(options, defaultSetupOptions, true);
-    options.path = normalize(options.path);
+    options = tools.mergeOptions(options, defaultInitOptions, true);
+    options.path = tools.normalize(options.path);
+    if (options.version == "latest") options.version = 8;
+    options.baseVersion = options.version; //todo: baseVersion=floor(opt.version), then modify the template based on the selected version
+
+    /* todo: check if the version is supported
+    console.log(
+      "baseVersion",
+      options.baseVersion,
+      tools.normalize(
+        `../../../../../packages/builders/angular-builder/init/files/v${options.baseVersion}`
+      )
+    );
+    if (
+      !fs.existsSync(
+        `../../../../../packages/builders/angular-builder/init/files/v${options.baseVersion}`
+      )
+    )
+      throw new tools.SchematicsException("this version is not supported");
+    //todo: select from the available versions
+    */
 
     //todo: add to the existing package.json, select the compitable versions with the current angular version
     let dependencies = {
@@ -136,12 +140,12 @@ export default function(options: InitOptions): Rule {
       };
 
     let rules = [
-      template(
+      tools.template(
         `builders/angular-builder/init/files/v${options.baseVersion}`,
         { opt: options },
         null, //path => !path.includes("[apps]"),
         options.path,
-        true
+        false
       )
     ];
 
@@ -163,7 +167,7 @@ export default function(options: InitOptions): Rule {
       }
     }
 
-    return chain[rules];
+    return tools.mergeTemplate(rules);
   };
 }
 

@@ -3,26 +3,7 @@ todo:
 make every builders/$builderName/package.json inhirits from builders/package.json
  */
 
-import {
-  Rule,
-  Tree,
-  SchematicContext,
-  SchematicsException
-  /*
-  apply,
-  template as _template,
-  url,
-  move,
-  chain,
-  branchAndMerge,
-  mergeWith,
-  filter ,
-  MergeStrategy,
-*/
-} from "@angular-devkit/schematics";
-
-import { strings, normalize } from "@angular-devkit/core";
-import { mergeOptions, template } from "../../../core/tools/schematics"; //todo: "tools/schematics"
+import * as tools from "../../tools";
 
 //returns a Schematics Rule to initiate the workspace
 //'main' schematic function, todo: rename to main()?
@@ -47,14 +28,14 @@ export interface initOptions {
 //todo: pass the Tree from the previous builder, and also pass autoDeveloper.json
 export function init(options: initOptions): Rule {
   if (!options.name)
-    throw new SchematicsException("project's name is required");
+    throw new tools.SchematicsException("project's name is required");
 
   //todo: check if the files already exists and offer options to:
   //override, ignore, mergeTo, mergeFrom
 
   return (tree: Tree, context: SchematicContext) => {
     if (!options.path) options.path = "/"; //just for typescript
-    options.path = normalize(options.path);
+    options.path = tools.normalize(options.path);
 
     //console.log("tree", tree);
     //console.log("context", context);
@@ -98,7 +79,7 @@ export function init(options: initOptions): Rule {
     delete options.path;
 
     //todo: check it the parameter 'options' changes the global var 'options'
-    options = mergeOptions(options, defaultPkg, true);
+    options = tools.mergeOptions(options, defaultPkg, true);
     if (ts !== null) {
       //the user may dosen't want to create tsconfig.json
       let defaultTs = {
@@ -145,7 +126,7 @@ export function init(options: initOptions): Rule {
           watch: true
         }
       };
-      ts = mergeOptions(ts, defaultTs, true);
+      ts = tools.mergeOptions(ts, defaultTs, true);
     }
 
     if (gitignore instanceof Array) gitignore = gitignore.join("\n");
@@ -169,7 +150,7 @@ export function init(options: initOptions): Rule {
     )
       options.bugs = options.repository.url + "/issues";
 
-    options.name = strings.dasherize(options.name);
+    options.name = tools.strings.dasherize(options.name);
 
     if (options.author instanceof Object) {
       //[] is also an instanceof Object, but we don't need to check because author here is {} or string
@@ -203,7 +184,7 @@ export function init(options: initOptions): Rule {
     //take the files from './files' and apply templating (on path and content)
     // of each file
 
-    return template(
+    return tools.template(
       "../../../../../packages/builders/project-builder/init/files", //related to dist/**, not to this file, todo: use tsConfig.paths{}
       path,
       {
@@ -211,7 +192,7 @@ export function init(options: initOptions): Rule {
         ts,
         gitignore,
         npmignore,
-        readMe /*,...strings*/
+        readMe /*,...tools.strings*/
       },
       filePath => {
         //todo: TypeError: Cannot use 'in' operator to search for 'Symbol(schematic-tree)' in true
