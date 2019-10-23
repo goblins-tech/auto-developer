@@ -139,7 +139,7 @@ export default function(options: AppOptions): Rule {
   //todo: get current installed Angular version
   //todo: adjust version, i.e: modify the baseVersion template based on the required version
   return tools.template(
-    `builders/angular-builder/init/files/v${options.baseVersion}`,
+    `.files/v${options.baseVersion}`,
     `${options.path}/${options.name}`,
     { opt: options },
     null,

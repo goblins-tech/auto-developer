@@ -3,18 +3,18 @@
   "schematics": {
     "init": {
       "description": "creates a new workspace",
-      "factory": "../../../dist/packages/builders/angular-builder/init/",
+      "factory": "./init/",
       "schema": "./init/schema.json"
     },
     "generate": {
       "description": "generate Angular parts (app, lib, module, component, ...)",
-      "factory": "../../../dist/packages/builders/angular-builder/generate/",
+      "factory": "./generate/",
       "schema": "./generate/schema.json",
       "aliases": ["g"]
     },
     "app": {
       "description": "generate Angular app",
-      "factory": "../../../dist/packages/builders/angular-builder/generate/app/",
+      "factory": "./generate/app/",
       "schema": "./generate/app/schema.json"
     }
   }

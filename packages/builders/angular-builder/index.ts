@@ -1,6 +1,6 @@
-import { setup } from "./setup/";
-import { Rule } from "@angular-devkit/schematics";
+import init from "./init/";
+import { Rule } from "../tools;
 
-export default function(options, cmd = "setup"): Rule {
-  if (cmd === "setup") return setup(options);
+export default function(options, cmd = "init"): Rule {
+  if (cmd === "init") return init(options);
 }

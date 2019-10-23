@@ -178,7 +178,7 @@ export function init(options: InitOptions): Rule {
     // of each file
 
     return tools.template(
-      "../../../../../packages/builders/project-builder/init/files", //related to dist/**, not to this file, todo: use tsConfig.paths{}
+      "./files", //related to dist/**, not to this file, todo: use tsConfig.paths{}
       path,
       {
         opt, //opt: options,

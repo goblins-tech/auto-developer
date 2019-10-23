@@ -141,7 +141,7 @@ export default function(options: InitOptions): Rule {
 
     let rules = [
       tools.template(
-        `builders/angular-builder/init/files/v${options.baseVersion}`,
+        `./files/v${options.baseVersion}`,
         { opt: options },
         null, //path => !path.includes("[apps]"),
         options.path,
