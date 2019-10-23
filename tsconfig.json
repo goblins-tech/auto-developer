@@ -29,10 +29,7 @@
     "baseUrl": "./",
     "paths": {
       "*": ["node_modules/*", "src/types/*"],
-      "packages/*": ["dist/packages/*"],
-      "core/*": ["packages/core/*"],
-      "tools/*": ["packages/core/tools/*"],
-      "builders/*": ["packages/builders/*"]
+      "tools": ["packages/core/tools/index.ts"]
     },
     "rootDir": "./",
     "typeRoots": ["node_modules/@types"],
