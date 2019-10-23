@@ -1,7 +1,7 @@
 {
   "schematics": "./collection.json",
   "name": "@goblins-tech/project-builder",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "init a new project with package.json including the project info and the author info, and set up the basic settings for tsconfig, gitignore, ...",
   "main": "index.js",
   "private": false,
