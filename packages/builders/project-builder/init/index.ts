@@ -187,18 +187,12 @@ export function init(options: InitOptions): Rule {
         npmignore,
         readMe /*,...tools.strings*/
       },
-      filePath => {
-        //todo: TypeError: Cannot use 'in' operator to search for 'Symbol(schematic-tree)' in true
-        if (
-          (filePath == "tsconfig.json" && ts == null) ||
-          (filePath == ".npmignore" && npmignore == null) ||
-          (filePath == ".gitignore" && gitignore == null) ||
-          (filePath == "README.md" && readMe == null)
-        )
-          return false;
-        else return true;
-      },
-
+      //todo: TypeError: Cannot use 'in' operator to search for 'Symbol(schematic-tree)' in true
+      filePath =>
+        (filePath != "tsconfig.json" || ts != null) &&
+        (filePath != ".npmignore" || npmignore != null) &&
+        (filePath != ".gitignore" || gitignore != null) &&
+        (filePath != "README.md" || readMe != null),
       true
     );
   };

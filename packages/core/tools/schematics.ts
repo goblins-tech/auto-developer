@@ -27,7 +27,7 @@ export function template(
   //console.log({from,to,vars,filter,merge})
   if (typeof from == "string") from = schematics.url(from); //or if(!(files instanceof Source)
   let tmpl = schematics.apply(from, [
-    filter ? schematics.filter(filter) : null,
+    filter ? schematics.filter(filter) : null, //todo: :schematics.noop()
     schematics.template(vars),
     to ? schematics.move(to) : null
   ]);
@@ -35,10 +35,12 @@ export function template(
   else return mergeTemplate(tmpl);
 }
 
-export function mergeTemplate(tmpl) {
+export function mergeTemplate(tmpl, strategy: schematics.MergeStrategy) {
   if (tmpl instanceof Array) tmpl = schematics.chain(tmpl);
   return schematics.chain([
-    schematics.branchAndMerge(schematics.chain([schematics.mergeWith(tmpl)]))
+    schematics.branchAndMerge(
+      schematics.chain([schematics.mergeWith(tmpl, strategy)])
+    )
   ]);
   //or: mergeWith(templateSource, MergeStrategy.Overwrite);
 }

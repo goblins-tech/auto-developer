@@ -9,7 +9,8 @@
     "generate": {
       "description": "generate Angular parts (app, lib, module, component, ...)",
       "factory": "../../../dist/packages/builders/angular-builder/generate/",
-      "schema": "./generate/schema.json"
+      "schema": "./generate/schema.json",
+      "aliases": ["g"]
     },
     "app": {
       "description": "generate Angular app",

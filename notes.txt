@@ -2,3 +2,8 @@
 
 or: (from inside `project-builder` folder)
 > schematics .:init
+
+===============
+to work with angular projects:
+getWorkspace, buildDefaultPath, ...
+https://medium.com/rocket-fuel/angular-schematics-simple-schematic-76be2aa72850
