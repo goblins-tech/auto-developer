@@ -7,7 +7,7 @@ import * as tools from "../../tools";
 
 //returns a Schematics Rule to initiate the workspace
 //'main' schematic function, todo: rename to main()?
-export interface initOptions {
+export interface InitOptions {
   name: string;
   path?: string;
   keywords?: string[];
@@ -26,16 +26,18 @@ export interface initOptions {
 }
 
 //todo: pass the Tree from the previous builder, and also pass autoDeveloper.json
-export function init(options: initOptions): Rule {
+export function init(options: InitOptions): Rule {
   if (!options.name)
-    throw new tools.SchematicsException("project's name is required");
+    throw new tools.schematics.SchematicsException(
+      "project's name is required"
+    );
 
   //todo: check if the files already exists and offer options to:
   //override, ignore, mergeTo, mergeFrom
 
   return (tree: Tree, context: SchematicContext) => {
-    if (!options.path) options.path = "/"; //just for typescript
-    options.path = tools.normalize(options.path);
+    if (!path) path = "/"; //just for typescript
+    path = tools.normalize(path);
 
     //console.log("tree", tree);
     //console.log("context", context);
@@ -49,7 +51,7 @@ export function init(options: initOptions): Rule {
       name: "",
       version: "1.0.0",
       private: false,
-      description: "created by `autoDeveloper` autoDeveloper.com",
+      description: "created by `autoDeveloper` goblinsTech.com/autoDeveloper",
       main: "index.js",
       scripts: {},
       repository: {
@@ -62,24 +64,19 @@ export function init(options: initOptions): Rule {
       devDependencies: {}
     };
 
-    let ts = options.ts || {},
-      gitignore = options.gitignore || "",
-      npmignore = options.npmignore || "",
-      readMe = options.readMe || "",
-      path = options.path, //project's path (not a part of package.json)
-      autoDeveloper = options.autoDeveloper || {}; //autoDeveloper elements, such as: config, tree, autoDeveloper(i.e autoDeveloper.json data),...
-
+    var {
+      ts,
+      gitignore,
+      npmignore,
+      readMe,
+      path, //project's path (not a part of package.json)
+      autoDeveloper, //autoDeveloper elements, such as: config, tree, autoDeveloper(i.e autoDeveloper.json data),...
+      ...opt
+    } = options;
     //to add more files (or modify an existing file) use files-builder=> [{fileName:content}]
 
-    delete options.ts;
-    delete options.gitignore;
-    delete options.npmignore;
-    delete options.readMe;
-    delete options.autoDeveloper;
-    delete options.path;
-
     //todo: check it the parameter 'options' changes the global var 'options'
-    options = tools.mergeOptions(options, defaultPkg, true);
+    opt = tools.merge(opt, defaultPkg, true);
     if (ts !== null) {
       //the user may dosen't want to create tsconfig.json
       let defaultTs = {
@@ -126,42 +123,38 @@ export function init(options: initOptions): Rule {
           watch: true
         }
       };
-      ts = tools.mergeOptions(ts, defaultTs, true);
+      ts = tools.merge(ts, defaultTs, true);
     }
 
     if (gitignore instanceof Array) gitignore = gitignore.join("\n");
     if (npmignore instanceof Array) npmignore = npmignore.join("\n");
 
     //adjust the options
-    options.keywords = options.keywords || ["autoDeveloper", "test"];
-    if (!options.keywords.includes("autoDeveloper"))
-      options.keywords.unshift("autoDeveloper");
+    opt.keywords = opt.keywords || ["autoDeveloper", "test"];
+    if (!opt.keywords.includes("autoDeveloper"))
+      opt.keywords.unshift("autoDeveloper");
     //console.log("keywords", options.keywords);
 
-    if (!options.repository) options.repository = options.repo;
-    delete options.repo;
+    if (!opt.repository) opt.repository = opt.repo;
+    delete opt.repo;
 
     //todo: repo may be a string i.e: "type:url" ex: "github:flaviocopes/testing"
     if (
-      !options.bugs &&
-      options.repository &&
-      options.repository.url &&
-      options.repository.type == "git"
+      !opt.bugs &&
+      opt.repository &&
+      opt.repository.url &&
+      opt.repository.type == "git"
     )
-      options.bugs = options.repository.url + "/issues";
+      opt.bugs = opt.repository.url + "/issues";
 
-    options.name = tools.strings.dasherize(options.name);
+    opt.name = tools.strings.dasherize(opt.name);
 
-    if (options.author instanceof Object) {
+    if (opt.author instanceof Object) {
       //[] is also an instanceof Object, but we don't need to check because author here is {} or string
-      options.author =
-        (options.author ? options.author.name : "") +
-        (options.author && options.author.name
-          ? " <" + options.author.email + ">"
-          : "") +
-        (options.author && options.author.url
-          ? " (" + options.author.url + ")"
-          : "");
+      opt.author =
+        (opt.author ? opt.author.name : "") +
+        (opt.author && opt.author.name ? " <" + opt.author.email + ">" : "") +
+        (opt.author && opt.author.url ? " (" + opt.author.url + ")" : "");
     }
 
     //todo: dependencies: [mydep@1.0.0] => {mydep:1.0.0}, [mydep] => {mydep:""}
@@ -179,7 +172,7 @@ export function init(options: initOptions): Rule {
       }
     };
 
-    options = Object.assign(options, test);
+    opt = Object.assign(opt, test);
 
     //take the files from './files' and apply templating (on path and content)
     // of each file
@@ -188,7 +181,7 @@ export function init(options: initOptions): Rule {
       "../../../../../packages/builders/project-builder/init/files", //related to dist/**, not to this file, todo: use tsConfig.paths{}
       path,
       {
-        opt: options,
+        opt, //opt: options,
         ts,
         gitignore,
         npmignore,
