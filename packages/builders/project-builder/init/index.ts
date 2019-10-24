@@ -3,7 +3,8 @@ todo:
 make every builders/$builderName/package.json inhirits from builders/package.json
  */
 
-import * as tools from "../../tools"; //todo: copy core/tools/ to every package/builders
+//import * as tools from "../../tools"; //todo: copy core/tools/ to every package/builders
+import * as tools from "@goblins-tech/auto-developer/tools"; //`npm pack` or `npm link`
 
 //returns a Schematics Rule to initiate the workspace
 //'main' schematic function, todo: rename to main()?
