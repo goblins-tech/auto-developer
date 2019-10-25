@@ -11,7 +11,7 @@
     "example": "schematics .:build --name=myProject --path=/myProject --dry-run=false --force=true",
     "example2": "schematics .:build",
     "example3": "node dist/index-spec",
-    "publish": "npm run build && npm publish --access=public",
+    "publish": "npm run build && npm version patch && npm publish --access=public",
     "pack": "npm run build && npm pack"
   },
   "repository": {

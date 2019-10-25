@@ -1,14 +1,15 @@
 {
-  "name": "@goblins-tech/autoDeveloper",
+  "name": "",
   "version": "1.0.0",
   "description": "build a modern CMS with Angular universal (SSR) and material design, add and manage many features like nativescript and electron at any time.",
   "main": "index.js",
   "private": false,
   "scripts": {
-    "build": "npm run build:copy && npm run build:ts",
-    "build:w": "npm run build:copy --watch && npm run build:ts --watch",
+    "build": "npm run build:copy && npm run build:ts && build:pack",
+    "build:w": "npm run build:copy --watch && npm run build:ts --watch && build:pack",
     "build:copy": "npx cpx packages/**/!(*.ts) dist/packages",
-    "build:ts": "tsc -p tsconfig.json"
+    "build:ts": "tsc -p tsconfig.json",
+    "build:pack": "npm pack ./packages/core"
   },
   "bin": {
     "eldeeb": "./bin/eldeeb.js"

@@ -2,6 +2,7 @@
 
 node_modules
 *.lnk
+*.tgz
 temp
 tmp
 *.cache
