@@ -2,7 +2,7 @@
 todo:
  */
 
-import * as tools from "../../tools";
+import * as tools from "@goblins-tech/auto-developer/tools";
 import fs from "fs";
 
 export interface InitOptions {
