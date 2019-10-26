@@ -63,6 +63,9 @@ function del(path) {
   }
 }
 
+function isPackage(path) {
+  return existsSync(path + "/package.json");
+}
 //------------- /helpers ----------------
 function build(watch) {
   //create 'dist' (by running tsc & cpx) then pack `core` and install it into every builder
@@ -75,18 +78,28 @@ function build(watch) {
   //compile typescript
   exec("tsc -p tsconfig.json " + (watch ? "-w" : ""), true);
 
-  //copy none-typescript files to `dist`
+  //copy files that will don't be compiled via typescript  to `dist`
+  //i.e !(*.ts) and /files/**
   //exec("npx cpx packages/**/!(*.ts) dist/packages" + (watch ? "-w" : ""));
   console.log(">> cpx ... \n");
-  cpx.copySync("packages/**/!(*.ts)", "dist/packages");
+  cpx.copySync("packages/**/{!(*.ts),files/**}", "dist/packages", {
+    includeEmptyDirs: true //include empty dirs inside files/**
+  });
 
   //pack the `core` pkg and install it into all builders
-  console.log(">> pack ... \n");
+  //also install project-builder in builder-builder
   cd();
   var core = npm("pack ./dist/packages/core").toString();
+  var projectBuilder = npm(
+    "pack ./dist/packages/builders/project-builder"
+  ).toString();
 
-  readdirSync(buildersDir).forEach(file => {
-    cd(buildersDir + file);
+  cd(buildersDir + "/builder-builder");
+  npm(`i -D ${dir}/${projectBuilder}`);
+
+  readdirSync(buildersDir).forEach(builder => {
+    if (!isPackage(buildersDir + builder)) return;
+    cd(buildersDir + builder);
     npm(`i -D ${dir}/${core}`); //todo: install into every package
   });
 }
@@ -102,7 +115,7 @@ function publish(pkg, version) {
       var path = `./dist/packages/${
         pkg == "core" ? "core" : "builders/" + pkg
       }`;
-      if (!existsSync(join(dir, path) + "/package.json"))
+      if (!isPackage(join(dir, path)))
         return console.error(
           "publish: " + pkg + " dosen't include a package.json file"
         );
@@ -113,8 +126,8 @@ function publish(pkg, version) {
   } else {
     //publish all packages
     publish("core");
-    readdirSync(buildersDir).forEach(file => {
-      if (existsSync(buildersDir + file)) publish(file);
+    readdirSync(buildersDir).forEach(builder => {
+      if (isPackage(buildersDir + builder)) publish(file);
     });
   }
 }

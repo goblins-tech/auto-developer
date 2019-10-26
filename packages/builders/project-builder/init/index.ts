@@ -54,7 +54,7 @@ export function init(options: InitOptions): Rule {
       private: false,
       description: "created by `autoDeveloper` goblinsTech.com/autoDeveloper",
       main: "index.js",
-      scripts: {},
+      scripts: { build: "tsc -w" },
       repository: {
         type: "",
         url: ""
@@ -62,7 +62,12 @@ export function init(options: InitOptions): Rule {
       keywords: ["autoDeveloper"],
       license: "MIT",
       dependencies: {},
-      devDependencies: {}
+      devDependencies: {},
+      author: {
+        name: "",
+        email: "",
+        url: ""
+      }
     };
 
     var {
@@ -159,21 +164,6 @@ export function init(options: InitOptions): Rule {
     }
 
     //todo: dependencies: [mydep@1.0.0] => {mydep:1.0.0}, [mydep] => {mydep:""}
-
-    //tmp, just for tests
-    let test = {
-      author: {
-        name: "aName",
-        email: "author@gmail.com",
-        url: "http://author.com"
-      },
-      scripts: {
-        build: "npm run build",
-        test: "npm run test"
-      }
-    };
-
-    opt = Object.assign(opt, test);
 
     //take the files from './files' and apply templating (on path and content)
     // of each file
