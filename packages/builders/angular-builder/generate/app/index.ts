@@ -20,10 +20,21 @@ export interface AppOptions {
 export interface ArchitectOptions {}
 
 export default function(options: AppOptions): Rule {
-  //first we merge options.archetect to perforum a deep merging here
-  //i.e: don't totally override user's options.architecture, but merge it with
-  //the default architect options
+  //todo: inject Apps & libs into init/files/angular.json->projects{}
+  options = tools.merge(options, {
+    style: "scss",
+    routing: true,
+    verbose: false,
+    spec: false,
+    e2e: false,
+    root: this.name,
+    src: "src",
+    prefix: tools.strings.dasherize(this.name),
+    schematics: "@schematics/angular:component",
+    path: "" //todo: get path from Config.path+appName
+  });
 
+  //we don't need to totally override architecture, so we merge it separately
   options.architect = tools.merge(options.architect, {
     build: {
       builder: "@angular-devkit/build-angular:browser",
@@ -122,19 +133,6 @@ export default function(options: AppOptions): Rule {
         }
       }
     }
-  });
-
-  options = tools.merge(options, {
-    style: "scss",
-    routing: true,
-    verbose: false,
-    spec: false,
-    e2e: false,
-    root: this.name,
-    src: "src",
-    prefix: tools.strings.dasherize(this.name),
-    schematics: "@schematics/angular:component",
-    path: "" //todo: get path from Config.path+appName
   });
 
   //todo: get current installed Angular version
