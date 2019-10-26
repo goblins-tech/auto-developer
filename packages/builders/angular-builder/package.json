@@ -6,13 +6,9 @@
   "main": "index.js",
   "private": false,
   "scripts": {
-    "build": "if exist dist rmdir dist /s /Q && tsc -p tsconfig.json",
-    "build:watch": "npm run build --watch",
     "example": "schematics .:init --apps[]=ngProject --path=/myProject --dry-run=false --force=true",
     "example:test": "schematics .:init",
-    "example3": "node dist/index-spec",
-    "publish": "npm run build && npm publish --access=public",
-    "pack": "npm run build && npm pack"
+    "example3": "node dist/index-spec"
   },
   "repository": {
     "type": "git",
