@@ -2,7 +2,7 @@
   "schematics": "./collection.json",
   "name": "@goblins-tech/auto-developer",
   "version": "1.0.40",
-  "description": "automatically create any type of applications with any programming language, without coding",
+  "description": "automatically create modern applications of any type with any programming language, without coding",
   "main": "index.js",
   "private": false,
   "scripts": {
@@ -11,7 +11,7 @@
     "example3": "node dist/index-spec",
     "build": "if exist dist rmdir dist /s /Q && tsc -p tsconfig.json",
     "build:watch": "npm run build --watch",
-    "publish:npm": "npm run build && npm version patch && npm publish --access=public",
+    "publish": "npm run build && npm version patch && npm publish --access=public",
     "pack": "npm run build && npm pack"
   },
   "repository": {
@@ -19,13 +19,23 @@
     "url": "git+https://github.com/goblins-tech/autoDeveloper.git"
   },
   "keywords": [
-    "autoDeveloper",
+    "goblins-tech",
+    "auto developer",
     "developer",
     "angular",
     "react",
-    "vue"
+    "vue",
+    "cli",
+    "nativescript",
+    "material design",
+    "electron",
+    "android",
+    "kotlin",
+    "bootstrap",
+    "cms",
+    "schematics"
   ],
-  "author": "",
+  "author": "eldeeb <sh.eldeeb.2010+autodev@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/goblins-tech/autoDeveloper/issues"

@@ -1,44 +1,11 @@
 {
-  "name": "",
-  "version": "1.0.0",
-  "description": "build a modern CMS with Angular universal (SSR) and material design, add and manage many features like nativescript and electron at any time.",
-  "main": "index.js",
-  "private": false,
   "scripts": {
-    "build": "npm run build:copy && npm run build:ts && build:pack",
-    "build:w": "npm run build:copy --watch && npm run build:ts --watch && build:pack",
-    "build:copy": "npx cpx packages/**/!(*.ts) dist/packages",
-    "build:ts": "tsc -p tsconfig.json",
-    "build:pack": "npm pack ./packages/core"
+    "build": "node tasks build",
+    "publish": "node tasks publish"
   },
   "bin": {
     "eldeeb": "./bin/eldeeb.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/goblins-tech/autoDeveloper.git"
-  },
-  "keywords": [
-    "goblins-tech",
-    "autoDeveloper",
-    "cli",
-    "angular",
-    "nativescript",
-    "material",
-    "design",
-    "electron",
-    "android",
-    "bootstrap",
-    "cms",
-    "schematics"
-  ],
-  "schematics": "./src/collection.json",
-  "author": "eldeeb <sh.eldeeb.2010+dev@gmail.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/goblins-tech/autoDeveloper/issues"
-  },
-  "homepage": "https://github.com/goblins-tech/autoDeveloper#readme",
   "dependencies": {
     "@angular-devkit/core": "^8.1.0",
     "@angular-devkit/schematics": "^8.1.0"
