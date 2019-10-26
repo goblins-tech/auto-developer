@@ -79,6 +79,119 @@ export default function(options: InitOptions): Rule {
       }
     };
 
+    //app options inside angular.json file
+    //todo: change values into dynamic values ex: "dist/myNgApp" => "$dist/$appNAme"
+     //todo: foreach(app) mergeOptions(app,defaultAppOptions)
+    let defaultAppArchetict = {
+      build: {
+        builder: "@angular-devkit/build-angular:browser",
+        options: {
+          outputPath: "dist/myNgApp",
+          index: "src/index.html",
+          main: "src/main.ts",
+          polyfills: "src/polyfills.ts",
+          tsConfig: "tsconfig.app.json",
+          aot: false,
+          assets: ["src/favicon.ico", "src/assets"],
+          styles: ["src/styles.scss"],
+          scripts: []
+        },
+        configurations: {
+          production: {
+            fileReplacements: [
+              {
+                replace: "src/environments/environment.ts",
+                with: "src/environments/environment.prod.ts"
+              }
+            ],
+            optimization: true,
+            outputHashing: "all",
+            sourceMap: false,
+            extractCss: true,
+            namedChunks: false,
+            aot: true,
+            extractLicenses: true,
+            vendorChunk: false,
+            buildOptimizer: true,
+            budgets: [
+              {
+                type: "initial",
+                maximumWarning: "2mb",
+                maximumError: "5mb"
+              },
+              {
+                type: "anyComponentStyle",
+                maximumWarning: "6kb",
+                maximumError: "10kb"
+              }
+            ]
+          }
+        }
+      },
+      serve: {
+        builder: "@angular-devkit/build-angular:dev-server",
+        options: {
+          browserTarget: "myNgApp:build"
+        },
+        configurations: {
+          production: {
+            browserTarget: "myNgApp:build:production"
+          }
+        }
+      },
+      "extract-i18n": {
+        builder: "@angular-devkit/build-angular:extract-i18n",
+        options: {
+          browserTarget: "myNgApp:build"
+        }
+      },
+      test: {
+        builder: "@angular-devkit/build-angular:karma",
+        options: {
+          main: "src/test.ts",
+          polyfills: "src/polyfills.ts",
+          tsConfig: "tsconfig.spec.json",
+          karmaConfig: "karma.conf.js",
+          assets: ["src/favicon.ico", "src/assets"],
+          styles: ["src/styles.scss"],
+          scripts: []
+        }
+      },
+      lint: {
+        builder: "@angular-devkit/build-angular:tslint",
+        options: {
+          tsConfig: [
+            "tsconfig.app.json",
+            "tsconfig.spec.json",
+            "e2e/tsconfig.json"
+          ],
+          exclude: ["**/node_modules/**"]
+        }
+      },
+      e2e: {
+        builder: "@angular-devkit/build-angular:protractor",
+        options: {
+          protractorConfig: "e2e/protractor.conf.js",
+          devServerTarget: "myNgApp:serve"
+        },
+        configurations: {
+          production: {
+            devServerTarget: "myNgApp:serve:production"
+          }
+        }
+      }
+    let defaultAppOptions = {
+      projectType: "application",
+      schematics: {
+        "@schematics/angular:component": { style: "scss" }
+      },
+      root: "",
+      sourceRoot: "src",
+      prefix: "$appName",
+
+      }
+    };
+
     options = tools.merge(options, defaultInitOptions, true);
     options.path = tools.normalize(options.path);
     if (options.version == "latest") options.version = 8;
@@ -142,9 +255,9 @@ export default function(options: InitOptions): Rule {
     let rules = [
       tools.template(
         `./files/v${options.baseVersion}`,
+        options.path,
         { opt: options },
         null, //path => !path.includes("[apps]"),
-        options.path,
         false
       )
     ];
@@ -153,17 +266,18 @@ export default function(options: InitOptions): Rule {
       //todo: plugins can register other parts to generate
       //adjaust data to: [{name:app1}, {name:app2}]
       //possible formats: "app", {name: "app"}, ["app1",{name:"app2"}]
-      for (let k in options.generate) {
-        let partOptions = options.generate[k],
-          type = objectType(partOptions);
-        if (type == "string") partOptions = [{ name: partOptions }];
-        else if (type == "object") partOptions = [partOptions];
+
+      for (let part in options.generate) {
+        let partData = options.generate[part],
+          type = objectType(partData);
+        if (type == "string") partData = [{ name: partData }];
+        else if (type == "object") partData = [partData];
         //apply scematics
-        for (let i = 0; i < data.length; i++) {
-          if (objectType(data[i]) === "string")
-            partOptions[i] = { name: partOptions[i] };
-          rules.push(schematic(`generate-${k}`, partOptions));
-        }
+        partData.forEach(item => {
+          if (objectType(item) === "string") item = { name: item };
+          rules.push(schematic(`generate-${part}`, item)); //todo: `generate-${singular(part)}` i.e: convert apps to app
+          //todo: or: item["__part"] = part; schematic('generate', item)
+        });
       }
     }
 

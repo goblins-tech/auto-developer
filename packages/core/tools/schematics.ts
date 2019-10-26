@@ -1,21 +1,5 @@
 import * as schematics from "@angular-devkit/schematics";
-export * from "@angular-devkit/schematics"; //todo: only rename template,filter
 import { objectType } from "./objects";
-
-/*Rule,
-  Tree,
-  SchematicContext,
-  SchematicsException
-  apply,
-  template as _template,
-  url,
-  move,
-  chain,
-  branchAndMerge,
-  mergeWith,
-  filter ,
-  MergeStrategy,
-*/
 
 export function template(
   from: string | schematics.Source,
@@ -27,9 +11,9 @@ export function template(
   //console.log({from,to,vars,filter,merge})
   if (typeof from == "string") from = schematics.url(from); //or if(!(files instanceof Source)
   let tmpl = schematics.apply(from, [
-    filter ? schematics.filter(filter) : null, //todo: :schematics.noop()
+    filter ? schematics.filter(filter) : schematics.noop(), //todo: noop() VS null
     schematics.template(vars),
-    to ? schematics.move(to) : null
+    to ? schematics.move(to) : schematics.noop(
   ]);
   if (!merge) return tmpl;
   else return mergeTemplate(tmpl);

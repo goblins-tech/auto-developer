@@ -1,5 +1,6 @@
 import * as tools from "@goblins-tech/auto-developer/tool";
 
+//todo: regester `app` in angular.json
 export interface AppOptions {
   name: string;
   style?: "css" | "scss" | "sass" | "less" | "styl";
