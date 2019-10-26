@@ -79,7 +79,7 @@ export default function(options: InitOptions): Rule {
       }
     };
 
-    options = tools.mergeOptions(options, defaultInitOptions, true);
+    options = tools.merge(options, defaultInitOptions, true);
     options.path = tools.normalize(options.path);
     if (options.version == "latest") options.version = 8;
     options.baseVersion = options.version; //todo: baseVersion=floor(opt.version), then modify the template based on the selected version

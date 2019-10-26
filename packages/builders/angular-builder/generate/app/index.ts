@@ -23,7 +23,7 @@ export default function(options: AppOptions): Rule {
   //i.e: don't totally override user's options.architecture, but merge it with
   //the default architect options
 
-  options.architect = tools.mergeOptions(options.architect, {
+  options.architect = tools.merge(options.architect, {
     build: {
       builder: "@angular-devkit/build-angular:browser",
       options: {
@@ -123,7 +123,7 @@ export default function(options: AppOptions): Rule {
     }
   });
 
-  options = tools.mergeOptions(options, {
+  options = tools.merge(options, {
     style: "scss",
     routing: true,
     verbose: false,
