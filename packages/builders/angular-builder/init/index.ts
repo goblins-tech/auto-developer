@@ -18,7 +18,7 @@ export interface InitOptions {
   generate: GenerateOptions;
   universal: UniversalOptions; //via express-builder:init
   material: MaterialOptions; //via material-builder:init {front-end=Angular}
-  karma: KarmaOptions;
+  karma: KarmaOptions; //override karma-builder options
   config: {
     apps: AppOptions;
     libs: LibOptions;
@@ -119,7 +119,7 @@ export default function(options: InitOptions): Rule {
         "@angular/router": "~8.2.9",
         rxjs: "~6.4.0",
         "zone.js": "~0.9.1",
-        tslib: "^1.10.0" //todo typescript
+        tslib: "^1.10.0"
       },
       devDependencies = {
         "@angular-devkit/build-angular": "~0.803.8",
@@ -127,8 +127,8 @@ export default function(options: InitOptions): Rule {
         "@angular/compiler-cli": "~8.2.9",
         "@angular/language-service": "~8.2.9",
 
-        //todo: move to custom builders (ex: karma-builder, code-formatter-builder)
-        "@types/node": "~8.9.4", //project-builder
+        //override versions used in project-builder with versions that compitable with angular version
+        "@types/node": "~8.9.4",
         "@types/jasmine": "~3.3.8",
         "@types/jasminewd2": "~2.0.3",
         codelyzer: "^5.0.0",
@@ -141,7 +141,7 @@ export default function(options: InitOptions): Rule {
         "karma-jasmine-html-reporter": "^1.4.0",
         protractor: "~5.4.0",
         tslint: "~5.15.0",
-        typescript: "~3.5.3", //todo: move to project-builder (if(opt.ts!=null))
+        typescript: "~3.5.3",
         "ts-node": "~7.0.0"
       };
 
@@ -190,6 +190,37 @@ export default function(options: InitOptions): Rule {
   };
 }
 
+//todo: use karma-builder:modify (or files-builder) to override karma options
+options.karma = tools.merge(options.karma, {
+  //todo: opt.karma=JSON.stringify(karmaOptions)
+  basePath: "",
+  frameworks: ["jasmine", "@angular-devkit/build-angular"],
+  plugins: [
+    require("karma-jasmine"),
+    require("karma-chrome-launcher"),
+    require("karma-jasmine-html-reporter"),
+    require("karma-coverage-istanbul-reporter"),
+    require("@angular-devkit/build-angular/plugins/karma")
+  ],
+  client: {
+    clearContext: false // leave Jasmine Spec Runner output visible in browser
+  },
+  coverageIstanbulReporter: {
+    dir: require("path").join(__dirname, "./coverage/myNgApp"),
+    reports: ["html", "lcovonly", "text-summary"],
+    fixWebpackSourcePaths: true
+  },
+  reporters: ["progress", "kjhtml"],
+  port: 9876,
+  colors: true,
+  //logLevel: config.LOG_INFO,
+  autoWatch: true,
+  browsers: ["Chrome"],
+  singleRun: false,
+  restartOnFileChange: true
+});
+//todo: if(tree.exists("karma.config.js"))options.karma=tools.merge({karma.config.js},options.karma)
+
 /* todo:
 - add to tsconfig (top level):
     "angularCompilerOptions": {
@@ -197,10 +228,7 @@ export default function(options: InitOptions): Rule {
       "strictInjectionParameters": true
     }
 
-- foreach(app){ send n, opt &  replace __opt.app[n]....__ && move apps content to src/}
-
 - when creating a component, add it's routes to the module
-
 
 */
 
@@ -224,32 +252,5 @@ let defaultMaterialOptions = {
     theme: "purble",
     animations: true
   },
-  defaultKarmaOptions = {
-    //todo: opt.karma=JSON.stringify(karmaOptions)
-    basePath: "",
-    frameworks: ["jasmine", "@angular-devkit/build-angular"],
-    plugins: [
-      require("karma-jasmine"),
-      require("karma-chrome-launcher"),
-      require("karma-jasmine-html-reporter"),
-      require("karma-coverage-istanbul-reporter"),
-      require("@angular-devkit/build-angular/plugins/karma")
-    ],
-    client: {
-      clearContext: false // leave Jasmine Spec Runner output visible in browser
-    },
-    coverageIstanbulReporter: {
-      dir: require("path").join(__dirname, "./coverage/myNgApp"),
-      reports: ["html", "lcovonly", "text-summary"],
-      fixWebpackSourcePaths: true
-    },
-    reporters: ["progress", "kjhtml"],
-    port: 9876,
-    colors: true,
-    //logLevel: config.LOG_INFO,
-    autoWatch: true,
-    browsers: ["Chrome"],
-    singleRun: false,
-    restartOnFileChange: true
-  };
+
 */

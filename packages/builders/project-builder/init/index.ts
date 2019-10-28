@@ -152,10 +152,19 @@ export function init(options: InitOptions): Rule {
               }
             ]
           }
-          //rulesDirectory: ["codelyzer"] //https://palantir.github.io/tslint/usage/configuration/
+          rulesDirectory: ["codelyzer"] //https://palantir.github.io/tslint/usage/configuration/
         },
         true
       );
+
+      if (!("tslib" in dependencies)) dependencies.tslib = "";
+
+      if (!("typescript" in devDependencies)) devDependencies.typescript = "";
+      if (!("tslint" in devDependencies)) devDependencies.tslint = "";
+      if (!("ts-node" in devDependencies)) devDependencies["ts-node"] = "";
+      if (!("@types/node" in devDependencies)) devDependencies["@types/node"] = "";
+      if (!("codelyzer" in devDependencies) && ("rulesDirectory" in tslint) && ("codelyzer" in tslint.rulesDirectory)) devDependencies.codelyzer = "";
+       //todo: foreach(tslint.rulesDirectory as rule)devDependencies[rule]=""; only if not a path ex: ./dir
     }
 
     if (gitignore instanceof Array) gitignore = gitignore.join("\n");
