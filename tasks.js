@@ -97,10 +97,14 @@ function build(watch) {
   cd(buildersDir + "/builder-builder");
   npm(`i -D ${dir}/${projectBuilder}`);
 
+  cd("./dist/packages/core");
+  npm(`i`); //install all dependencies
+
   readdirSync(buildersDir).forEach(builder => {
     if (!isPackage(buildersDir + builder)) return;
     cd(buildersDir + builder);
     npm(`i -D ${dir}/${core}`); //todo: install into every package
+    npm("i");
   });
 }
 

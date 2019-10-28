@@ -27,16 +27,16 @@ export interface InitOptions {
 }
 
 //todo: pass the Tree from the previous builder, and also pass autoDeveloper.json
-export function init(options: InitOptions): Rule {
+export function init(options: InitOptions): tools.Rule {
   if (!options.name)
-    throw new tools.schematics.SchematicsException(
+    throw new tools.SchematicsException(
       "project's name is required"
     );
 
   //todo: check if the files already exists and offer options to:
   //override, ignore, mergeTo, mergeFrom
 
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: tools.Tree, context: tools.SchematicContext) => {
     if (!path) path = "/"; //just for typescript
     path = tools.normalize(path);
 

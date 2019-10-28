@@ -107,8 +107,15 @@ export default function(options: InitOptions): Rule {
     //todo: select from the available versions
     */
 
-    //todo: add to the existing package.json, select the compitable versions with the current angular version
-    let dependencies = {
+    let rules = [
+      tools.template(
+        `./files/v${options.baseVersion}`,
+        options.path,
+        { opt: options },
+        null, //path => !path.includes("[apps]"),
+        true
+      ),
+      dependencies({
         "@angular/animations": "~8.2.9",
         "@angular/common": "~8.2.9",
         "@angular/compiler": "~8.2.9",
@@ -120,43 +127,38 @@ export default function(options: InitOptions): Rule {
         rxjs: "~6.4.0",
         "zone.js": "~0.9.1",
         tslib: "^1.10.0"
-      },
-      devDependencies = {
-        "@angular-devkit/build-angular": "~0.803.8",
-        "@angular/cli": "~8.3.8",
-        "@angular/compiler-cli": "~8.2.9",
-        "@angular/language-service": "~8.2.9",
+      }),
+      dependencies(
+        {
+          "@angular-devkit/build-angular": "~0.803.8",
+          "@angular/cli": "~8.3.8",
+          "@angular/compiler-cli": "~8.2.9",
+          "@angular/language-service": "~8.2.9",
 
-        //override versions used in project-builder with versions that compitable with angular version
-        "@types/node": "~8.9.4",
-        "@types/jasmine": "~3.3.8",
-        "@types/jasminewd2": "~2.0.3",
-        codelyzer: "^5.0.0",
-        "jasmine-core": "~3.4.0",
-        "jasmine-spec-reporter": "~4.2.1",
-        karma: "~4.1.0",
-        "karma-chrome-launcher": "~2.2.0",
-        "karma-coverage-istanbul-reporter": "~2.0.1",
-        "karma-jasmine": "~2.0.1",
-        "karma-jasmine-html-reporter": "^1.4.0",
-        protractor: "~5.4.0",
-        tslint: "~5.15.0",
-        typescript: "~3.5.3",
-        "ts-node": "~7.0.0"
-      };
-
-    let rules = [
-      tools.template(
-        `./files/v${options.baseVersion}`,
-        options.path,
-        { opt: options },
-        null, //path => !path.includes("[apps]"),
-        true
+          //override versions used in project-builder with versions that compitable with angular version
+          "@types/node": "~8.9.4",
+          "@types/jasmine": "~3.3.8",
+          "@types/jasminewd2": "~2.0.3",
+          codelyzer: "^5.0.0",
+          "jasmine-core": "~3.4.0",
+          "jasmine-spec-reporter": "~4.2.1",
+          karma: "~4.1.0",
+          "karma-chrome-launcher": "~2.2.0",
+          "karma-coverage-istanbul-reporter": "~2.0.1",
+          "karma-jasmine": "~2.0.1",
+          "karma-jasmine-html-reporter": "^1.4.0",
+          protractor: "~5.4.0",
+          tslint: "~5.15.0",
+          typescript: "~3.5.3",
+          "ts-node": "~7.0.0"
+        },
+        "dev"
       )
     ];
 
-    //also support `generate` from CLI
-    //todo: all generate parts
+    //also support `generate` from CLI ex: > schematics .:init --app=myApp
+    //todo: support ng-generate
+    //todo: all generate parts (app, lib, ...)
     ["app", "apps", "lib", "libs"].forEach(part => {
       if (part in args) {
         if (!(part in options.generate)) options.generate[part] = [];
