@@ -1,4 +1,4 @@
-import * as tools from "@goblins-tech/auto-developer/tool";
+import * as tools from "@goblins-tech/auto-developer/tools";
 
 //todo: regester `app` in angular.json
 export interface AppOptions {
@@ -20,128 +20,139 @@ export interface AppOptions {
 export interface ArchitectOptions {}
 
 export default function(options: AppOptions): Rule {
-  //todo: inject Apps & libs into init/files/angular.json->projects{}
-  options = tools.merge(options, {
-    style: "scss",
-    routing: true,
-    verbose: false,
-    spec: false,
-    e2e: false,
-    root: this.name,
-    src: "src",
-    prefix: tools.strings.dasherize(this.name),
-    schematics: "@schematics/angular:component",
-    path: "" //todo: get path from Config.path+appName
-  });
+  return (tree: Tree, context: SchematicContext) => {
+    //todo: inject Apps & libs into init/files/angular.json->projects{}
+    options = tools.merge(options, {
+      style: "scss",
+      routing: true,
+      verbose: false,
+      spec: false,
+      e2e: false,
+      root: this.name,
+      src: "src",
+      dist: "dist", //todo: get this value from :init options
+      prefix: tools.strings.dasherize(options.name),
+      schematics: "@schematics/angular:component",
+      path: "" //todo: get path from Config.path+appName
+    });
 
-  //we don't need to totally override architecture, so we merge it separately
-  options.architect = tools.merge(options.architect, {
-    build: {
-      builder: "@angular-devkit/build-angular:browser",
-      options: {
-        outputPath: "$dist/$appName",
-        index: "$src/index.html",
-        main: "$src/main.ts",
-        polyfills: "$src/polyfills.ts",
-        tsConfig: "tsconfig.app.json",
-        aot: false,
-        assets: ["$src/favicon.ico", "$src/assets"],
-        styles: ["$src/styles.scss"],
-        scripts: []
+    //we don't need to totally override architecture, so we merge it separately
+    //todo: enable using of variables, ex: outputPath: "$dist/$name"
+    options.architect = tools.merge(options.architect, {
+      build: {
+        builder: "@angular-devkit/build-angular:browser",
+        options: {
+          outputPath: `${options.dist}/${options.name}`,
+          index: `${options.src}/index.html`,
+          main: `${options.src}/main.ts`,
+          polyfills: `${options.src}/polyfills.ts`,
+          tsConfig: "tsconfig.app.json",
+          aot: false,
+          assets: [`${options.src}/favicon.ico`, `${options.src}/assets`],
+          styles: [`${options.src}/styles.${options.style}`],
+          scripts: []
+        },
+        configurations: {
+          production: {
+            fileReplacements: [
+              {
+                replace: `${options.src}/environments/environment.ts`,
+                with: `${options.src}/environments/environment.prod.ts`
+              }
+            ],
+            optimization: true,
+            outputHashing: "all",
+            sourceMap: false,
+            extractCss: true,
+            namedChunks: false,
+            aot: true,
+            extractLicenses: true,
+            vendorChunk: false,
+            buildOptimizer: true,
+            budgets: [
+              {
+                type: "initial",
+                maximumWarning: "2mb",
+                maximumError: "5mb"
+              },
+              {
+                type: "anyComponentStyle",
+                maximumWarning: "6kb",
+                maximumError: "10kb"
+              }
+            ]
+          }
+        }
       },
-      configurations: {
-        production: {
-          fileReplacements: [
-            {
-              replace: "$src/environments/environment.ts",
-              with: "$src/environments/environment.prod.ts"
-            }
+      serve: {
+        builder: "@angular-devkit/build-angular:dev-server",
+        options: {
+          browserTarget: `${options.name}:build`
+        },
+        configurations: {
+          production: {
+            browserTarget: `${options.name}:build:production`
+          }
+        }
+      },
+      "extract-i18n": {
+        builder: "@angular-devkit/build-angular:extract-i18n",
+        options: {
+          browserTarget: `${options.name}:build`
+        }
+      },
+      test: {
+        //todo: show a suggestion to use test-builder/karma or any karma builder
+        builder: "@angular-devkit/build-angular:karma",
+        options: {
+          main: `${options.src}/test.ts`,
+          polyfills: `${options.src}/polyfills.ts`,
+          tsConfig: "tsconfig.spec.json",
+          karmaConfig: "karma.conf.js",
+          assets: [`${options.src}/favicon.ico`, `${options.src}/assets`],
+          styles: [`${options.src}/styles.scss`],
+          scripts: []
+        }
+      },
+      lint: {
+        builder: "@angular-devkit/build-angular:tslint",
+        options: {
+          tsConfig: [
+            "tsconfig.app.json",
+            "tsconfig.spec.json",
+            "e2e/tsconfig.json"
           ],
-          optimization: true,
-          outputHashing: "all",
-          sourceMap: false,
-          extractCss: true,
-          namedChunks: false,
-          aot: true,
-          extractLicenses: true,
-          vendorChunk: false,
-          buildOptimizer: true,
-          budgets: [
-            {
-              type: "initial",
-              maximumWarning: "2mb",
-              maximumError: "5mb"
-            },
-            {
-              type: "anyComponentStyle",
-              maximumWarning: "6kb",
-              maximumError: "10kb"
-            }
-          ]
+          exclude: ["**/node_modules/**"]
         }
-      }
-    },
-    serve: {
-      builder: "@angular-devkit/build-angular:dev-server",
-      options: {
-        browserTarget: "$appName:build"
       },
-      configurations: {
-        production: {
-          browserTarget: "$appName:build:production"
+      e2e: {
+        builder: "@angular-devkit/build-angular:protractor",
+        options: {
+          protractorConfig: "e2e/protractor.conf.js",
+          devServerTarget: `${options.name}:serve`
+        },
+        configurations: {
+          production: {
+            devServerTarget: `${options.name}:serve:production`
+          }
         }
       }
-    },
-    "extract-i18n": {
-      builder: "@angular-devkit/build-angular:extract-i18n",
-      options: {
-        browserTarget: "$appName:build"
-      }
-    },
-    test: {
-      builder: "@angular-devkit/build-angular:karma",
-      options: {
-        main: "$src/test.ts",
-        polyfills: "$src/polyfills.ts",
-        tsConfig: "tsconfig.spec.json",
-        karmaConfig: "karma.conf.js",
-        assets: ["$src/favicon.ico", "$src/assets"],
-        styles: ["$src/styles.scss"],
-        scripts: []
-      }
-    },
-    lint: {
-      builder: "@angular-devkit/build-angular:tslint",
-      options: {
-        tsConfig: [
-          "tsconfig.app.json",
-          "tsconfig.spec.json",
-          "e2e/tsconfig.json"
-        ],
-        exclude: ["**/node_modules/**"]
-      }
-    },
-    e2e: {
-      builder: "@angular-devkit/build-angular:protractor",
-      options: {
-        protractorConfig: "e2e/protractor.conf.js",
-        devServerTarget: "$appName:serve"
-      },
-      configurations: {
-        production: {
-          devServerTarget: "$appName:serve:production"
-        }
-      }
-    }
-  });
+    });
 
-  //todo: get current installed Angular version
-  //todo: adjust version, i.e: modify the baseVersion template based on the required version
-  return tools.template(
-    `.files/v${options.baseVersion}`,
-    `${options.path}/${options.name}`,
-    { opt: options },
-    null,
-    true
-  );
+    //todo: get current installed Angular version
+    //todo: adjust version, i.e: modify the baseVersion template based on the required version
+    options.baseVersion = options.version;
+    var filter = !options.spec ? path => !path.endsWith(".spec.ts") : null;
+    return tools.template(
+      `./files/v${options.baseVersion}`, //todo: rename files/**/__name__ to __opt.name__
+      `${options.path}/${options.src}`,
+      {
+        opt: options,
+        ...tools.strings,
+        name: options.name //todo: temporary: we cannot use objects in file names //https://github.com/angular/angular-cli/issues/15959
+      },
+      filter,
+      true
+    );
+  };
 }

@@ -20,7 +20,7 @@ export function template(
 }
 
 export function mergeTemplate(tmpl, strategy: schematics.MergeStrategy) {
-  if (tmpl instanceof Array) tmpl = schematics.chain(tmpl);
+  if (tmpl instanceof Array) return  schematics.chain(tmpl);
   return schematics.chain([
     schematics.branchAndMerge(
       schematics.chain([schematics.mergeWith(tmpl, strategy)])

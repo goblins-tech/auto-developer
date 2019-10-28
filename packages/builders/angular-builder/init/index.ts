@@ -4,6 +4,9 @@ todo:
 
 import * as tools from "@goblins-tech/auto-developer/tools";
 import fs from "fs";
+import { argv } from "process";
+
+const args = require("minimist")(argv.slice(2));
 
 export interface InitOptions {
   path?: string;
@@ -50,8 +53,9 @@ export default function(options: InitOptions): Rule {
       tools.SchematicsException("this is an existing Angular project");
     let defaultInitOptions = {
       path: "/",
-      apps: ["app"],
-      libs: [],
+      generate: {
+        app: ["app"]
+      },
       version: "latest", //8
       spec: false,
       e2e: false,
@@ -145,9 +149,18 @@ export default function(options: InitOptions): Rule {
         options.path,
         { opt: options },
         null, //path => !path.includes("[apps]"),
-        false
+        true
       )
     ];
+
+    //also support `generate` from CLI
+    //todo: all generate parts
+    ["app", "apps", "lib", "libs"].forEach(part => {
+      if (part in args) {
+        if (!(part in options.generate)) options.generate[part] = [];
+        options.generate[part].push(args[part]);
+      }
+    });
 
     if (options.generate) {
       //todo: plugins can register other parts to generate
@@ -156,13 +169,16 @@ export default function(options: InitOptions): Rule {
 
       for (let part in options.generate) {
         let partData = options.generate[part],
-          type = objectType(partData);
+          type = tools.objectType(partData);
         if (type == "string") partData = [{ name: partData }];
         else if (type == "object") partData = [partData];
         //apply scematics
         partData.forEach(item => {
-          if (objectType(item) === "string") item = { name: item };
-          rules.push(schematic(`generate-${part}`, item)); //todo: `generate-${singular(part)}` i.e: convert apps to app
+          if (tools.objectType(item) === "string") item = { name: item };
+          if (part.endsWith("s")) part = part.slice(0, -1);
+          item.path = item.path || options.path;
+          item.version = item.version || options.version;
+          rules.push(tools.schematic(part, item)); //todo: schematic(`generate-${singular(part)}`,...) i.e: convert apps to app
           //todo: or: item["__part"] = part; schematic('generate', item)
         });
       }
