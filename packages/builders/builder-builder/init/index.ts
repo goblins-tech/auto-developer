@@ -23,7 +23,8 @@ export default function(options: InitOptions): Rule {
       keywords: [options.name + " builder"]
     });
 
-    if (!options.path) options.path = "/"; //just for typescript
+    if (!options.path || options.path == "")
+      options.path = `${options.path}/${options.name}`;
     options.path = tools.normalize(options.path);
     if (options.name.substr(-8) !== "-builder") options.name += "-builder";
     if (options.path.substr(-8) !== "-builder") options.path += "-builder";
