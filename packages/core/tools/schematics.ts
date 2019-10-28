@@ -14,7 +14,7 @@ export function template(
     filter ? schematics.filter(filter) : schematics.noop(), //todo: noop() VS null
     schematics.template(vars),
     to ? schematics.move(to) : schematics.noop(
-  ]);
+  ]); //todo: allow move empty dirs
   if (!merge) return tmpl;
   else return mergeTemplate(tmpl);
 }
