@@ -72,6 +72,7 @@ export function init(options: InitOptions): Rule {
 
     var {
       ts,
+      tslint,
       gitignore,
       npmignore,
       readMe,
@@ -84,52 +85,77 @@ export function init(options: InitOptions): Rule {
     //todo: check it the parameter 'options' changes the global var 'options'
     opt = tools.merge(opt, defaultPkg, true);
     if (ts !== null) {
-      //the user may dosen't want to create tsconfig.json
-      let defaultTs = {
-        compileOnSave: false,
-        compilerOptions: {
-          target: "es6",
-          module: "commonjs",
-          lib: [],
-          declaration: true,
-          declarationMap: true,
-          sourceMap: true,
-          outDir: "./dist",
-          removeComments: true,
-          noEmit: false,
-          noEmitOnError: false,
-          importHelpers: true,
-          downlevelIteration: true,
-          strict: false,
-          noImplicitAny: false,
-          strictNullChecks: true,
-          strictFunctionTypes: true,
-          strictBindCallApply: true,
-          strictPropertyInitialization: true,
-          noImplicitThis: true,
-          alwaysStrict: true,
-          noUnusedLocals: false,
-          noUnusedParameters: false,
-          noImplicitReturns: false,
-          noFallthroughCasesInSwitch: true,
-          moduleResolution: "node",
-          baseUrl: "./",
-          paths: { "*": ["node_modules/*", "src/types/*"] },
-          rootDirs: [],
-          typeRoots: ["node_modules/@types"],
-          types: [],
-          allowSyntheticDefaultImports: true,
-          esModuleInterop: true,
-          preserveSymlinks: true,
-          sourceRoot: "",
-          mapRoot: "",
-          experimentalDecorators: true,
-          emitDecoratorMetadata: true,
-          locale: "en",
-          watch: true
-        }
-      };
-      ts = tools.merge(ts, defaultTs, true);
+      //the user may dosen't want to use typescript
+      ts = tools.merge(
+        ts,
+        {
+          compileOnSave: false,
+          compilerOptions: {
+            target: "es6",
+            module: "commonjs",
+            lib: [],
+            declaration: true,
+            declarationMap: true,
+            sourceMap: true,
+            outDir: "./dist",
+            removeComments: true,
+            noEmit: false,
+            noEmitOnError: false,
+            importHelpers: true,
+            downlevelIteration: true,
+            strict: false,
+            noImplicitAny: false,
+            strictNullChecks: true,
+            strictFunctionTypes: true,
+            strictBindCallApply: true,
+            strictPropertyInitialization: true,
+            noImplicitThis: true,
+            alwaysStrict: true,
+            noUnusedLocals: false,
+            noUnusedParameters: false,
+            noImplicitReturns: false,
+            noFallthroughCasesInSwitch: true,
+            moduleResolution: "node",
+            baseUrl: "./",
+            paths: { "*": ["node_modules/*", "src/types/*"] },
+            rootDirs: [],
+            typeRoots: ["node_modules/@types"],
+            types: [],
+            allowSyntheticDefaultImports: true,
+            esModuleInterop: true,
+            preserveSymlinks: true,
+            sourceRoot: "",
+            mapRoot: "",
+            experimentalDecorators: true,
+            emitDecoratorMetadata: true,
+            locale: "en",
+            watch: true
+          }
+        },
+        true
+      );
+      tslint = tools.merge(
+        tslint,
+        {
+          extends: "tslint:recommended",
+          //rules: https://palantir.github.io/tslint/rules/
+          rules: {
+            "member-ordering": [
+              true,
+              {
+                order: [
+                  "static-field",
+                  "instance-field",
+                  "static-method",
+                  "instance-method"
+                ]
+              }
+            ]
+          }
+          //rulesDirectory: ["codelyzer"] //https://palantir.github.io/tslint/usage/configuration/
+        },
+        true
+      );
     }
 
     if (gitignore instanceof Array) gitignore = gitignore.join("\n");
@@ -174,13 +200,15 @@ export function init(options: InitOptions): Rule {
       {
         opt, //opt: options,
         ts,
+        tslint,
         gitignore,
         npmignore,
         readMe /*,...tools.strings*/
       },
       //todo: TypeError: Cannot use 'in' operator to search for 'Symbol(schematic-tree)' in true
       filePath =>
-        (filePath != "tsconfig.json" || ts != null) &&
+        ((filePath != "tsconfig.json" && filePath != "tslint.json") ||
+          ts != null) &&
         (filePath != ".npmignore" || npmignore != null) &&
         (filePath != ".gitignore" || gitignore != null) &&
         (filePath != "README.md" || readMe != null),

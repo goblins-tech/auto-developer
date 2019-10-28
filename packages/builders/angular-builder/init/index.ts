@@ -1,5 +1,7 @@
 /*
 todo:
+ - tslint: (via project-builder)
+    "import-blacklist": [true, "rxjs/Rx"],
  */
 
 import * as tools from "@goblins-tech/auto-developer/tools";
