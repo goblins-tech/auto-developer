@@ -12,19 +12,15 @@ export const enum MergeOptions {
 }
 
 export const files = {
-  read(file: string, enc: string = "utf-8"): string {
-    return (
-      tree: schematics.Tree,
-      context: schematics.SchematicContext
-    ): schematics.Tree => {
-      if (!tree.exists(file))
-        throw new schematics.SchematicsException(`${file} is not existing`);
-      try {
-        return tree.read(path)!.toString(enc);
-      } catch (e) {
-        throw new Error(`Cannot read ${file}: ${e.message}`);
-      }
-    };
+  read(file: string, tree: schematics.Tree, enc: string = "utf-8"): string {
+    if (!tree) throw new SchematicsException("tree is required");
+    if (!tree.exists(file))
+      throw new schematics.SchematicsException(`${file} is not existing`);
+    try {
+      return tree.read(path)!.toString(enc);
+    } catch (e) {
+      throw new Error(`Cannot read ${file}: ${e.message}`);
+    }
   },
 
   write(
@@ -85,8 +81,12 @@ export const json = {
     };
   },
 
-  read(file: string, enc: string = "utf-8"): JsonData {
-    return JSON.parse(stripJsonComments(files.read(file))); //todo: files.read() returns a Tree, not string, so we cannot use JSON.parse here
+  read(file: string, tree: schematics.Tree, enc: string = "utf-8"): JsonData {
+    try {
+      return JSON.parse(stripJsonComments(files.read(file, tree)));
+    } catch (e) {
+      console.error(e.message);
+    }
   }
 };
 

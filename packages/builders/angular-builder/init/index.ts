@@ -156,7 +156,7 @@ export default function(options: InitOptions): tools.Rule {
         "dev"
       ),
       tools.files.json.write(
-        "karma.conf.js",
+        `${options[path]}/karma.conf.js`,
         tools.objects.merge(options.karma, {
           basePath: "",
           frameworks: ["jasmine", "@angular-devkit/build-angular"],

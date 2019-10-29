@@ -1,1 +1,1 @@
-start "example" call npm run example  
+start "example" call npm run example  > example.log
