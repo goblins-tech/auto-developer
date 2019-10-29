@@ -4,8 +4,8 @@ export interface InitOptions {
   [key: string]: any;
 }
 
-export default function(options: InitOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+export default function(options: InitOptions): tools.Rule {
+  return (tree: tools.Tree, context: tools.SchematicContext) => {
     let defaultOptions = {};
     options = tools.merge(options, defaultOptions); //check angular-builder for karma options
 
@@ -18,9 +18,9 @@ export default function(options: InitOptions): Rule {
       "karma-jasmine-html-reporter": ""
     };
 
-    return tools.template("./files", options.path, {
+    return tools.Template("./files", options.path, {
       options,
-      ...tools.strings
+      ...tools.objects.strings
     });
   };
 }

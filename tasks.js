@@ -95,16 +95,18 @@ function build(watch) {
   ).toString();
 
   cd(buildersDir + "/builder-builder");
-  npm(`i -D ${dir}/${projectBuilder}`);
+  npm(`i --no-save ${dir}/${projectBuilder}`); //don't save the local pack in package.json
 
+  /*
+  no need to install the dependencies on every build, they already installed in the src
   cd("./dist/packages/core");
   npm(`i`); //install all dependencies
-
+*/
   readdirSync(buildersDir).forEach(builder => {
     if (!isPackage(buildersDir + builder)) return;
     cd(buildersDir + builder);
-    npm(`i -D ${dir}/${core}`); //todo: install into every package
-    npm("i");
+    npm(`i  --no-save ${dir}/${core}`); //todo: install into every package
+    //  npm("i");
   });
 }
 

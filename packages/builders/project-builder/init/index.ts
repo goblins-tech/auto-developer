@@ -29,16 +29,14 @@ export interface InitOptions {
 //todo: pass the Tree from the previous builder, and also pass autoDeveloper.json
 export function init(options: InitOptions): tools.Rule {
   if (!options.name)
-    throw new tools.SchematicsException(
-      "project's name is required"
-    );
+    throw new tools.SchematicsException("project's name is required");
 
   //todo: check if the files already exists and offer options to:
   //override, ignore, mergeTo, mergeFrom
 
   return (tree: tools.Tree, context: tools.SchematicContext) => {
     if (!path) path = "/"; //just for typescript
-    path = tools.normalize(path);
+    path = tools.objects.normalize(path);
 
     //console.log("tree", tree);
     //console.log("context", context);
@@ -83,10 +81,10 @@ export function init(options: InitOptions): tools.Rule {
     //to add more files (or modify an existing file) use files-builder=> [{fileName:content}]
 
     //todo: check it the parameter 'options' changes the global var 'options'
-    opt = tools.merge(opt, defaultPkg, true);
+    opt = tools.objects.merge(opt, defaultPkg, true);
     if (ts !== null) {
       //the user may dosen't want to use typescript
-      ts = tools.merge(
+      ts = tools.objects.merge(
         ts,
         {
           compileOnSave: false,
@@ -134,7 +132,7 @@ export function init(options: InitOptions): tools.Rule {
         },
         true
       );
-      tslint = tools.merge(
+      tslint = tools.objects.merge(
         tslint,
         {
           extends: "tslint:recommended",
@@ -151,7 +149,7 @@ export function init(options: InitOptions): tools.Rule {
                 ]
               }
             ]
-          }
+          },
           rulesDirectory: ["codelyzer"] //https://palantir.github.io/tslint/usage/configuration/
         },
         true
@@ -162,9 +160,15 @@ export function init(options: InitOptions): tools.Rule {
       if (!("typescript" in devDependencies)) devDependencies.typescript = "";
       if (!("tslint" in devDependencies)) devDependencies.tslint = "";
       if (!("ts-node" in devDependencies)) devDependencies["ts-node"] = "";
-      if (!("@types/node" in devDependencies)) devDependencies["@types/node"] = "";
-      if (!("codelyzer" in devDependencies) && ("rulesDirectory" in tslint) && ("codelyzer" in tslint.rulesDirectory)) devDependencies.codelyzer = "";
-       //todo: foreach(tslint.rulesDirectory as rule)devDependencies[rule]=""; only if not a path ex: ./dir
+      if (!("@types/node" in devDependencies))
+        devDependencies["@types/node"] = "";
+      if (
+        !("codelyzer" in devDependencies) &&
+        "rulesDirectory" in tslint &&
+        "codelyzer" in tslint.rulesDirectory
+      )
+        devDependencies.codelyzer = "";
+      //todo: foreach(tslint.rulesDirectory as rule)devDependencies[rule]=""; only if not a path ex: ./dir
     }
 
     if (gitignore instanceof Array) gitignore = gitignore.join("\n");
@@ -188,7 +192,7 @@ export function init(options: InitOptions): tools.Rule {
     )
       opt.bugs = opt.repository.url + "/issues";
 
-    opt.name = tools.strings.dasherize(opt.name);
+    opt.name = tools.objects.strings.dasherize(opt.name);
 
     if (opt.author instanceof Object) {
       //[] is also an instanceof Object, but we don't need to check because author here is {} or string
@@ -203,7 +207,7 @@ export function init(options: InitOptions): tools.Rule {
     //take the files from './files' and apply templating (on path and content)
     // of each file
 
-    return tools.template(
+    return tools.Template(
       "./files", //related to dist/**, not to this file, todo: use tsConfig.paths{}
       path,
       {
@@ -212,7 +216,7 @@ export function init(options: InitOptions): tools.Rule {
         tslint,
         gitignore,
         npmignore,
-        readMe /*,...tools.strings*/
+        readMe /*,...tools.objects.strings*/
       },
       //todo: TypeError: Cannot use 'in' operator to search for 'Symbol(schematic-tree)' in true
       filePath =>

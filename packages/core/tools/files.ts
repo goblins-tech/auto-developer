@@ -1,6 +1,6 @@
 import * as schematics from "./schematics";
 import { objectType, merge } from "./objects";
-import { stripJsonComments } from "strip-json-comments";
+import stripJsonComments from "strip-json-comments";
 
 export type JsonData = { [key: string]: any }; //todo: | (kay: string) => any
 export const enum MergeOptions {
@@ -11,16 +11,21 @@ export const enum MergeOptions {
   "prepend"
 }
 
-export class files {
+export const files = {
   read(file: string, enc: string = "utf-8"): string {
-    if (!host.exists(file))
-      throw new schematics.SchematicsException(`${file} is not existing`);
-    try {
-      return host.read(path)!.toString(enc);
-    } catch (e) {
-      throw new Error(`Cannot read ${file}: ${e.message}`);
-    }
-  }
+    return (
+      tree: schematics.Tree,
+      context: schematics.SchematicContext
+    ): schematics.Tree => {
+      if (!tree.exists(file))
+        throw new schematics.SchematicsException(`${file} is not existing`);
+      try {
+        return tree.read(path)!.toString(enc);
+      } catch (e) {
+        throw new Error(`Cannot read ${file}: ${e.message}`);
+      }
+    };
+  },
 
   write(
     file: string,
@@ -40,17 +45,19 @@ export class files {
       return tree;
     };
   }
-}
+};
 
-export class json {
+export const json = {
   str(data: JsonData) {
     //todo: if(objectType(data)==function)data=data(..)
     return JSON.stringify(data, null, 2); //the third parameter is `space`,
-  }
+  },
+
   write(
     file: string,
     data: JsonData,
-    mergeOptions: MergeOptions = "replace" //used for every single key separately
+    mergeOptions: MergeOptions,
+    keyMergeOptions: MergeOptions = "replace" //used for every single key separately
   ): schematics.Rule {
     return (
       tree: schematics.Tree,
@@ -59,8 +66,9 @@ export class json {
       if (!tree.exists(file)) tree.create(file, this.str(data));
       else {
         let existingData = this.read(file);
-        if (mergeOptions == "replace") data = merge(data, existingData, false);
-        else if (mergeOptions == "ignore")
+        if (keyMergeOptions == "replace")
+          data = merge(data, existingData, false);
+        else if (keyMergeOptions == "ignore")
           data = merge(existingData, data, false);
         else {
           for (let k in data) {
@@ -75,12 +83,12 @@ export class json {
       }
       return tree;
     };
-  }
+  },
 
   read(file: string, enc: string = "utf-8"): JsonData {
-    return JSON.parse(stripJsonComments(files.read(file)));
+    return JSON.parse(stripJsonComments(files.read(file))); //todo: files.read() returns a Tree, not string, so we cannot use JSON.parse here
   }
-}
+};
 
 export const enum DependenciesType {
   "",
@@ -94,5 +102,6 @@ export function dependencies(
 ): schematics.Rule {
   if (type == "dev") data = { devDependencies: data };
   else if (type == "peer") data = { peerDependencies: data };
+  else data = { dependencies: data };
   return json.write("package.json", data, mergeOptions);
 }

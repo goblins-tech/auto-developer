@@ -1,7 +1,8 @@
 import * as schematics from "@angular-devkit/schematics";
+export * from "@angular-devkit/schematics";
 import { objectType } from "./objects";
 
-export function template(
+export function Template(
   from: string | schematics.Source,
   to?: string,
   vars?: any,
@@ -13,14 +14,14 @@ export function template(
   let tmpl = schematics.apply(from, [
     filter ? schematics.filter(filter) : schematics.noop(), //todo: noop() VS null
     schematics.template(vars),
-    to ? schematics.move(to) : schematics.noop(
+    to ? schematics.move(to) : schematics.noop()
   ]); //todo: allow move empty dirs
   if (!merge) return tmpl;
   else return mergeTemplate(tmpl);
 }
 
 export function mergeTemplate(tmpl, strategy: schematics.MergeStrategy) {
-  if (tmpl instanceof Array) return  schematics.chain(tmpl);
+  if (tmpl instanceof Array) return schematics.chain(tmpl);
   return schematics.chain([
     schematics.branchAndMerge(
       schematics.chain([schematics.mergeWith(tmpl, strategy)])

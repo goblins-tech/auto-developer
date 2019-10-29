@@ -1,4 +1,5 @@
-export * from "./schematics";
-export * from "./objects";
-export * from "./files";
-export * from "@angular-devkit/schematics"; //todo:  rename template,filter (conflicts with ./schematics)
+export * from "./schematics"; //todo:  rename template,filter (conflicts with ./schematics)
+import * as objects from "./objects";
+export { objects };
+import * as files from "./files";
+export { files };

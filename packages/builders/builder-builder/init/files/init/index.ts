@@ -9,9 +9,9 @@ export default function(options: InitOptions): Rule {
     let defaultOptions = {};
     options = tools.merge(options, defaultOptions);
 
-    return tools.template("./files", options.path, {
+    return tools.Template("./files", options.path, {
       options,
-      ...tools.strings
+      ...tools.objects.strings
     });
   };
 }

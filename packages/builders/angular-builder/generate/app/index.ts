@@ -19,10 +19,10 @@ export interface AppOptions {
 
 export interface ArchitectOptions {}
 
-export default function(options: AppOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+export default function(options: AppOptions): tools.Rule {
+  return (tree: tools.Tree, context: tools.SchematicContext) => {
     //todo: inject Apps & libs into init/files/angular.json->projects{}
-    options = tools.merge(options, {
+    options = tools.objects.merge(options, {
       style: "scss",
       routing: true,
       verbose: false,
@@ -31,14 +31,14 @@ export default function(options: AppOptions): Rule {
       root: this.name,
       src: "src",
       dist: "dist", //todo: get this value from :init options
-      prefix: tools.strings.dasherize(options.name),
+      prefix: tools.objects.strings.dasherize(options.name),
       schematics: "@schematics/angular:component",
       path: "" //todo: get path from Config.path+appName
     });
 
     //we don't need to totally override architecture, so we merge it separately
     //todo: enable using of variables, ex: outputPath: "$dist/$name"
-    options.architect = tools.merge(options.architect, {
+    options.architect = tools.objects.merge(options.architect, {
       build: {
         builder: "@angular-devkit/build-angular:browser",
         options: {
@@ -143,12 +143,12 @@ export default function(options: AppOptions): Rule {
     //todo: adjust version, i.e: modify the baseVersion template based on the required version
     options.baseVersion = options.version;
     var filter = !options.spec ? path => !path.endsWith(".spec.ts") : null;
-    return tools.template(
+    return tools.Template(
       `./files/v${options.baseVersion}`, //todo: rename files/**/__name__ to __opt.name__
       `${options.path}/${options.src}`,
       {
         opt: options,
-        ...tools.strings,
+        ...tools.objects.strings,
         name: options.name //todo: temporary: we cannot use objects in file names //https://github.com/angular/angular-cli/issues/15959
       },
       filter,

@@ -46,11 +46,11 @@ export interface LibOptions {}
 export interface ModuleOptions {}
 export interface ComponentOptions {}
 
-export default function(options: InitOptions): Rule {
+export default function(options: InitOptions): tools.Rule {
   //todo: check if the files already exists and offer options to:
   //override, ignore, mergeTo, mergeFrom
 
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: tools.Tree, context: tools.SchematicContext) => {
     if (tree.exists("angular.js"))
       tools.SchematicsException("this is an existing Angular project");
     let defaultInitOptions = {
@@ -85,8 +85,8 @@ export default function(options: InitOptions): Rule {
       }
     };
 
-    options = tools.merge(options, defaultInitOptions, true);
-    options.path = tools.normalize(options.path);
+    options = tools.objects.merge(options, defaultInitOptions, true);
+    options.path = tools.objects.normalize(options.path);
     if (options.version == "latest") options.version = 8;
     options.baseVersion = options.version; //todo: baseVersion=floor(opt.version), then modify the template based on the selected version
 
@@ -94,7 +94,7 @@ export default function(options: InitOptions): Rule {
     console.log(
       "baseVersion",
       options.baseVersion,
-      tools.normalize(
+      tools.objects.normalize(
         `../../../../../packages/builders/angular-builder/init/files/v${options.baseVersion}`
       )
     );
@@ -108,14 +108,15 @@ export default function(options: InitOptions): Rule {
     */
 
     let rules = [
-      tools.template(
+      tools.Template(
         `./files/v${options.baseVersion}`,
         options.path,
         { opt: options },
         null, //path => !path.includes("[apps]"),
         true
       ),
-      dependencies({
+      tools.files.dependencies({
+        //todo: pass tree??
         "@angular/animations": "~8.2.9",
         "@angular/common": "~8.2.9",
         "@angular/compiler": "~8.2.9",
@@ -128,7 +129,7 @@ export default function(options: InitOptions): Rule {
         "zone.js": "~0.9.1",
         tslib: "^1.10.0"
       }),
-      dependencies(
+      tools.files.dependencies(
         {
           "@angular-devkit/build-angular": "~0.803.8",
           "@angular/cli": "~8.3.8",
@@ -153,6 +154,38 @@ export default function(options: InitOptions): Rule {
           "ts-node": "~7.0.0"
         },
         "dev"
+      ),
+      tools.files.json.write(
+        "karma.conf.js",
+        tools.objects.merge(options.karma, {
+          basePath: "",
+          frameworks: ["jasmine", "@angular-devkit/build-angular"],
+          plugins: [
+            //todo: don't evaluate require('..') here, just add it as it in karma.config.js
+            /*  require("karma-jasmine"),
+            require("karma-chrome-launcher"),
+            require("karma-jasmine-html-reporter"),
+            require("karma-coverage-istanbul-reporter"),
+            require("@angular-devkit/build-angular/plugins/karma")*/
+          ],
+          client: {
+            clearContext: false // leave Jasmine Spec Runner output visible in browser
+          },
+          coverageIstanbulReporter: {
+            dir: require("path").join(__dirname, "./coverage/myNgApp"),
+            reports: ["html", "lcovonly", "text-summary"],
+            fixWebpackSourcePaths: true
+          },
+          reporters: ["progress", "kjhtml"],
+          port: 9876,
+          colors: true,
+          //logLevel: config.LOG_INFO,
+          autoWatch: true,
+          browsers: ["Chrome"],
+          singleRun: false,
+          restartOnFileChange: true
+        }),
+        "replace"
       )
     ];
 
@@ -173,12 +206,13 @@ export default function(options: InitOptions): Rule {
 
       for (let part in options.generate) {
         let partData = options.generate[part],
-          type = tools.objectType(partData);
+          type = tools.objects.objectType(partData);
         if (type == "string") partData = [{ name: partData }];
         else if (type == "object") partData = [partData];
         //apply scematics
         partData.forEach(item => {
-          if (tools.objectType(item) === "string") item = { name: item };
+          if (tools.objects.objectType(item) === "string")
+            item = { name: item };
           if (part.endsWith("s")) part = part.slice(0, -1);
           item.path = item.path || options.path;
           item.version = item.version || options.version;
@@ -191,37 +225,6 @@ export default function(options: InitOptions): Rule {
     return tools.mergeTemplate(rules);
   };
 }
-
-//todo: use karma-builder:modify (or files-builder) to override karma options
-options.karma = tools.merge(options.karma, {
-  //todo: opt.karma=JSON.stringify(karmaOptions)
-  basePath: "",
-  frameworks: ["jasmine", "@angular-devkit/build-angular"],
-  plugins: [
-    require("karma-jasmine"),
-    require("karma-chrome-launcher"),
-    require("karma-jasmine-html-reporter"),
-    require("karma-coverage-istanbul-reporter"),
-    require("@angular-devkit/build-angular/plugins/karma")
-  ],
-  client: {
-    clearContext: false // leave Jasmine Spec Runner output visible in browser
-  },
-  coverageIstanbulReporter: {
-    dir: require("path").join(__dirname, "./coverage/myNgApp"),
-    reports: ["html", "lcovonly", "text-summary"],
-    fixWebpackSourcePaths: true
-  },
-  reporters: ["progress", "kjhtml"],
-  port: 9876,
-  colors: true,
-  //logLevel: config.LOG_INFO,
-  autoWatch: true,
-  browsers: ["Chrome"],
-  singleRun: false,
-  restartOnFileChange: true
-});
-//todo: if(tree.exists("karma.config.js"))options.karma=tools.merge({karma.config.js},options.karma)
 
 /* todo:
 - add to tsconfig (top level):
