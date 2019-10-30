@@ -34,6 +34,6 @@ export function merge(
     for (let k in options) {
       if (options.hasOwnProperty(k) && options[k] === null) delete options[k];
     }
-    return options;
   }
+  return options;
 }

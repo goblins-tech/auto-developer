@@ -13,5 +13,14 @@ export default function(options: InitOptions): Rule {
       options,
       ...tools.objects.strings
     });
+
+    /*
+    //you can chain multiple operations using mergeTemplate()
+    return tools.mergeTemplate([
+      tools.template(...),
+      tools.externalSchematic(...),
+      //other operations
+    ], tools.MergeStrategy.Overwrite);
+  */
   };
 }
