@@ -54,7 +54,7 @@ export default function(options: InitOptions): tools.Rule {
     if (tree.exists("angular.js"))
       tools.SchematicsException("this is an existing Angular project");
     let defaultInitOptions = {
-      path: "/",
+      path: `/${options.name}`,
       generate: {
         app: ["app"]
       },
@@ -115,8 +115,7 @@ export default function(options: InitOptions): tools.Rule {
         null, //path => !path.includes("[apps]"),
         true
       ),
-      tools.files.dependencies({
-        //todo: pass tree??
+      tools.files.dependencies(options.path, {
         "@angular/animations": "~8.2.9",
         "@angular/common": "~8.2.9",
         "@angular/compiler": "~8.2.9",
@@ -130,6 +129,7 @@ export default function(options: InitOptions): tools.Rule {
         tslib: "^1.10.0"
       }),
       tools.files.dependencies(
+        options.path,
         {
           "@angular-devkit/build-angular": "~0.803.8",
           "@angular/cli": "~8.3.8",
@@ -156,36 +156,14 @@ export default function(options: InitOptions): tools.Rule {
         "dev"
       ),
       tools.files.json.write(
-        `${options[path]}/karma.conf.js`,
+        `${options.path}/karma.conf.js`,
         tools.objects.merge(options.karma, {
           basePath: "",
-          frameworks: ["jasmine", "@angular-devkit/build-angular"],
+          frameworks: ["@angular-devkit/build-angular"], //todo: merge arrays to the existing arrays, don't replace
           plugins: [
-            //todo: don't evaluate require('..') here, just add it as it in karma.config.js
-            /*  require("karma-jasmine"),
-            require("karma-chrome-launcher"),
-            require("karma-jasmine-html-reporter"),
-            require("karma-coverage-istanbul-reporter"),
-            require("@angular-devkit/build-angular/plugins/karma")*/
-          ],
-          client: {
-            clearContext: false // leave Jasmine Spec Runner output visible in browser
-          },
-          coverageIstanbulReporter: {
-            dir: require("path").join(__dirname, "./coverage/myNgApp"),
-            reports: ["html", "lcovonly", "text-summary"],
-            fixWebpackSourcePaths: true
-          },
-          reporters: ["progress", "kjhtml"],
-          port: 9876,
-          colors: true,
-          //logLevel: config.LOG_INFO,
-          autoWatch: true,
-          browsers: ["Chrome"],
-          singleRun: false,
-          restartOnFileChange: true
-        }),
-        "replace"
+            //  require("@angular-devkit/build-angular/plugins/karma")
+          ]
+        })
       )
     ];
 

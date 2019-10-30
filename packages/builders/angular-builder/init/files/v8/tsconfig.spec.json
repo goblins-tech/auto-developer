@@ -1,1 +1,1 @@
-<%=opt.tsConfigSpec%>
+<%= JSON.stringify(opt.tsConfigSpec) || '{}' %>

@@ -5,15 +5,17 @@ import stripJsonComments from "strip-json-comments";
 export type JsonData = { [key: string]: any }; //todo: | (kay: string) => any
 export const enum MergeOptions {
   "replace", //replace the existing file
-  "ignore", //don't replace, but don't throw an exception (useful for JSON data, used for every single key separately)
+  "ignore", //don't replace, but don't throw an exception
   "exit", //throw an exception
   "append", //append the new data to the existing content
-  "prepend"
+  "prepend",
+  "add" //for json,xml files i.e: add the new data to the existing objects, use keyMergeOptions for every key separately,
+  //for keyMergeOptions,same as replace, but for arrays and objects: merge elements instead of replacing the array itself
 }
 
 export const files = {
   read(file: string, tree: schematics.Tree, enc: string = "utf-8"): string {
-    if (!tree) throw new SchematicsException("tree is required");
+    if (!tree) throw new schematics.SchematicsException("tree is required");
     if (!tree.exists(file))
       throw new schematics.SchematicsException(`${file} is not existing`);
     try {
@@ -36,7 +38,8 @@ export const files = {
       else {
         if (mergeOptions == "exit")
           throw new schematics.SchematicsException(`${file} already exists`);
-        tree.overwrite(file, this.str(merge(data, existingData, false)));
+        if (mergeOptions == "replace") tree.overwrite(file, data);
+        //todo: mergeStrategy
       }
       return tree;
     };
@@ -52,15 +55,14 @@ export const json = {
   write(
     file: string,
     data: JsonData,
-    mergeOptions: MergeOptions,
-    keyMergeOptions: MergeOptions = "replace" //used for every single key separately
+    keyMergeOptions: MergeOptions = "add", //re
+    mergeOptions: MergeOptions = "add"
   ): schematics.Rule {
     return (
       tree: schematics.Tree,
       context: schematics.SchematicContext
     ): schematics.Tree => {
-      if (!tree.exists(file)) tree.create(file, this.str(data));
-      else {
+      if (tree.exists(file)) {
         let existingData = this.read(file);
         if (keyMergeOptions == "replace")
           data = merge(data, existingData, false);
@@ -68,16 +70,24 @@ export const json = {
           data = merge(existingData, data, false);
         else {
           for (let k in data) {
-            if (k in existingData)
-              throw new schematics.SchematicsException(
-                `${k} already exists in ${file}`
-              );
+            if (k in existingData) {
+              if (keyMergeOptions == "exit")
+                throw new schematics.SchematicsException(
+                  `${k} already exists in ${file}`
+                );
+              else if (keyMergeOptions == "add") {
+                let keyType = objectType(k);
+                if (keyType == "array")
+                  data[k] = [objectType(existingData[k]=="array")?...existingData[k]:existingData[k], ...data[k]];
+                //or existingData[k].concat(data[k])
+                else if (keyType == "object")
+                  data[k] = merge(data[k], existingData[k], false);
+              }
+            }
           }
         }
-
-        tree.overwrite(file, this.str(merge(data, existingData, false)));
       }
-      return tree;
+      return files.write(file, this.str(data), "replace");
     };
   },
 
@@ -96,12 +106,15 @@ export const enum DependenciesType {
   "peer"
 } //todo: all dependencies types
 export function dependencies(
+  path: string,
   data: JsonData,
   type: DependenciesType = "",
-  mergeOptions: MergeOptions = "replace"
+  mergeOptions: MergeOptions="add",
+  keyMergeOptions: MergeOptions = "add"
 ): schematics.Rule {
+  if (!path.endsWith("package.json")) path += "/package.json";
   if (type == "dev") data = { devDependencies: data };
   else if (type == "peer") data = { peerDependencies: data };
   else data = { dependencies: data };
-  return json.write("package.json", data, mergeOptions);
+  return json.write(path, data, mergeOptions, keyMergeOptions);
 }

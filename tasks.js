@@ -12,9 +12,11 @@ const { cwd, chdir, argv } = require("process");
 const { join } = require("path");
 var cpx = require("cpx"); //or ncp: https://www.npmtrends.com/copy-vs-copyfiles-vs-cp-vs-cpx-vs-ncp-vs-npm-build-tools
 
-const dir = cwd();
-var buildersSrc = join(dir, "packages/builders/");
-var buildersDist = join(dir, "dist/packages/builders/");
+const dir = cwd(),
+  buildersSrc = join(dir, "packages/builders/"),
+  buildersDist = join(dir, "dist/packages/builders/"),
+  coreSrc = join(dir, "packages/core/"),
+  coreDist = join(dir, "dist/packages/core/");
 
 //todo: use `yargs` or `inquirer` to parse argv
 const task = argv.slice(2)[0] || "build"; //todo: `cmd` (i.e without --) >task cmd --arg1 --arg2
@@ -141,16 +143,19 @@ function build(watch) {
   //we can install the folder itself in every builder package `npm i distpackages/core`
   //or `npm link src/packages/core` or `npm link dist/packages/core`  console.log(">> installing dependencies ... \n");
 
+  /*
+   cd(coreSrc);
+   npm(`link`);
+  */
   cd(buildersDist + "builder-builder");
-  npm(`link ${buildersSrc}project-builder`);
+  npm(`i ${buildersSrc}project-builder`);
   //don't save the local pack in package.json
   //todo: prevent npm from installing all dependencies from package.json
 
   readdirSync(buildersDist).forEach(builder => {
     if (!isPackage(buildersDist + builder)) return;
-
     cd(buildersDist + builder);
-    npm(`i link ${dir}/packages/core`);
+    npm(`i  ${coreDist}`);
     //  npm("i");
   });
 }
