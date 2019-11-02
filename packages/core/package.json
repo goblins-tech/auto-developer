@@ -1,5 +1,5 @@
 {
-  "schematics": "./collection.json",
+  "schematics": "./schematics.json",
   "name": "@goblins-tech/auto-developer",
   "version": "1.0.40",
   "description": "automatically create modern applications of any type with any programming language, without coding",
