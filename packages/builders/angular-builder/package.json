@@ -1,5 +1,5 @@
 {
-  "schematics": "./collection.json",
+  "schematics": "./schematics.json",
   "name": "@goblins-tech/angular-builder",
   "version": "1.0.3",
   "description": "installs Angular (a front-end framework https://angular.io), and material-design for Angular, and directly generates Angular modules and components",

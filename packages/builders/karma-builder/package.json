@@ -1,8 +1,9 @@
 {
   "name": "karma-builder",
   "version": "1.0.0",
-  "private": false,
   "description": "created by `autoDeveloper` goblinsTech.com/autoDeveloper",
+  "schematics": "./schematics.json",
+  "private": false,
   "main": "index.js",
   "scripts": {
     "build": "tsc -w",

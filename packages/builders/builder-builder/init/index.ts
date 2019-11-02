@@ -15,6 +15,7 @@ export default function(options: InitOptions): tools.Rule {
 # ${options.name} builder
 > a builder for [autoDeveloper](https://github.com/goblins-tech/autoDeveloper) workflow, just add it to autoDeveloper.json file
       `,
+      schematics: "./schematics.json",
       dependencies: {
         "@goblins-tech/auto-developer": ""
       },

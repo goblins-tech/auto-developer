@@ -2,7 +2,7 @@
   "name": "@goblins-tech/builder-builder",
   "version": "1.0.0",
   "description": "create your own builder",
-  "schematics": "./collection.json",
+  "schematics": "./schematics.json",
   "main": "index.js",
   "private": false,
   "scripts": {
