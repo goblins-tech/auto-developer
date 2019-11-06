@@ -26,8 +26,5 @@
     "url": "https://github.com/goblins-tech/autoDeveloper/issues"
   },
   "homepage": "https://github.com/goblins-tech/autoDeveloper#readme",
-  "dependencies": {
-    "@goblins-tech/auto-developer": "",
-    "minimist": "^1.2.0"
-  }
+  "dependencies": {}
 }

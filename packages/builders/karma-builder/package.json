@@ -19,8 +19,6 @@
   ],
   "license": "MIT",
   "dependencies": {},
-  "dependencies": {
-    "@goblins-tech/auto-developer": ""
-  },
+  "dependencies": {},
   "author": ""
 }

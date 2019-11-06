@@ -6,9 +6,6 @@ todo:
 
 import * as tools from "@goblins-tech/auto-developer/tools";
 import fs from "fs";
-import { argv } from "process";
-
-const args = require("minimist")(argv.slice(2));
 
 export interface InitOptions {
   path?: string;
@@ -171,9 +168,9 @@ export default function(options: InitOptions): tools.Rule {
     //todo: support ng-generate
     //todo: all generate parts (app, lib, ...)
     ["app", "apps", "lib", "libs"].forEach(part => {
-      if (part in args) {
+      if (part in options) {
         if (!(part in options.generate)) options.generate[part] = [];
-        options.generate[part].push(args[part]);
+        options.generate[part].push(options[part]);
       }
     });
 
