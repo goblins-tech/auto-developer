@@ -1,24 +1,8 @@
-import { validate } from "./validate";
-import fs from "fs";
+/*
+todo: the workflow plan will be different for every signal (i.e: init, update, test, e2e, ...)
+ */
 
-console.log("======= init a project =========");
-
-export default function() {
-  const defaultAutoDeveloper = require("./defaultAutoDeveloper.json");
-  const autoDeveloper = {}; //merge project's autoDeveloper.json with defaultAutoDeveloper; foreach entry, if no builder, set the default builder
-  if (!validate(autoDeveloper))
-    throw new Error("== invalid autoDeveloper object ==");
-
-  //todo: create autoDeveloper.json file in the root of the current folder
-  //todo: tools.schematics.write(..)
-  fs.writeFile(
-    autoDeveloper.path + "/autoDeveloper.json",
-    autoDeveloper,
-    function(err) {
-      //todo: path of the new project's root folder, not this project's root
-      if (err) return console.log(err);
-      console.log("autoDeveloper.json has been created!");
-    }
-  );
-  return autoDeveloper;
+export default function(config: AutoDevConfig, signal: string) {
+  var plan = []; //ex: [install([builders]), run(builder1), doSomething(builder1)]
+  return plan;
 }

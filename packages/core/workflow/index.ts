@@ -1,12 +1,3 @@
+export * from "./init"; //validates  autoDeveloper.js and creates the used version of it (i.e: autoDeveloper-used.json)
 export * from "./planner"; //creats the WF plan object
-export * from "./runner"; //runs the WF plan
-export * from "./executer"; //executes the WF plan, i.e: contain the implementation for every function
-
-/*
-example:
-
-var plan=[
-  runner.install("builder1"), // {ex.install.pre(..); ex.install.on(..); ex.install.post()}
-  runner.exec("builder1"),
-]
- */
+export * from "./runner"; //executes the WF plan, i.e: contain the implementation for every function

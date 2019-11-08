@@ -1,5 +1,3 @@
-export interface AutoDeveloper {}
-
-export function validate(autoDeveloper: AutoDeveloper) {
+export function validate(config: AutoDeveloperConfig) {
   return true;
 }
