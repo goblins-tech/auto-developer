@@ -1,4 +1,0 @@
-# we have to remove *.ts line from .npmignore file
-# because it would exclude our template from the final package
-
-!dist/
