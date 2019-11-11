@@ -54,6 +54,8 @@ export interface WebWorkerOptions {}
 
 function _app(options: AppOptions, tree, context) {
   //todo: inject Apps & libs into angular.json->projects{}
+
+  var { version, path, ...options } = options;
   options = tools.objects.merge(options, {
     style: "scss",
     routing: true,
@@ -173,12 +175,12 @@ function _app(options: AppOptions, tree, context) {
 
   //todo: get current installed Angular version
   //todo: adjust version, i.e: modify the baseVersion template based on the required version
-  options.baseVersion = options.version;
+  baseVersion = version;
   var filter = !options.spec ? path => !path.endsWith(".spec.ts") : null;
   return tools.mergeTemplate([
     tools.Template(
-      `./templates/generate/app/v${options.baseVersion}`, //todo: rename files/**/__name__ to __opt.name__
-      `${options.path}/${options.src}`,
+      `./templates/generate/app/v${baseVersion}`, //todo: rename files/**/__name__ to __opt.name__
+      `${path}/${options.src}`,
       {
         opt: options,
         ...tools.objects.strings,
@@ -187,7 +189,12 @@ function _app(options: AppOptions, tree, context) {
       filter,
       true
     ),
-    tools.files.json.write(`${options.path}/angular.json`,{projects:options})
+    tools.files.json.write(
+      `${path}/angular.json`,
+      { projects: { [options.name]: options } },
+      "merge",
+      "merge"
+    )
   ]);
 }
 function _lib(options: LibOptions, tree, context) {}

@@ -202,7 +202,7 @@ function init(options, tree, context) {
   //also support `generate` from CLI ex: > schematics .:init --app=myApp
   //todo: support ng-generate
   //todo: all generate parts (app, lib, ...)
-  ["app", "apps", "lib", "libs"].forEach(part => {
+  ["app", "lib"].forEach(part => {
     if (part in options) {
       if (!(part in options.generate)) options.generate[part] = [];
       options.generate[part].push(options[part]);
@@ -226,7 +226,8 @@ function init(options, tree, context) {
         item.path = item.path || options.path;
         item.version = item.version || options.version;
         //rules.push(tools.schematic(part, item)); //todo: schematic(`generate-${singular(part)}`,...) i.e: convert apps to app
-        tree = generate(part, item, tree, context);
+        //tree = generate(part, item, tree, context); //will not generate templates/generate/**
+        rules.push(generate(part, item, tree, context));
         //todo: or: item["__part"] = part; schematic('generate', item)
       });
     }
