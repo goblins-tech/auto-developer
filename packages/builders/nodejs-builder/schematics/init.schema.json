@@ -11,8 +11,8 @@
     },
     "path": {
       "type": "string",
-      "defult": "/",
-      "x-prompt": "project path (default: '/')",
+      "defult": "",
+      "x-prompt": "project path (default: '/$projectName')",
       "description": "project's root path"
     }
   },
