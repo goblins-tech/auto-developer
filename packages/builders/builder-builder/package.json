@@ -23,6 +23,6 @@
   },
   "homepage": "https://github.com/goblins-tech/auto-developer#readme",
   "dependencies": {
-    "@goblins-tech/project-builder": ""
+    "@goblins-tech/nodejs-builder": ""
   }
 }

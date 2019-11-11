@@ -58,7 +58,7 @@ function init(options, tree, context) {
       options,
       ...tools.objects.strings
     }),
-    dependencies({
+    tools.files.dependencies(options.path, {
       karma: "",
       "karma-chrome-launcher": "",
       "karma-coverage-istanbul-reporter": "",

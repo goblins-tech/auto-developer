@@ -3,6 +3,5 @@
   "id": "angularBuilderInit",
   "title": "create an Angular project",
   "type": "object",
-  "properties": {  },
-
+  "properties": {}
 }

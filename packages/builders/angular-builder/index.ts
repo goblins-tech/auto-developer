@@ -168,7 +168,7 @@ function init(options, tree, context) {
         "@angular/compiler-cli": "~8.2.9",
         "@angular/language-service": "~8.2.9",
 
-        //override versions used in project-builder with versions that compitable with angular version
+        //override versions used in nodejs-builder with versions that compitable with angular version
         "@types/node": "~8.9.4",
         "@types/jasmine": "~3.3.8",
         "@types/jasminewd2": "~2.0.3",

@@ -175,7 +175,7 @@ function _app(options: AppOptions, tree, context) {
 
   //todo: get current installed Angular version
   //todo: adjust version, i.e: modify the baseVersion template based on the required version
-  baseVersion = version;
+  let baseVersion = version;
   var filter = !options.spec ? path => !path.endsWith(".spec.ts") : null;
   return tools.mergeTemplate([
     tools.Template(

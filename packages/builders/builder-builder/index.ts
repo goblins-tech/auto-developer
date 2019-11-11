@@ -44,7 +44,7 @@ function init(options, tree, context) {
   );
 
   return tools.mergeTemplate([
-    tools.externalSchematic("@goblins-tech/project-builder", "init", options),
+    tools.externalSchematic("@goblins-tech/nodejs-builder", "init", options),
     tools.Template("./templates/init",, options.path, { opt:options,...tools.objects.strings  }, null, true)
   ]);
   /*

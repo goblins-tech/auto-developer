@@ -3,5 +3,17 @@
   "id": "BuilderInit",
   "title": "create your own builder",
   "type": "object",
-  "properties": {}
+  "properties": {
+    "name": {
+      "type": "string",
+      "x-prompt": "builder's name",
+      "description": "builder's name"
+    },
+    "path": {
+      "type": "string",
+      "defult": "",
+      "x-prompt": "project path (default: '/$projectName')",
+      "description": "project's root path"
+    }
+  }
 }
