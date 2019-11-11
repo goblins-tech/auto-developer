@@ -1,5 +1,5 @@
 {
-  "name": "karma-builder",
+  "name": "@goblins-tech/karma-builder",
   "version": "1.0.0",
   "private": false,
   "description": "setting up Karma",
