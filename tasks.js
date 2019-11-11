@@ -148,7 +148,7 @@ function build(watch) {
    npm(`link`);
   */
   cd(buildersDist + "builder-builder");
-  npm(`i ${buildersSrc}project-builder`);
+  npm(`i ${buildersDist}project-builder`);
   //don't save the local pack in package.json
   //todo: prevent npm from installing all dependencies from package.json
 
