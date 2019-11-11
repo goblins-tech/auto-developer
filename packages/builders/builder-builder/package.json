@@ -1,16 +1,16 @@
 {
-  "name": "@goblins-tech/builder-builder",
+  "name": "@goblins-tech/builder",
   "version": "1.0.0",
   "description": "create your own builder",
   "schematics": "./schematics.json",
   "main": "index.js",
   "private": false,
   "scripts": {
-    "example": "schematics .:init  --dry-run=false --force=true"
+    "example": "schematics .:init --name=example  --dry-run=false --force=true"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/goblins-tech/autoDeveloper.git"
+    "url": "git+https://github.com/goblins-tech/auto-developer.git"
   },
   "keywords": [
     "autoDeveloper-builder",
@@ -19,9 +19,9 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/goblins-tech/autoDeveloper/issues"
+    "url": "https://github.com/goblins-tech/auto-developer/issues"
   },
-  "homepage": "https://github.com/goblins-tech/autoDeveloper#readme",
+  "homepage": "https://github.com/goblins-tech/auto-developer#readme",
   "dependencies": {
     "@goblins-tech/project-builder": ""
   }

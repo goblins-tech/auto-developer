@@ -1,0 +1,7 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "BuilderInit",
+  "title": "create your own builder",
+  "type": "object",
+  "properties": {}
+}

@@ -76,6 +76,8 @@ export function init(options: InitOptions): tools.Rule {
       readMe,
       path, //project's path (not a part of package.json)
       autoDeveloper, //autoDeveloper elements, such as: config, tree, autoDeveloper(i.e autoDeveloper.json data),...
+      dependencies,
+      devDependencies,
       ...opt
     } = options;
     //to add more files (or modify an existing file) use files-builder=> [{fileName:content}]
@@ -154,6 +156,9 @@ export function init(options: InitOptions): tools.Rule {
         },
         true
       );
+
+      dependencies = dependencies || {};
+      devDependencies = devDependencies || {};
 
       if (!("tslib" in dependencies)) dependencies.tslib = "";
 

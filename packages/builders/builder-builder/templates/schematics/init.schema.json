@@ -1,0 +1,7 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "<%=opt.name%>BuilderInit",
+  "title": "<%=opt.title%>",
+  "type": "object",
+  "properties": {}
+}

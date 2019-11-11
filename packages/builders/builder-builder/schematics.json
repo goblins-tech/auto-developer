@@ -3,8 +3,8 @@
   "schematics": {
     "init": {
       "description": "creates a new builder",
-      "factory": "./init/",
-      "schema": "./init/schema.json"
+      "factory": "./schematics_#init",
+      "schema": "./schematics/init.schema.json"
     }
   }
 }
