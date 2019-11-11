@@ -1,0 +1,7 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "KarmaBuilderInit",
+  "title": "setting up Karma",
+  "type": "object",
+  "properties": {}
+}

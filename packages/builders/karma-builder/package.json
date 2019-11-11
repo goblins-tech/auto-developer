@@ -1,24 +1,24 @@
 {
   "name": "karma-builder",
   "version": "1.0.0",
-  "description": "created by `auto-developer` goblinsTech.com/auto-developer",
-  "schematics": "./schematics.json",
   "private": false,
+  "description": "setting up Karma",
   "main": "index.js",
   "scripts": {
     "build": "tsc -w",
-    "example": "schematics .:init --name=myProject --path=/myProject  --dry-run=false --force=true"
+    "example": "schematics .:init --dry-run=false --force=true"
   },
   "repository": {
     "type": "",
     "url": ""
   },
   "keywords": [
-    "auto-developer builder",
-    "karma builder"
+    "auto-developer-builder",
+    "karma-builder"
   ],
   "license": "MIT",
   "dependencies": {},
-  "dependencies": {},
-  "author": ""
+  "devDependencies": {},
+  "author": "",
+  "schematics": "./schematics.json"
 }
