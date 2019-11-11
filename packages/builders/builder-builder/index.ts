@@ -16,6 +16,7 @@ function init(options, tree, context) {
   if (!options.name)
     throw new tools.SchematicsException("builder's name is required");
 
+  //options.path is added by autoDev.config
   if (!options.path || options.path == "") options.path = `./${options.name}`;
   options.path = tools.objects.normalize(options.path);
 
