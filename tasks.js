@@ -148,14 +148,14 @@ function build(watch) {
    npm(`link`);
   */
   cd(buildersDist + "builder-builder");
-  npm(`i ${buildersDist}nodejs-builder`);
+  npm(`i --no-save ../nodejs-builder`);
   //don't save the local pack in package.json
   //todo: prevent npm from installing all dependencies from package.json
 
   readdirSync(buildersDist).forEach(builder => {
     if (!isPackage(buildersDist + builder)) return;
     cd(buildersDist + builder);
-    npm(`i  ${coreDist}`);
+    npm(`i --no-save  ../../core`);
     //  npm("i");
   });
 }
