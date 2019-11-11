@@ -1,7 +1,7 @@
 # karma builder
 
-> a builder for [autoDeveloper](https://github.com/goblins-tech/autoDeveloper) workflow, just add it to autoDeveloper.json file
+> a builder for [auto-developer](https://github.com/goblins-tech/auto-developer) workflow, just add it to auto-developer.js file
 
-# Getting Started With `autoDeveloper`
+# Getting Started With `auto-developer`
 
-this package is created using [autoDeveloper](autoDeveloper.com)
+this package is created using [auto-developer](goblinsTech.com/auto-developer)

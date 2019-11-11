@@ -3,7 +3,7 @@
 /*
 > dv [signal] [options]
 signal:
-- new (default): create a new autodev.js file
+- new (default): create a new auto-developer.js file
 - update: update all builder's codes
 - test: run a unit test
 - e2e: run an e2e test
@@ -16,7 +16,7 @@ signal:
 
 const { execSync } = require("child_process");
 
-console.log("======= autodev (dv) =========");
+console.log("======= auto-developer (dv) =========");
 console.log("> dv --new --project=projectName --front=angular|8.0");
 console.log("> dv --build");
 

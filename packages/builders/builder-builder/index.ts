@@ -26,8 +26,8 @@ function init(options, tree, context) {
     options,
     {
       readMe: `
-# ${options.name} 
-> a builder for [autoDeveloper](https://github.com/goblins-tech/autoDeveloper) workflow, just add it to autoDeveloper.json file
+# ${options.name}
+> a builder for [auto-developer](https://github.com/goblins-tech/auto-developer) workflow, just add it to auto-developer.js file
       `,
       schematics: "./schematics.json",
       dependencies: {
@@ -50,7 +50,7 @@ function init(options, tree, context) {
   /*
   todo:
   - add @angular-devkit/schematics (and all packages used by this builder) to devDependencies
-    autoDeveloper is responible of installing all packages it uses before working with autoDeveloper.json
+    auto-developer is responible of installing all packages it uses before working with auto-developer.json
   - offer to install prettier (via prettier-builder), tslint (via tslint-builder) or (code-formatter-builder)
    */
 }

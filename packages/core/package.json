@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/goblins-tech/autoDeveloper.git"
+    "url": "git+https://github.com/goblins-tech/auto-developer.git"
   },
   "keywords": [
     "goblins-tech",
@@ -38,9 +38,9 @@
   "author": "eldeeb <sh.eldeeb.2010+autodev@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/goblins-tech/autoDeveloper/issues"
+    "url": "https://github.com/goblins-tech/auto-developer/issues"
   },
-  "homepage": "https://github.com/goblins-tech/autoDeveloper#readme",
+  "homepage": "https://github.com/goblins-tech/auto-developer#readme",
   "dependencies": {
     "@angular-devkit/core": "^8.1.0",
     "@angular-devkit/schematics": "^8.3.15",

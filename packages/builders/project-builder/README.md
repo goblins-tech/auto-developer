@@ -1,6 +1,6 @@
 # Project builder
 
-> a builder for [autoDeveloper](https://github.com/goblins-tech/autoDeveloper) workflow, just add it to autoDeveloper.json file
+> a builder for [auto-developer](https://github.com/goblins-tech/auto-developer) workflow, just add it to auto-developer.js file
 
 # commands
 

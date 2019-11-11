@@ -12,10 +12,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/goblins-tech/autoDeveloper.git"
+    "url": "git+https://github.com/goblins-tech/auto-developer.git"
   },
   "keywords": [
-    "autoDeveloper-builder",
+    "auto-developer",
+    "auto-developer-builder",
     "angular-builder",
     "angular",
     "material design"
@@ -23,8 +24,8 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/goblins-tech/autoDeveloper/issues"
+    "url": "https://github.com/goblins-tech/auto-developer/issues"
   },
-  "homepage": "https://github.com/goblins-tech/autoDeveloper#readme",
+  "homepage": "https://github.com/goblins-tech/auto-developer#readme",
   "dependencies": {}
 }

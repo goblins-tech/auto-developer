@@ -26,7 +26,7 @@ export interface InitOptions {
   [key: string]: any; //add arbitrary data to package.json, to create or modify other files use files-builder builder
 }
 
-//todo: pass the Tree from the previous builder, and also pass autoDeveloper.json
+//todo: pass the Tree from the previous builder, and also pass auto-developer.js
 export function init(options: InitOptions): tools.Rule {
   if (!options.name)
     throw new tools.SchematicsException("project's name is required");
@@ -50,14 +50,14 @@ export function init(options: InitOptions): tools.Rule {
       name: "",
       version: "1.0.0",
       private: false,
-      description: "created by `autoDeveloper` goblinsTech.com/autoDeveloper",
+      description: "created by `auto-developer` goblinsTech.com/auto-developer",
       main: "index.js",
       scripts: { build: "tsc -w" },
       repository: {
         type: "",
         url: ""
       },
-      keywords: ["autoDeveloper"],
+      keywords: ["auto-developer builder"],
       license: "MIT",
       dependencies: {},
       devDependencies: {},
@@ -75,7 +75,7 @@ export function init(options: InitOptions): tools.Rule {
       npmignore,
       readMe,
       path, //project's path (not a part of package.json)
-      autoDeveloper, //autoDeveloper elements, such as: config, tree, autoDeveloper(i.e autoDeveloper.json data),...
+      autoDeveloper, //autoDeveloper elements, such as: config, tree, autoDeveloper(i.e auto-developer.js data),...
       dependencies,
       devDependencies,
       ...opt
@@ -180,9 +180,9 @@ export function init(options: InitOptions): tools.Rule {
     if (npmignore instanceof Array) npmignore = npmignore.join("\n");
 
     //adjust the options
-    opt.keywords = opt.keywords || ["autoDeveloper", "test"];
-    if (!opt.keywords.includes("autoDeveloper"))
-      opt.keywords.unshift("autoDeveloper");
+    opt.keywords = opt.keywords || ["auto-developer"];
+    if (!opt.keywords.includes("auto-developer"))
+      opt.keywords.unshift("auto-developer");
     //console.log("keywords", options.keywords);
 
     if (!opt.repository) opt.repository = opt.repo;
@@ -235,6 +235,6 @@ export function init(options: InitOptions): tools.Rule {
   };
 
   //todo: add @angular-devkit/schematics (and all packages used by this builder) to devDependencies
-  //autoDeveloper is responible of installing all packages it uses before working with autoDeveloper.json
+  //auto-developer is responible of installing all packages it uses before working with auto-developer.js
   //todo: offer to install prettier (via prettier-builder), tslint (via tslint-builder) or (code-formatter-builder)
 }

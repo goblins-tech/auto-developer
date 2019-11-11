@@ -1,7 +1,7 @@
 {
   "name": "karma-builder",
   "version": "1.0.0",
-  "description": "created by `autoDeveloper` goblinsTech.com/autoDeveloper",
+  "description": "created by `auto-developer` goblinsTech.com/auto-developer",
   "schematics": "./schematics.json",
   "private": false,
   "main": "index.js",
@@ -14,7 +14,7 @@
     "url": ""
   },
   "keywords": [
-    "autoDeveloper",
+    "auto-developer builder",
     "karma builder"
   ],
   "license": "MIT",
