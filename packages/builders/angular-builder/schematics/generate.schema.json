@@ -1,0 +1,14 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "projectBuilderInit",
+  "title": "init a workspace",
+  "type": "object",
+  "properties": {
+    "part": {
+      "type": "string",
+      "x-prompt": "part?",
+      "description": ""
+    }
+  },
+  "required": ["name"]
+}

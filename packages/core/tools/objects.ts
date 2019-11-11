@@ -25,6 +25,7 @@ export function merge(
   defaultOptions: {} | boolean,
   removeNull = true
 ) {
+  //options=options||{};
   if (objectType(defaultOptions) == "object") {
     //note that: also ([] instanceof Object)==true
     options = Object.assign(defaultOptions, options);
