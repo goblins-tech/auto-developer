@@ -16,8 +16,6 @@ export interface InitOptions {
 
 function init(options, tree, context) {
   //check for the project's name and path
-  if (!options.name)
-    throw new tools.SchematicsException("project's name is required");
 
   if (!options.path || options.path == "") options.path = `./${options.name}`;
   options.path = tools.objects.normalize(options.path);
@@ -51,7 +49,7 @@ function init(options, tree, context) {
     singleRun: false,
     restartOnFileChange: true
   };
-  options = tools.object.merge(options, defaultInitOptions, true);
+  options = tools.objects.merge(options, defaultInitOptions, true);
 
   return tools.chain([
     tools.Template("./templates/init", options.path, {

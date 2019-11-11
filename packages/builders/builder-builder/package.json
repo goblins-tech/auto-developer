@@ -6,7 +6,7 @@
   "main": "index.js",
   "private": false,
   "scripts": {
-    "example": "schematics .:init  --dry-run=false --force=true"
+    "start": "schematics .:init  --dry-run=false --force=true"
   },
   "repository": {
     "type": "git",

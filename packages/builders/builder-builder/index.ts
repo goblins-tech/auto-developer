@@ -35,7 +35,7 @@ function init(options, tree, context) {
       },
       scripts: {
         build: "tsc -w",
-        example:
+        start:
           "schematics .:init  --dry-run=false --force=true"
       },
       keywords: [options.name]
