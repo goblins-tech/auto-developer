@@ -36,7 +36,7 @@ function init(options, tree, context) {
       scripts: {
         build: "tsc -w",
         example:
-          "schematics .:init --name=example --path=./example  --dry-run=false --force=true"
+          "schematics .:init  --dry-run=false --force=true"
       },
       keywords: [options.name]
     },
@@ -45,7 +45,7 @@ function init(options, tree, context) {
 
   return tools.mergeTemplate([
     tools.externalSchematic("@goblins-tech/project-builder", "init", options),
-    tools.Template("./templates/init",, options.path, { opt:options }, null, true)
+    tools.Template("./templates/init",, options.path, { opt:options,...tools.objects.strings  }, null, true)
   ]);
   /*
   todo:

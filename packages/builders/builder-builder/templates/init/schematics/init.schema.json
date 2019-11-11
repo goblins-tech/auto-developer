@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "<%=opt.name%>BuilderInit",
+  "id": "<%=classify(opt.name)%>Init",
   "title": "<%=opt.title%>",
   "type": "object",
   "properties": {}
