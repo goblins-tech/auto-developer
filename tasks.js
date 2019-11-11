@@ -128,7 +128,7 @@ function build(watch) {
   del("./dist");
 
   //compile typescript
-  exec("tsc -p tsconfig.json " + (watch ? "-w" : "" + " >tsc.log"), true);
+  exec("tsc -p tsconfig.json " + (watch ? "-w" : "" + " >build.log"), true);
 
   //copy files that will don't be compiled via typescript  to `dist`
   //i.e !(*.ts) and /files/**
@@ -148,7 +148,7 @@ function build(watch) {
    npm(`link`);
   */
   cd(buildersDist + "builder-builder");
-  npm(`i ${buildersDist}project-builder`);
+  npm(`i ${buildersDist}nodejs-builder`);
   //don't save the local pack in package.json
   //todo: prevent npm from installing all dependencies from package.json
 
