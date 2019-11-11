@@ -58,7 +58,7 @@ function init(options, tree, context) {
       url: ""
     }
   };
-  options = tools.object.merge(options, defaultInitOptions, true);
+  options = tools.objects.merge(options, defaultInitOptions, true);
   if (options.scope) {
     options.name = options.scope + "/" + options.name;
     delete options.scope;

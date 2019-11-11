@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -w",
-    "example": "schematics .:init --name=example --path=./example  --dry-run=false --force=true"
+    "start": "schematics .:init --dry-run=false --force=true"
   },
   "repository": {
     "type": "",

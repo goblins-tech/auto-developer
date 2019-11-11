@@ -2,7 +2,7 @@
   "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
     "init": {
-      "description": "",
+      "description": "inits a new Node.js project with typeScript, and sets up the basic settings for tsconfig, tslint, gitignore, ...",
       "factory": "./schematics_#init",
       "schema": "./schematics/init.schema.json",
       "aliases": ["ng-add"]

@@ -6,9 +6,8 @@
   "main": "index.js",
   "private": false,
   "scripts": {
-    "example": "schematics .:init --app=ngProject --name=myProject --dry-run=false --force=true",
-    "example:test": "schematics .:init",
-    "example3": "node dist/index-spec"
+    "start": "schematics .:init  --dry-run=false --force=true",
+    "example": "schematics .:init --app=ngProject --name=myProject --dry-run=false --force=true"
   },
   "repository": {
     "type": "git",
