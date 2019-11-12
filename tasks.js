@@ -1,4 +1,4 @@
-const { execSync } = require("child_process");
+const { execSync } = require("child_process"); //todo: import from core/tools/process.ts
 const {
   readdirSync,
   existsSync,

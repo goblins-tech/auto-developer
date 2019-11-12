@@ -13,15 +13,8 @@ export default function(
 export interface InitOptions {}
 
 function init(options, tree, context) {
-  if (!options.name)
-    throw new tools.SchematicsException("builder's name is required");
-
-  //options.path is added by autoDev.config
-  if (!options.path || options.path == "") options.path = `./${options.name}`;
-  options.path = tools.objects.normalize(options.path);
-
-  if (options.name.substr(-8) !== "-builder") options.name += "-builder";
-  if (options.path.substr(-8) !== "-builder") options.path += "-builder";
+  if (options.name.slice(-8) !== "-builder") options.name += "-builder";
+  if (options.path.slice(-8) !== "-builder") options.path += "-builder";
 
   options = tools.objects.merge(
     options,

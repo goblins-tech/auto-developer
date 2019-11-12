@@ -15,12 +15,6 @@ export interface InitOptions {
 }
 
 function init(options, tree, context) {
-  //check for the project's name and path
-  //if (!options.name) throw new tools.SchematicsException("project's name is required");
-
-  if (!options.path || options.path == "") options.path = `./${options.name}`;
-  options.path = tools.objects.normalize(options.path);
-
   //merge the default values into the provided options
   let defaultInitOptions = {};
   options = tools.objects.merge(options, defaultInitOptions, true);
