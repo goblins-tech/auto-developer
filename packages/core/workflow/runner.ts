@@ -15,8 +15,12 @@ var actions: Actions = {
 
   exec: {
     run(builder, signal, tree, context) {
-      if (typeof builder[0] == "string") builder[0] = require(builder[0]);
-      return builder[0](options, builder[2].signal, tree, context);
+      if (typeof builder[0] == "string") {
+        if (!builder[0].startsWith("."))
+          builder[0] = require(builder[0]).default;
+        else builder[0] = require(builder[0]);
+      }
+      return builder[0](builder[1], builder[2].signal, tree, context);
     }
   }
 };
