@@ -29,7 +29,12 @@ function init(options, tree, context) {
       },
       scripts: {
         build: "tsc -w",
-        start: "schematics .:init --dry-run=false --force=true"
+        start: "schematics .:init --dry-run=false --force=true",
+        build: "tsc -p tsconfig.json",
+        "build:watch": "npm run build --watch",
+        "npm:publish":
+          "npm run build && npm version patch && npm publish --access=public",
+        "npm:pack": "npm run build && npm pack"
       },
       keywords: [options.name]
     },
