@@ -1,4 +1,5 @@
-export default function(autoDev: AutoDev) {
+import * as tools from "../tools";
+export default function(autoDev: AutoDev, signal) {
   if (autoDev instanceof Array)
     autoDev = {
       config: {},
@@ -10,6 +11,7 @@ export default function(autoDev: AutoDev) {
   //signal can be provided only by CLI, and cannot be included in the autoDev by user
   if ("signal" in autoDev.config) delete autoDev.config.signal;
 
+  autoDev.config.originalPath = autoDev.config.path || "";
   autoDev.config = tools.objects.merge(
     autoDev.config,
     {

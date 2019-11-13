@@ -35,8 +35,8 @@ export function run(
         `Error: action ${action[0]} is not supported, use runner.plugin() to register it`
       );
     ["pre", "run", "post"].forEach(hook => {
-      if (hook in action[0])
-        rules.push(action[0][hook](action[1], signal, tree, context));
+      if (hook in actions[action[0]])
+        rules.push(actions[action[0]][hook](action[1], signal, tree, context));
     });
   });
 

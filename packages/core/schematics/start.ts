@@ -12,13 +12,8 @@ export default function(options): tools.Rule {
       },
       builders: ["@goblins-tech/nodejs-builder"]
     };
-    /*
-    for new projects run init(autoDev) first to return the final autoDev,
-      it runs validate() internally
-      for existing projects just run validate
-     */
-    if (options.signal == "init") autoDev = wf.init(autoDev);
-    else autoDev = wf.validate(autoDev);
+
+    autoDev = wf.init(autoDev, options.signal); //final autoDev
 
     let plan = wf.planner(autoDev);
     wf.runner.run(plan);

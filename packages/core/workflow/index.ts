@@ -9,4 +9,4 @@ import init from "./init"; //creates the used version of it (i.e: auto-developer
 import planner from "./planner"; //creats the WF plan object
 import * as runner from "./runner"; //executes the WF plan, i.e: contain the implementation for every function
 
-export { init, planner, runner };
+export { init, planner, runner, validate };

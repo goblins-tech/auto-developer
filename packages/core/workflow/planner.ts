@@ -31,8 +31,8 @@ export default function(autoDev: AutoDev, signal = "init") {
       config
     ];
 
-    if (typeof builder == "string") {
-      if (!builder.startsWith(".")) inatall.push(["install", builder]);
+    if (typeof builder[0] == "string") {
+      if (!builder[0].startsWith(".")) install.push(["install", builder]);
       else {
         if (!fs.exists(builder[0]))
           throw new tools.SchematicsException(
@@ -44,8 +44,9 @@ export default function(autoDev: AutoDev, signal = "init") {
       }
     }
 
-    exec.push("exec", builder);
+    exec.push(["exec", builder]);
   });
 
+  plan = [...install, ...exec]; //or: install.concat(exec)
   return plan; //todo: every result from exec() [i.e: Tree| Rule] must be passed to the next exec()
 }
