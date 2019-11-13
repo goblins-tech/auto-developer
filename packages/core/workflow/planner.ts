@@ -12,23 +12,6 @@ export default function(autoDev: AutoDev, signal = "init") {
     install = [],
     exec = [];
 
-  autoDev.config = tools.objects.merge(
-    autoDev.config,
-    {
-      root: "./projects",
-      path: autoDev.config.name,
-      manager: "npm",
-      signal //only provided by planner(), cannot provided by autoDev.config
-    },
-    true
-  );
-
-  if (autoDev.config.root.slice(-1) !== "/") autoDev.config.root += "/";
-  autoDev.config.path = tools.objects.normalize(
-    autoDev.config.root + autoDev.config.path
-  );
-  if (autoDev.config.path.slice(-1) !== "/") autoDev.config.path += "/";
-
   autoDev.builders.forEach(builder => {
     if (!(builder instanceof Array)) builder = [builder, {}, {}];
 

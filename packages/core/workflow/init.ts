@@ -1,5 +1,5 @@
 import * as tools from "../tools";
-import { validate } from "./validate";
+import validate from "./validate";
 import fs from "fs";
 
 console.log("======= init a project =========");

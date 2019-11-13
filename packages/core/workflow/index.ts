@@ -4,7 +4,8 @@ workflow steps:
 2- run ./planner to create the plan array, which include ./runner functions and hooks
  */
 
-import init from "./init"; //validates  auto-developer.js and creates the used version of it (i.e: auto-developer-used.json)
+import validate from "./validate"; //validates auto-developer.js
+import init from "./init"; //creates the used version of it (i.e: auto-developer-used.json), it uses ./validate internally
 import planner from "./planner"; //creats the WF plan object
 import * as runner from "./runner"; //executes the WF plan, i.e: contain the implementation for every function
 
