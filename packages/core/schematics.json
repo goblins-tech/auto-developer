@@ -1,15 +1,10 @@
 {
   "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
-    "init": {
+    "start": {
       "description": "init a project",
-      "factory": "./schematics/init",
-      "schema": "./schematics/init/schema.json"
-    },
-    "build": {
-      "description": "build your project",
-      "factory": "./schematics/build",
-      "schema": "./schematics/build/schema.json"
+      "factory": "./schematics/start",
+      "schema": "./schematics/start.schema.json"
     }
   }
 }
