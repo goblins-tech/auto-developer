@@ -3,18 +3,49 @@ import * as tools from "../tools";
 
 const args = require("minimist")(argv.slice(2));
 
-//add a new hook ex: hook(install,(builder,options)=>console.log("installing"+builder),"pre")
-export function hook(fn, exec, place = "pre") {}
+//default actions, use plugin() to add more, or override existing actions,
+//you can use namespace style i.e: ["namespace.actionName",{}]
+var actions: Actions = {
+  install: {
+    run(builder, signal, tree, context) {
+      if (builder[2].manager == "npm") tools.process.npm(`i ${builder[0]}`);
+      return tree;
+    }
+  },
 
-export function exec(
-  builder: Builder,
+  exec: {
+    run(builder, signal, tree, context) {
+      if (typeof builder[0] == "string") builder[0] = require(builder[0]);
+      return builder[0](options, builder[2].signal, tree, context);
+    }
+  }
+};
+
+export function run(
+  plan: Plan,
+  signal = "init",
   tree: tools.Tree,
   context: tools.SchematicContext
 ): tools.Rule {
-  if (typeof builder[0] == "string") builder[0] = require(builder[0]);
-  return builder[0](options, builder[2].signal, tree, context);
+  //todo: if action() returns null-> pass the previous tree to the next action()
+  var rules = [];
+  plan.forEach(action => {
+    if (!(action[0] in actions))
+      throw new tools.SchematicsException(
+        `Error: action ${action[0]} is not supported, use runner.plugin() to register it`
+      );
+    ["pre", "run", "post"].forEach(hook => {
+      if (hook in action[0])
+        rules.push(action[0][hook](action[1], signal, tree, context));
+    });
+  });
+
+  return tools.mergeTemplate(rules);
 }
 
-export function install(builder: Builder) {
-  if (builde[2].manager == "npm") tools.process.npm(`i ${builder[0]}`);
+//register new actions
+export function plugin(action: string, factory: ActionFactory, mode = "merge") {
+  if (action in actions && mode == "merge")
+    action = tools.objects.merge(action, actions[actions], true);
+  actions[action] = factory;
 }
