@@ -32,7 +32,7 @@ export function run(
   context: tools.SchematicContext
 ): tools.Rule {
   //todo: if action() returns null-> pass the previous tree to the next action()
-  var rules = [];
+
   plan.forEach(action => {
     if (!(action[0] in actions))
       throw new tools.SchematicsException(
@@ -40,11 +40,11 @@ export function run(
       );
     ["pre", "run", "post"].forEach(hook => {
       if (hook in actions[action[0]])
-        rules.push(actions[action[0]][hook](action[1], signal, tree, context));
+        tree = actions[action[0]][hook](action[1], signal, tree, context);
     });
   });
-
-  return tools.mergeTemplate(rules);
+  return tree;
+  return tools.mergeTemplate(tree);
 }
 
 //register new actions

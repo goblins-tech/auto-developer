@@ -10,13 +10,13 @@ export default function(options): tools.Rule {
       config: {
         name: "example"
       },
-      builders: ["@goblins-tech/nodejs-builder"]
+      builders: ["../builders/nodejs-builder/index.js"] //@goblins-tech/nodejs-builder
     };
 
     autoDev = wf.init(autoDev, options.signal); //final autoDev
 
     let plan = wf.planner(autoDev);
-    wf.runner.run(plan);
+    tree = wf.runner.run(plan, options.signal, tree, context);
     return tree;
   };
 }

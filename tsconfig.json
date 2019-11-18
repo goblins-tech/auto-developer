@@ -44,5 +44,5 @@
     "locale": "en",
     "watch": false
   },
-  "exclude": ["./packages/**/files/*", "./packages/**/templates/*"]
+  "exclude": ["./packages/**/files/*", "./packages/**/templates/*", "./dist"]
 }

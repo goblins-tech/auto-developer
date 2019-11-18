@@ -119,7 +119,7 @@ function isPackage(path) {
   return existsSync(path + "/package.json");
 }
 //------------- /helpers ----------------
-function build(watch) {
+function build(watch = true) {
   //create 'dist' (by running tsc & cpx) then pack `core` and install it into every builder
 
   //remove `dist` folder
@@ -128,7 +128,13 @@ function build(watch) {
   del("./dist");
 
   //compile typescript
-  exec("tsc -p tsconfig.json " + (watch ? "-w" : "" + " >build.log"), true);
+  exec(
+    'start /B /MIN "compile" call tsc -p tsconfig.json ' +
+      (watch ? "-w" : "" + " >build.log"),
+    true
+  );
+
+  //todo: wait until tsc finish
 
   //copy files that will don't be compiled via typescript  to `dist`
   //i.e !(*.ts) and /files/**
@@ -143,21 +149,20 @@ function build(watch) {
   //we can install the folder itself in every builder package `npm i distpackages/core`
   //or `npm link src/packages/core` or `npm link dist/packages/core`  console.log(">> installing dependencies ... \n");
 
-  /*
-   cd(coreSrc);
-   npm(`link`);
-  */
-  cd(buildersDist + "builder-builder");
-  npm(`i --no-save ../nodejs-builder`);
-  //don't save the local pack in package.json
-  //todo: prevent npm from installing all dependencies from package.json
+  cd(coreDist);
+  npm(`link`);
 
   readdirSync(buildersDist).forEach(builder => {
     if (!isPackage(buildersDist + builder)) return;
     cd(buildersDist + builder);
-    npm(`i --no-save  ../../core`);
-    //  npm("i");
+    npm(`link @goblins-tech/auto-developer`); //or: npm(`i --no-save  ../../core`);
   });
+
+  //add nodejs-builder to builder-builder
+  cd(buildersDist + "nodejs-builder");
+  npm("link");
+  cd(buildersDist + "builder-builder");
+  npm(`link @goblins-tech/nodejs-builder`); //or: npm(`i --no-save ../nodejs-builder`);
 }
 
 function publish(pkg, version) {

@@ -6,6 +6,7 @@ todo:
 import * as rn from "./runner";
 import * as tools from "../tools";
 import * as fs from "fs";
+import * as path from "path";
 
 export default function(autoDev: AutoDev, signal = "init") {
   var plan: Plan[] = [],
@@ -34,7 +35,8 @@ export default function(autoDev: AutoDev, signal = "init") {
     if (typeof builder[0] == "string") {
       if (!builder[0].startsWith(".")) install.push(["install", builder]);
       else {
-        if (!fs.exists(builder[0]))
+        builder[0] = path.resolve(builder[0]); //convert relative path to absolute path
+        if (!fs.existsSync(builder[0]))
           throw new tools.SchematicsException(
             `Error: path not found ${builder[0]}`
           );
