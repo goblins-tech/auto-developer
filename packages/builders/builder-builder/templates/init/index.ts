@@ -19,7 +19,7 @@ function init(options, tree, context) {
   let defaultInitOptions = {};
   options = tools.objects.merge(options, defaultInitOptions, true);
 
-  return tools.Template(
+  return tools.templates(
     "./templates/init",
     { options, ...tools.objects.strings },
     null, //filter function (path:string)=>boolian
@@ -28,7 +28,7 @@ function init(options, tree, context) {
 
   /*
   to merge multiple rules:
-    rules=[tools.Template(..), tools.dependencies(..), tools.json.write(..)]
+    rules=[tools.templates(..), tools.dependencies(..), tools.json.write(..)]
     return tools.mergeTemplate(rules);
    */
 }

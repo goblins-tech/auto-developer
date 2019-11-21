@@ -140,7 +140,7 @@ function init(options, tree, context) {
      */
 
   let rules = [
-    tools.Template(
+    tools.templates(
       `./templates/init/v${options.baseVersion}`,
       options.path,
       { opt: options },

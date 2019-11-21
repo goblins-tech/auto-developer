@@ -2,7 +2,7 @@ import * as schematics from "@angular-devkit/schematics";
 export * from "@angular-devkit/schematics";
 import { objectType } from "./objects";
 
-export function Template(
+export function templates(
   from: string | schematics.Source,
   to?: string,
   vars?: any,

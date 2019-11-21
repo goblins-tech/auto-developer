@@ -178,7 +178,7 @@ function _app(options: AppOptions, tree, context) {
   let baseVersion = version;
   var filter = !options.spec ? path => !path.endsWith(".spec.ts") : null;
   return tools.mergeTemplate([
-    tools.Template(
+    tools.templates(
       `./templates/generate/app/v${baseVersion}`, //todo: rename files/**/__name__ to __opt.name__
       `${path}/${options.src}`,
       {

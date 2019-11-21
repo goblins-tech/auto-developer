@@ -197,7 +197,7 @@ function init(options, tree, context) {
   //take the files from './files' and apply templating (on path and content)
   // of each file
 
-  return tools.Template(
+  return tools.templates(
     "./templates/init",
     path,
     {

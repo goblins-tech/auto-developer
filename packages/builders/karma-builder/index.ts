@@ -47,7 +47,7 @@ function init(options, tree, context) {
   options = tools.objects.merge(options, defaultInitOptions, true);
 
   return tools.chain([
-    tools.Template("./templates/init", options.path, {
+    tools.templates("./templates/init", options.path, {
       options,
       ...tools.objects.strings
     }),

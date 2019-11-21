@@ -43,7 +43,7 @@ function init(options, tree, context) {
 
   return tools.mergeTemplate([
     tools.externalSchematic("@goblins-tech/nodejs-builder", "init", options),
-    tools.Template(
+    tools.templates(
       "./templates/init",
       options.path,
       { opt: options, ...tools.objects.strings },
