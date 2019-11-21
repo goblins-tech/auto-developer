@@ -13,39 +13,41 @@ export const enum MergeOptions {
   //for keyMergeOptions,same as replace, but for arrays and objects: merge elements instead of replacing the array itself
 }
 
-export const files = {
-  read(file: string, tree: schematics.Tree, enc: string = "utf-8"): string {
-    if (!tree) throw new schematics.SchematicsException("tree is required");
-    if (!tree.exists(file)) return null;
-    //throw new schematics.SchematicsException(`${file} is not existing`);
-    try {
-      let content = tree.read(file)!.toString(enc);
-      return file.endsWith(".json") ? json.parse(content) : content;
-    } catch (e) {
-      throw new Error(`error: Cannot read file ${file}: ${e.message}`);
-    }
-  },
-
-  write(
-    file: string,
-    data: any,
-    mergeOptions: MergeOptions = "exit"
-  ): schematics.Rule {
-    return (
-      tree: schematics.Tree,
-      context: schematics.SchematicContext
-    ): schematics.Tree => {
-      if (!tree.exists(file)) tree.create(file, data);
-      else {
-        if (mergeOptions == "exit")
-          throw new schematics.SchematicsException(`${file} already exists`);
-        if (mergeOptions == "replace") tree.overwrite(file, data);
-        //todo: mergeStrategy
-      }
-      return tree;
-    };
+export function read(
+  file: string,
+  tree: schematics.Tree,
+  enc: string = "utf-8"
+): string {
+  if (!tree) throw new schematics.SchematicsException("tree is required");
+  if (!tree.exists(file)) return null;
+  //throw new schematics.SchematicsException(`${file} is not existing`);
+  try {
+    let content = tree.read(file)!.toString(enc);
+    return file.endsWith(".json") ? json.parse(content) : content;
+  } catch (e) {
+    throw new Error(`error: Cannot read file ${file}: ${e.message}`);
   }
-};
+}
+
+export function write(
+  file: string,
+  data: any,
+  mergeOptions: MergeOptions = "exit"
+): schematics.Rule {
+  return (
+    tree: schematics.Tree,
+    context: schematics.SchematicContext
+  ): schematics.Tree => {
+    if (!tree.exists(file)) tree.create(file, data);
+    else {
+      if (mergeOptions == "exit")
+        throw new schematics.SchematicsException(`${file} already exists`);
+      if (mergeOptions == "replace") tree.overwrite(file, data);
+      //todo: mergeStrategy
+    }
+    return tree;
+  };
+}
 
 export const json = {
   str(data: JsonData) {

@@ -28,7 +28,7 @@ function init(options, tree, context) {
 
   /*
   to merge multiple rules:
-    rules=[tools.Template(..), tools.dependencies(..), tools.files.json.write(..)]
+    rules=[tools.Template(..), tools.dependencies(..), tools.json.write(..)]
     return tools.mergeTemplate(rules);
    */
 }

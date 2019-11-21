@@ -189,7 +189,7 @@ function _app(options: AppOptions, tree, context) {
       filter,
       true
     ),
-    tools.files.json.write(
+    tools.json.write(
       `${path}/angular.json`,
       { projects: { [options.name]: options } },
       "merge",

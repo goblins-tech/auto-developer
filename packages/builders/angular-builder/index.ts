@@ -147,7 +147,7 @@ function init(options, tree, context) {
       null, //path => !path.includes("[apps]"),
       true
     ),
-    tools.files.dependencies(options.path, {
+    tools.dependencies(options.path, {
       "@angular/animations": "~8.2.9",
       "@angular/common": "~8.2.9",
       "@angular/compiler": "~8.2.9",
@@ -160,7 +160,7 @@ function init(options, tree, context) {
       "zone.js": "~0.9.1",
       tslib: "^1.10.0"
     }),
-    tools.files.dependencies(
+    tools.dependencies(
       options.path,
       {
         "@angular-devkit/build-angular": "~0.803.8",
@@ -187,7 +187,7 @@ function init(options, tree, context) {
       },
       "dev"
     ),
-    tools.files.json.write(
+    tools.json.write(
       `${options.path}/karma.conf.js`,
       tools.objects.merge(options.karma, {
         basePath: "",
