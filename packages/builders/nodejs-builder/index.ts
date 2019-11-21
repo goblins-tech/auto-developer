@@ -198,7 +198,7 @@ function init(options, tree, context) {
   // of each file
 
   return tools.templates(
-    "./templates/init",
+    "./templates/init", //"../../builders/nodejs-builder/templates/init",
     path,
     {
       opt,
