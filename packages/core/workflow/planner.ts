@@ -5,50 +5,16 @@ todo:
  */
 import * as rn from "./runner";
 import * as tools from "../tools";
-import * as fs from "fs";
-import * as path from "path";
 
 export default function(autoDev: AutoDev, signal = "init") {
-  var plan: Plan[] = [],
-    install = [],
+  var install = [],
     exec = [];
 
   autoDev.builders.forEach(builder => {
-    if (!(builder instanceof Array)) builder = [builder, {}, {}];
-
-    //merge options (add name,path), config(override some configs just for this builder)
-    if ("signal" in builder[2]) delete builder[2].signal;
-    let config = tools.objects.merge(builder[2], autoDev.config, true);
-    builder = [
-      builder[0],
-      tools.objects.merge(
-        builder[1],
-        {
-          name: config.name,
-          path: config.path
-        },
-        false
-      ),
-      config
-    ];
-
-    if (typeof builder[0] == "string") {
-      if (!builder[0].startsWith(".")) install.push(["install", builder]);
-      else {
-        builder[0] = path.resolve(builder[0]); //convert relative path to absolute path
-        if (!fs.existsSync(builder[0]))
-          throw new tools.SchematicsException(
-            `Error: path not found ${builder[0]}`
-          );
-        else if (fs.lstatSync(builder[0]).isDirectory()) {
-          builder[0] = null; //todo: path to package.json/main or index.js
-        }
-      }
-    }
-
+    if (builder.type == "package") install.push(["install", builder]);
     exec.push(["exec", builder]);
   });
 
-  plan = [...install, ...exec]; //or: install.concat(exec)
+  var plan: Plan = [...install, ...exec]; //or: install.concat(exec)
   return plan; //todo: every result from exec() [i.e: Tree| Rule] must be passed to the next exec()
 }

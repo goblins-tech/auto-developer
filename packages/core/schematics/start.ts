@@ -8,9 +8,10 @@ export default function(options): tools.Rule {
     //tmp: just for testing
     autoDev = {
       config: {
-        name: "example"
+        name: "example",
+        store: "../builders/"
       },
-      builders: ["../builders/nodejs-builder/index.js"] //@goblins-tech/nodejs-builder
+      builders: ["nodejs-builder/index.js"] //@goblins-tech/nodejs-builder
     };
 
     autoDev = wf.init(autoDev, options.signal); //final autoDev

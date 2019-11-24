@@ -1,12 +1,12 @@
 import * as tools from "../tools";
-import validate from "./validate";
+import adaptor from "./adaptor";
 import fs from "fs";
 
 console.log("======= init a project =========");
 
 export default function(autoDev: AutoDev, signal = "init") {
   //todo: default autoDev
-  autoDev = tools.objects.merge(validate(autoDev, signal), {});
+  autoDev = tools.objects.merge(adaptor(autoDev, signal), {});
 
   //for new projects (i.e: signal==init), create the final auto-developer-used.js
   //todo: for existing projects, merge the new final auto-developer.js with the existing one

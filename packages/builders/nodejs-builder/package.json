@@ -20,7 +20,9 @@
     "nodejs-builder"
   ],
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "@goblins-tech/auto-developer": ""
+  },
   "devDependencies": {},
   "author": "",
   "schematics": "./schematics.json"

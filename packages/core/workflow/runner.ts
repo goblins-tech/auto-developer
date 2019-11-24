@@ -1,5 +1,6 @@
 import { argv } from "process";
 import * as tools from "../tools";
+import * as Path from "path";
 
 const args = require("minimist")(argv.slice(2));
 
@@ -15,12 +16,16 @@ var actions: Actions = {
 
   exec: {
     run(builder, signal, tree, context) {
-      let [factory, options, config] = builder;
-      if (typeof factory == "string") {
-        if (!factory.startsWith(".")) factory = require(factory).default;
-        else factory = require(factory);
-      }
-      let builderContext = context; //todo: builderContext is not the same as core context
+      let { factory, options, config, type, path } = builder;
+
+      if (type == "file") factory = require(path + factory).default;
+      else if (type == "package") factory = require(path + factory);
+
+      let builderContext = { ...context }; //builderContext is not the same as core context
+
+      //todo: create the context for the builder
+      builderContext.schematic.description.path = path; //"../../builders/nodejs-builder"
+      //console.log(builderContext.schematic);
       return factory(options, config.signal, tree, builderContext); //tools.externalSchematic();
     }
   }
