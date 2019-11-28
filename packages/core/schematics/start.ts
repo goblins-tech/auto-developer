@@ -9,9 +9,21 @@ export default function(options): tools.Rule {
     autoDev = {
       config: {
         name: "example",
-        store: "../builders/"
+        store: "../",
+        admin: "builders"
       },
-      builders: ["nodejs-builder/index.js"] //@goblins-tech/nodejs-builder
+      builders: [
+        "nodejs",
+        [
+          "angular",
+          {
+            generate: {
+              app: ["ngApp"]
+            }
+          }
+        ],
+        "karma"
+      ] //@goblins-tech/nodejs-builder
     };
 
     autoDev = wf.init(autoDev, options.signal); //final autoDev

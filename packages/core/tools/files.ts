@@ -59,7 +59,7 @@ export const json = {
   },
   read(file: string, tree: schematics.Tree, enc: string = "utf-8"): JsonData {
     try {
-      let content = files.read(file, tree);
+      let content = read(file, tree);
       return !file.endsWith(".json") ? this.parse(content) : content;
     } catch (e) {
       console.error(e.message);
@@ -122,7 +122,7 @@ export const json = {
         }
       }
 
-      return files.write(file, this.str(data), "replace");
+      return write(file, this.str(data), "replace");
     };
   }
 };

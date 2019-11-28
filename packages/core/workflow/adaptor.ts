@@ -46,7 +46,7 @@ function adjustBuilders(autoDev: AutoDev): AutoDev[] {
     if (!(builder instanceof Array)) builder = [builder, {}, {}];
 
     //merge options (add name,path), config(override some configs just for this builder)
-    if ("signal" in builder[2]) delete builder[2].signal;
+    if (builder[2] && "signal" in builder[2]) delete builder[2].signal;
 
     builder = {
       factory: builder[0],
@@ -58,7 +58,7 @@ function adjustBuilders(autoDev: AutoDev): AutoDev[] {
         },
         false
       ),
-      config: tools.objects.merge(builder[2], autoDev.config, true)
+      config: tools.objects.merge(builder[2] || {}, autoDev.config, true)
     };
 
     /*
@@ -79,8 +79,8 @@ function adjustBuilders(autoDev: AutoDev): AutoDev[] {
     if (typeof builder.factory == "string") {
       var firstChar = builder.factory.substring(0, 1);
 
-      if (firstChar == "@" || builder.factory.indexOf("/") == -1) {
-        if (firstChar == "@") builder.factory = builder.factory.substring(1);
+      if (firstChar == "@" || firstChar == "~") {
+        builder.factory = builder.factory.substring(1);
         [builder.factory, builder.version] = builder.factory.split("@");
         builder.type = "package";
         builder.path = `../../node_modules/${builder.factory}/`;
@@ -91,6 +91,9 @@ function adjustBuilders(autoDev: AutoDev): AutoDev[] {
         let store = autoDev.config.store;
         if (store.slice(-1) !== "/") store += "/";
         builder.type = "file";
+        firstChar == "@";
+        if (builder.factory.indexOf("/") == -1)
+          builder.factory = `${autoDev.config.admin}/${builder.factory}`;
         [builder.path, builder.factory] = getFactory(store + builder.factory);
       }
     } else {
@@ -114,10 +117,10 @@ function getFactory(path: string): string {
     if (path.slice(-1) !== "/") path += "/";
     var file;
     if (fs.existsSync(path + "package.json")) {
-      let pkg = require(path + "package.json");
+      let pkg = JSON.parse(fs.readFileSync(path + "package.json") || {}); //require(.. .json)
       file = pkg.main;
     }
-    return [path, file | "index.js"]; //todo: relative to autoDev.js
+    return [path, file || "index.js"]; //todo: relative to autoDev.js
   } else {
     return [Path.dirname(path), Path.basename(path)];
   }

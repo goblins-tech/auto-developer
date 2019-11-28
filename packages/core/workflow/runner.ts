@@ -39,18 +39,21 @@ export function run(
 ): tools.Rule {
   //todo: if action() returns null-> pass the previous tree to the next action()
 
+  var rules = [];
   plan.forEach(action => {
-    if (!(action[0] in actions))
+    var [action, builder] = action;
+    if (!(action in actions))
       throw new tools.SchematicsException(
-        `Error: action ${action[0]} is not supported, use runner.plugin() to register it`
+        `Error: action ${action} is not supported, use runner.plugin() to register it`
       );
     ["pre", "run", "post"].forEach(hook => {
-      if (hook in actions[action[0]])
-        tree = actions[action[0]][hook](action[1], signal, tree, context);
+      if (hook in actions[action])
+        rules.push(actions[action][hook](builder, signal, tree, context));
+      //tree = actions[action][hook](...); then return tree; did'nt work
     });
   });
-  return tree;
-  return tools.mergeTemplate(tree);
+
+  return tools.chain(rules);
 }
 
 //register new actions
