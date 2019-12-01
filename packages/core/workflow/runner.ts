@@ -15,7 +15,7 @@ var actions: Actions = {
   },
 
   exec: {
-    run(builder, signal, tree, context) {
+    run(builder, signal, tree, context): tools.Rule {
       let { factory, options, config, type, path } = builder;
 
       if (type == "file") factory = require(path + factory).default;
@@ -26,7 +26,7 @@ var actions: Actions = {
       //todo: create the context for the builder
       builderContext.schematic.description.path = path; //"../../builders/nodejs-builder"
       //console.log(builderContext.schematic);
-      return factory(options, config.signal, tree, builderContext); //tools.externalSchematic();
+      return factory(options, config.signal, tree, builderContext); //or tools.externalSchematic();
     }
   }
 };
@@ -47,15 +47,27 @@ export function run(
         `Error: action ${action} is not supported, use runner.plugin() to register it`
       );
     ["pre", "run", "post"].forEach(hook => {
-      if (hook in actions[action])
-        rules.push(actions[action][hook](builder, signal, tree, context));
-      //tree = actions[action][hook](...); then return tree; did'nt work
+      if (hook in actions[action]) {
+        //todo: check these methods
+        let rule = actions[action][hook](builder, signal, tree, context);
+        //rule = tools.mergeWith(rule);
+        //rule = tools.branchAndMerge(rule);
+        rules.push(rule);
+      }
     });
   });
 
-  return tools.chain(rules);
-}
+  //return rule;
+  return tools.mergeTemplate(rules); //todo: causes that every builder removes the previous one
 
+  /*
+schematics.chain([
+  schematics.branchAndMerge(
+    schematics.chain([schematics.mergeWith(tmpl, strategy)])
+  )
+]);
+ */
+}
 //register new actions
 export function plugin(action: string, factory: ActionFactory, mode = "merge") {
   if (action in actions && mode == "merge")
