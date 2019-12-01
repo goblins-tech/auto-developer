@@ -1,5 +1,6 @@
 {
   "scripts": {
+    "build:ts": "tsc -w",
     "build": "node tasks build",
     "publish": "node tasks publish"
   },
